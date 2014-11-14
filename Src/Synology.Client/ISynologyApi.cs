@@ -99,5 +99,14 @@ namespace SynologyClient
         SynologyResponse SynoFileStationDirsizeStatus(string taskId);
 
         SynologyResponse SynoFileStationDirsizeStop(string taskId);
+
+        SynologyResponse SynoFileStationMd5Start(string filePath);
+
+        SynologyResponse SynoFileStationMd5Status(string taskId);
+
+        SynologyResponse SynoFileStationMd5Stop(string taskId);
+
+
+
     }
 }

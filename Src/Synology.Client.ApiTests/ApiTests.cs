@@ -108,7 +108,11 @@ namespace SynologyClient.ApiTests
                 list.success.Should().BeTrue();
                 finished = (bool)list.data["finished"];
                 if (finished)
+                {
                     ((int)list.data["finished"]).Should().BeGreaterThan(0);
+                    break;
+                }
+                    
                 Thread.Sleep(2000);
             }
 
@@ -180,7 +184,7 @@ namespace SynologyClient.ApiTests
             res.Length.Should().BeGreaterThan(1);
         }
 
-        [Test]
+        // [Test]
         public void SynoFileStationDirSize()
         {
             SynologyResponse res = _api.SynoFileStationDirsizeStart("/photo");
@@ -197,10 +201,40 @@ namespace SynologyClient.ApiTests
                 list.success.Should().BeTrue();
                 var finished = (bool)list.data["finished"];
                 if (finished)
+                {
                     ((bool)list.data["finished"]).Should().BeTrue();
+                    break;
+                }
             }
 
             _api.SynoFileStationDirsizeStatus(taskid).success.Should().BeTrue();
+        }
+
+        //[Test]
+        public void SynoFileStationMd5()
+        {
+            SynologyResponse res = _api.SynoFileStationMd5Start("/homes/allanb/20130524059.jpg");
+
+            res.success.Should().BeTrue();
+
+            string taskid = res.data["taskid"];
+            taskid.Should().NotBeNullOrEmpty();
+
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.Sleep(2000);
+                SynologyResponse list = _api.SynoFileStationMd5Status(taskid);
+                list.success.Should().BeTrue();
+                var finished = (bool)list.data["finished"];
+                if (finished)
+                { 
+                    ((bool)list.data["finished"]).Should().BeTrue();
+                    break;
+                }
+               
+            }
+
+            _api.SynoFileStationDirsizeStop(taskid).success.Should().BeTrue();
         }
     }
 }

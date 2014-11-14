@@ -437,6 +437,48 @@ namespace SynologyClient
             return proc.Run();
         }
 
+        public SynologyResponse SynoFileStationMd5Start(string filePath)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.MD5",
+                version = 1,
+                method = "start",
+                file_path = filePath
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_md5.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationMd5Status(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.MD5",
+                version = 1,
+                method = "status",
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_md5.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationMd5Stop(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.MD5",
+                version = 1,
+                method = "stop",
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_md5.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
         // helper methods
         private string TypeBooleanValuesToCommaSeparated<T>(T instance) where T : class
         {
