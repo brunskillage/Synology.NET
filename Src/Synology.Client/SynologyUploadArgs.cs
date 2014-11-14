@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace SynologyClient.Upload
+namespace SynologyClient
 {
     public class SynologyUploadArgs
     {

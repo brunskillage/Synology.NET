@@ -1,7 +1,7 @@
-﻿using System;
-using System.Reflection;
-using FluentValidation;
+﻿using FluentValidation;
 using RestSharp;
+using System;
+using System.Reflection;
 
 namespace SynologyClient
 {
@@ -40,7 +40,8 @@ namespace SynologyClient
 
         public SynologyResponse Run()
         {
-            try {
+            try
+            {
                 if (_validator != null)
                     _validator.Validate(_args);
 
@@ -56,14 +57,15 @@ namespace SynologyClient
                 var client = new RestClient(Config.ApiBaseAddressAndPathNoTrailingSlash + _scriptPath);
                 IRestResponse<SynologyResponse> response = client.Execute<SynologyResponse>(RestRequest);
 
-                if (response.Data.success == false) {
-                   throw new SynologyClientException(SynologyErrorCodes.Dic[(int) response.Data.error["code"]]);
+                if (response.Data.success == false)
+                {
+                    throw new SynologyClientException(SynologyErrorCodes.Dic[(int)response.Data.error["code"]]);
                 }
-                    
 
                 return response.Data;
             }
-            catch(Exception e) {
+            catch (Exception e)
+            {
                 throw new SynologyClientException(e.Message, e);
             }
         }

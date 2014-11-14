@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SynologyClient
+﻿namespace SynologyClient
 {
     public class SynologyResponse
     {
@@ -16,6 +14,7 @@ namespace SynologyClient
         public int code { get; set; }
 
         public int http_status { get; set; }
+
         // ReSharper restore InconsistentNaming
     }
 }

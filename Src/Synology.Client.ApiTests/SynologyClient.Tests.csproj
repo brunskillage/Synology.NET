@@ -83,10 +83,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SynCommand\SynCommand.csproj">
-      <Project>{9763a807-5ff2-43d3-8b0f-3c82e1de025b}</Project>
-      <Name>SynCommand</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Synology.Client\SynologyClient.csproj">
       <Project>{bf5758ba-d03c-4ce1-9dae-bdeefccca7f5}</Project>
       <Name>SynologyClient</Name>
