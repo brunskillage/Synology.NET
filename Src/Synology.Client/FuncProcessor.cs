@@ -56,8 +56,10 @@ namespace SynologyClient
                 var client = new RestClient(Config.ApiBaseAddressAndPathNoTrailingSlash + _scriptPath);
                 IRestResponse<SynologyResponse> response = client.Execute<SynologyResponse>(RestRequest);
 
-                if (response.Data.success == false)
-                    throw new SynologyClientException(SynologyErrorCodes.Dic[(int) response.Data.error["code"]]);
+                if (response.Data.success == false) {
+                   throw new SynologyClientException(SynologyErrorCodes.Dic[(int) response.Data.error["code"]]);
+                }
+                    
 
                 return response.Data;
             }

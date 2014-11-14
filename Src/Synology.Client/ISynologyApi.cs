@@ -81,5 +81,11 @@ namespace SynologyClient
             int? limit,
             SynologyApi.status_filter statusFilter,
             SynologyApi.FileStationFavoriteAddtionalOptions additional);
+
+        SynologyResponse SynoFileStationFavoriteAdd(string path, string name, int index);
+
+        SynologyResponse SynoFileStationFavoriteDelete(string path);
+
+        SynologyResponse SynoFileStationFavoriteClearBroken(string path, string name);
     }
 }

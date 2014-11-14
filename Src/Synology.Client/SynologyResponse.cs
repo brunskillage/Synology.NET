@@ -14,6 +14,8 @@ namespace SynologyClient
         public dynamic errormsg { get; set; }
 
         public int code { get; set; }
+
+        public int http_status { get; set; }
         // ReSharper restore InconsistentNaming
     }
 }

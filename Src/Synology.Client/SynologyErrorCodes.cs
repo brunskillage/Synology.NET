@@ -39,6 +39,9 @@ namespace SynologyClient
             Dic.Add(420, "Illegal file name on FAT file system");
             Dic.Add(421, "Device or resource busy");
             Dic.Add(599, "No such task of the file operation");
+            Dic.Add(800, "A folder path of favorite folder is already added to user’s favorites");
+            Dic.Add(801, "A name of favorite folder conflicts with an existing folder path in the user’s favorites");
+            Dic.Add(802, "There are too many favorites to be added");
         }
     }
 }

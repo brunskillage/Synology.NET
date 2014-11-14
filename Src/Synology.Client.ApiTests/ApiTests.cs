@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace SynologyClient.ApiTests
@@ -120,11 +121,59 @@ namespace SynologyClient.ApiTests
             res.success.Should().BeTrue(); 
         }
 
-        [Test]
+       // [Test]
         public void SynoFileStationFavoriteList()
         {
             var res = _api.SynoFileStationFavoriteList();
             res.success.Should().BeTrue();
+        }
+
+        //[Test]
+        public void SynoFileStationFavoriteDelete()
+        {
+            var res = _api.SynoFileStationFavoriteDelete("/Data");
+            res.success.Should().BeTrue();
+        }
+
+        //[Test]
+        public void SynoFileStationFavoriteAdd()
+        {
+            try {
+                var res = _api.SynoFileStationFavoriteAdd("/Data", "DataFavorite");
+                res.success.Should().BeTrue();
+            }
+            catch (Exception e) {
+                e.Message.Should().Be("A folder path of favorite folder is already added to user’s favorites");
+            }
+        }
+
+
+        //[Test]
+        public void SynoFileStationFavoriteClearBroken()
+        {
+            var res = _api.SynoFileStationFavoriteClearBroken("/Data", "DataFavorite");
+            res.success.Should().BeTrue();
+        }
+
+        //[Test]
+        public void SynoFileStationFavoriteEdit()
+        {
+            var res = _api.SynoFileStationFavoriteEdit("/Data", "DataFavorite");
+            res.success.Should().BeTrue();
+        }
+
+        //[Test]
+        public void SynoFileStationFavoriteReplaceAll()
+        {
+            var res = _api.SynoFileStationFavoriteReplaceAll("/Data", "DataFavorite");
+            res.success.Should().BeTrue();
+        }
+
+        [Test]
+        public void SynoFileStationThumbGet()
+        {
+            byte[] res = _api.SynoFileStationThumbGet("/image/");
+            res.Length.Should().BeGreaterThan(1);
         }
     }
 }
