@@ -43,12 +43,25 @@ namespace SynologyClient
             Dic.Add(801, "A name of favorite folder conflicts with an existing folder path in the user’s favorites");
             Dic.Add(802, "There are too many favorites to be added");
 
+
+            Dic.Add(1000, "Failed to copy files/folders. More information in <errors> object");
+            Dic.Add(1001, "Failed to copy files/folders. More information in <errors> object");
+            Dic.Add(1002, "An error occurred at the destination. More information in <errors> object");
+            Dic.Add(1003, "Cannot overwrite or skip the existing file because no overwrite parameter is given");
+            Dic.Add(1004, "File cannot overwrite a folder with the same name, or folder cannot overwrite a file with the same name");
+            Dic.Add(1006, "Cannot copy/move file/folder with special characters to a FAT32 file system");
+            Dic.Add(1007, "Cannot copy/move a file bigger than 4G to a FAT32 file system");
+
+
+
+            Dic.Add(1100, "Failed to create a folder. More information in <errors> object");
+            Dic.Add(1101, "The number of folders to the parent folder would exceed the system limitation");
+            Dic.Add(1200, "Failed to rename it. More information in <errors> object");
+
             Dic.Add(2000, "Sharing link does not exist");
             Dic.Add(2001, "Cannot generate sharing link because too many sharing links exist");
             Dic.Add(2002, "Failed to access sharing links");
 
-            Dic.Add(1100, "Failed to create a folder. More information in <errors> object");
-            Dic.Add(1101, "The number of folders to the parent folder would exceed the system limitation");
 
         }
     }

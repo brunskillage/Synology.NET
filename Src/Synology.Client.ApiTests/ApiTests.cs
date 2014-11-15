@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using FluentAssertions;
@@ -287,7 +288,7 @@ namespace SynologyClient.ApiTests
             file.Length.Should().Be((int) local.Length);
         }
 
-        //[Test]
+        // [Test]
         public void SynoFileStationSharing()
         {
             var create = _api.SynoFileStationSharingCreate(_synoTestFolderNoSlash);
@@ -303,7 +304,54 @@ namespace SynologyClient.ApiTests
             _api.SynoFileStationSharingDelete(id);
 
             _api.SynoFileStationSharingClearInvalid(id);
+        }
 
+        // [Test]
+        public void SynoFileStationCreateFolder()
+        {
+            var create = _api.SynoFileStationCreateFolder(_synoTestFolderNoSlash, "newfolder");
+            create.success.Should().BeTrue();
+        }
+
+        // [Test]
+        public void SynoFileStationRename()
+        {
+            try
+            {
+                var renamed = _api.SynoFileStationRename(_synoTestFolderNoSlash + "/newfolder", "newfolder_renamed");
+                renamed.success.Should().BeTrue();
+            }
+            catch (Exception e)
+            {
+                e.Message.Should().Be("Failed to rename it. More information in <errors> object");
+            }
+        }
+
+        [Test]
+        public void SynoFileStationCopyMove()
+        {
+            _api.SynoFileStationCreateFolder(_synoTestFolderNoSlash, "test");
+            var res = _api.SynoFileStationCopyMoveStart(_synoTestFolderNoSlash + "/synologybox.jpg", _synoTestFolderNoSlash + "/test");
+            res.success.Should().BeTrue();
+
+            string taskid = res.data["taskid"];
+            taskid.Should().NotBeNullOrEmpty();
+
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.Sleep(2000);
+                SynologyResponse status = _api.SynoFileStationCopyMoveStatus(taskid);
+                status.success.Should().BeTrue();
+                var finished = (bool)status.data["finished"];
+                if (finished)
+                {
+                    ((bool)status.data["finished"]).Should().BeTrue();
+                    break;
+                }
+            }
+
+            var stop = _api.SynoFileStationCopyMoveStop(taskid);
+            stop.success.Should().BeTrue();
         }
     }
 }

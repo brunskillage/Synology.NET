@@ -144,5 +144,20 @@ namespace SynologyClient
             string name,
             bool? forceParent,
             SynologyApi.FileSearchListAddtionalOptions additional);
+
+        SynologyResponse SynoFileStationRename(string path,
+            string name,
+            SynologyApi.FileSearchListAddtionalOptions additional, string searchTaskId);
+
+        SynologyResponse SynoFileStationCopyMoveStart(string path,
+            string destinationPath,
+            bool? overwrite = false,
+            bool? removeSrc = false,
+            bool? accurateProgress = false,
+            string taskId = null);
+
+        SynologyResponse SynoFileStationCopyMoveStatus(string taskId);
+
+        SynologyResponse SynoFileStationCopyMoveStop(string taskId);
     }
 }

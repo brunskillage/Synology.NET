@@ -632,7 +632,7 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public SynologyResponse SynoFileStationCreateFolder(string folderPath, string name, bool? forceParent, FileSearchListAddtionalOptions additional = null)
+        public SynologyResponse SynoFileStationCreateFolder(string folderPath, string name, bool? forceParent = true, FileSearchListAddtionalOptions additional = null)
         {
             dynamic requiredParams = new
             {
@@ -644,7 +644,27 @@ namespace SynologyClient
                 force_parent = forceParent
             };
 
-            var proc = new FuncProcessor("/FileStation/file_favorite.cgi", _session.sid, requiredParams, new
+            var proc = new FuncProcessor("/FileStation/file_crtfdr.cgi", _session.sid, requiredParams, new
+            {
+                additional = TypeBooleanValuesToCommaSeparated(additional)
+            });
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationRename(string path, string name, FileSearchListAddtionalOptions additional = null, string searchTaskId = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Rename",
+                version = 1,
+                method = "rename",
+                path,
+                name,
+                additional,
+                search_taskid = searchTaskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_rename.cgi", _session.sid, requiredParams, new
             {
                 additional = TypeBooleanValuesToCommaSeparated(additional)
             });
@@ -676,6 +696,53 @@ namespace SynologyClient
             };
 
             var proc = new FuncProcessor("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationCopyMoveStart(string path, string destinationPath, bool? overwrite = false, bool? removeSrc = false, bool? accurateProgress = false, string taskId = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.CopyMove",
+                version = 1,
+                method = "start",
+                path,
+                dest_folder_path = destinationPath,
+                overwrite,
+                accurate_progress = accurateProgress,
+                remove_src = removeSrc,
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_MVCP.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationCopyMoveStatus(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.CopyMove",
+                version = 1,
+                method = "status",
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_MVCP.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationCopyMoveStop(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.CopyMove",
+                version = 1,
+                method = "stop",
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_MVCP.cgi", _session.sid, requiredParams);
             return proc.Run();
         }
 
@@ -757,5 +824,7 @@ namespace SynologyClient
 
             public bool volume_status { get; set; }
         }
+
+
     }
 }
