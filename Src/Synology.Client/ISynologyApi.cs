@@ -1,11 +1,10 @@
 ﻿using System;
+using System.IO;
 
 namespace SynologyClient
 {
     public interface ISynologyApi
     {
-        SynologyResponse Upload(SynologyUploadArgs args);
-
         // 19
         SynologyResponse SynoFilestationInfo();
 
@@ -106,7 +105,44 @@ namespace SynologyClient
 
         SynologyResponse SynoFileStationMd5Stop(string taskId);
 
+        SynologyResponse SynoFileStationCheckPermission(string path, bool? createOnly);
 
 
+        SynologyResponse SynoFileStationUpload(
+            FileInfo fileName,
+            string destinationFilePath,
+            bool createParents,
+            bool? overwrite);
+
+        byte[] SynoFileStationDownload(string filePath, SynologyApi.download_mode mode);
+
+        SynologyResponse SynoFileStationSharingGetInfo(string id);
+
+        SynologyResponse SynoFileStationSharingList(int? offest,
+            int? limit,
+            SynologyApi.sharing_sort_by sortBy,
+            SynologyApi.sort_direction sortDirection,
+            bool? forceClean);
+
+        SynologyResponse SynoFileStationSharingCreate(string path,
+            string password,
+            DateTime? dateExpires,
+            DateTime? dateAvailable
+            );
+
+        SynologyResponse SynoFileStationSharingDelete(string id);
+
+        SynologyResponse SynoFileStationSharingClearInvalid(string id);
+
+        SynologyResponse SynoFileStationSharingEdit(string id,
+            string password,
+            DateTime? dateExpires,
+            DateTime? dateAvailable
+            );
+
+        SynologyResponse SynoFileStationCreateFolder(string folderPath,
+            string name,
+            bool? forceParent,
+            SynologyApi.FileSearchListAddtionalOptions additional);
     }
 }

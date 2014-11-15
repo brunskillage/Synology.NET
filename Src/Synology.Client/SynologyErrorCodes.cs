@@ -42,6 +42,14 @@ namespace SynologyClient
             Dic.Add(800, "A folder path of favorite folder is already added to user’s favorites");
             Dic.Add(801, "A name of favorite folder conflicts with an existing folder path in the user’s favorites");
             Dic.Add(802, "There are too many favorites to be added");
+
+            Dic.Add(2000, "Sharing link does not exist");
+            Dic.Add(2001, "Cannot generate sharing link because too many sharing links exist");
+            Dic.Add(2002, "Failed to access sharing links");
+
+            Dic.Add(1100, "Failed to create a folder. More information in <errors> object");
+            Dic.Add(1101, "The number of folders to the parent folder would exceed the system limitation");
+
         }
     }
 }

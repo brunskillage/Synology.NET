@@ -1,8 +1,9 @@
-﻿using RestSharp;
-using System;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using RestSharp;
 
 namespace SynologyClient
 {
@@ -32,11 +33,31 @@ namespace SynologyClient
             original
         }
 
+        public enum download_mode
+        {
+            open,
+            download
+        }
+
         public enum filetype
         {
             file,
             dir,
             all
+        }
+
+
+        public enum sharing_sort_by
+        {
+            id,
+            isFolder,
+            path,
+            date_expired,
+            date_available,
+            status,
+            has_password,
+            url,
+            link_owner
         }
 
         public enum sort_by
@@ -81,28 +102,6 @@ namespace SynologyClient
                 throw new SynologyClientException("Session Id is empty");
 
             _client = client;
-        }
-
-        public SynologyResponse Upload(SynologyUploadArgs args)
-        {
-            var request = new SynoRestRequest(Method.POST);
-
-            request.AddParameter("_sid", _session.sid);
-            request.AddParameter("api", "SYNO.FileStation.Upload");
-            request.AddParameter("version", "1");
-            request.AddParameter("method", "upload");
-            request.AddParameter("dest_folder_path", args.dest_folder_path);
-            request.AddParameter("create_parents", args.create_parents.ToString().ToLower());
-            request.AddParameter("mtime", DateTimeExtender.GetUnixTimeFromDate(args.mtime).ToString());
-            request.AddParameter("crtime", DateTimeExtender.GetUnixTimeFromDate(args.crtime).ToString());
-            request.AddParameter("atime", DateTimeExtender.GetUnixTimeFromDate(args.atime).ToString());
-
-            if (args.overwrite.HasValue)
-                request.AddParameter("overwrite", args.overwrite.ToString().ToLower());
-
-            request.AddFile(args.TheFile.Name, args.TheFile.FullName);
-            IRestResponse<SynologyResponse> response = _client.Execute<SynologyResponse>(request);
-            return response.Data;
         }
 
         public SynologyResponse SynoFilestationInfo()
@@ -200,8 +199,8 @@ namespace SynologyClient
                 method = "start",
                 folder_path = folderPath,
                 recursive,
-                pattern = string.Join(",", globPatterns ?? new[] { "" }),
-                extension = string.Join(",", extentionPatterns ?? new[] { "" }),
+                pattern = string.Join(",", globPatterns ?? new[] {""}),
+                extension = string.Join(",", extentionPatterns ?? new[] {""}),
                 filetype = fileType,
                 size_from = minSizeBytes,
                 size_to = maxSizeBytes,
@@ -234,7 +233,7 @@ namespace SynologyClient
                 limit,
                 sort_by = sortBy,
                 sort_direction = sortDirection,
-                pattern = string.Join(",", pattern ?? new[] { "" }),
+                pattern = string.Join(",", pattern ?? new[] {""}),
                 filetype = fileType
             };
 
@@ -479,14 +478,189 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        // helper methods
+        public SynologyResponse SynoFileStationCheckPermission(string path, bool? createOnly = true)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.CheckPermission",
+                version = 1,
+                method = "write",
+                path,
+                create_only = createOnly
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_permission.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationUpload(FileInfo fileName, string destinationFilePath,
+            bool createParents = true, bool? overwrite = false)
+        {
+            var request = new SynoRestRequest(Method.POST);
+
+            request.AddParameter("_sid", _session.sid);
+            request.AddParameter("api", "SYNO.FileStation.Upload");
+            request.AddParameter("version", "1");
+            request.AddParameter("method", "upload");
+            request.AddParameter("dest_folder_path", destinationFilePath);
+            request.AddParameter("create_parents", createParents);
+            request.AddParameter("mtime", DateTimeExtender.GetUnixTimeFromDate(fileName.LastWriteTimeUtc).ToString());
+            request.AddParameter("crtime", DateTimeExtender.GetUnixTimeFromDate(fileName.CreationTimeUtc).ToString());
+            request.AddParameter("atime", DateTimeExtender.GetUnixTimeFromDate(fileName.LastAccessTimeUtc).ToString());
+            request.AddParameter("overwrite", overwrite);
+
+            request.AddFile(fileName.Name, fileName.FullName);
+
+            var config = new SynologyClientConfig();
+            var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/api_upload.cgi");
+
+            IRestResponse<SynologyResponse> response = client.Execute<SynologyResponse>(request);
+            return response.Data;
+        }
+
+        public byte[] SynoFileStationDownload(string filePath, download_mode mode = download_mode.download)
+        {
+            var request = new SynoRestRequest();
+
+            request.AddParameter("api", "SYNO.FileStation.Download");
+            request.AddParameter("version", "1");
+            request.AddParameter("method", "download");
+            request.AddParameter("path", filePath);
+            request.AddParameter("mode", mode);
+            request.AddParameter("_sid", _session.sid);
+            var config = new SynologyClientConfig();
+            var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/file_download.cgi");
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new SynologyClientException("Errored with http status code " + response.StatusCode);
+            return response.RawBytes;
+        }
+
+        public SynologyResponse SynoFileStationSharingGetInfo(string id)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Sharing",
+                version = 1,
+                method = "getinfo",
+                id
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationSharingList(int? offset, int? limit, sharing_sort_by sortBy,
+            sort_direction sortDirection = sort_direction.asc, bool? forceClean = true)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Sharing",
+                version = 1,
+                method = "list",
+                offset,
+                limit,
+                sort_by = sortBy,
+                sort_direction = sortDirection,
+                force_clean = forceClean
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationSharingCreate(string path, string password = null, DateTime? dateExpires = null,
+            DateTime? dateAvailable = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Sharing",
+                version = 1,
+                method = "create",
+                path,
+                password,
+                date_expired = dateExpires.HasValue ? dateExpires.Value.ToString("yyyy-MM-dd") : "0",
+                date_available = dateAvailable.HasValue ? dateAvailable.Value.ToString("yyyy-MM-dd") : "0"
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationSharingDelete(string id)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Sharing",
+                version = 1,
+                method = "delete",
+                id
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationSharingClearInvalid(string id)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Sharing",
+                version = 1,
+                method = "clear_invalid",
+                id
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationSharingEdit(string id, string password = null, DateTime? dateExpires = null, DateTime? dateAvailable = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Sharing",
+                version = 1,
+                method = "edit",
+                id,
+                password,
+                date_expired = dateExpires.HasValue ? dateExpires.Value.ToString("yyyy-MM-dd") : "0",
+                date_available = dateAvailable.HasValue ? dateAvailable.Value.ToString("yyyy-MM-dd") : "0"
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationCreateFolder(string folderPath, string name, bool? forceParent, FileSearchListAddtionalOptions additional = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.CreateFolder",
+                version = 1,
+                method = "create",
+                folder_path = folderPath,
+                name,
+                force_parent = forceParent
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_favorite.cgi", _session.sid, requiredParams, new
+            {
+                additional = TypeBooleanValuesToCommaSeparated(additional)
+            });
+            return proc.Run();
+        }
+
+        // creates comma delimited list of only boolean public property names set as true
         private string TypeBooleanValuesToCommaSeparated<T>(T instance) where T : class
         {
             if (instance == null)
                 return null;
 
-            PropertyInfo[] props = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public);
-            string[] selected = props.Where(p => (bool)p.GetValue(instance, null)).Select(p => p.Name).ToArray();
+            string[] selected = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Where(p => (bool)p.GetValue(instance, null))
+                .Select(p => p.Name).ToArray();
+
             return selected.Any() ? string.Join(",", selected) : null;
         }
 
