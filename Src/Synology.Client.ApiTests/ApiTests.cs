@@ -1,10 +1,9 @@
-﻿using System;
+﻿using FluentAssertions;
+using NUnit.Framework;
+using System;
 using System.IO;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
-using FluentAssertions;
-using NUnit.Framework;
 
 namespace SynologyClient.ApiTests
 {
@@ -30,7 +29,7 @@ namespace SynologyClient.ApiTests
         {
             var executingAssembly = new FileInfo(Assembly.GetExecutingAssembly().FullName);
             _localTestFolderNoSlash = executingAssembly.DirectoryName + "\\TestFiles";
-            _localTestImage = _localTestFolderNoSlash +  "\\image\\synologybox.jpg";
+            _localTestImage = _localTestFolderNoSlash + "\\image\\synologybox.jpg";
         }
 
         private readonly string _synoTestFolderNoSlash = "/public/apitest";
@@ -72,7 +71,7 @@ namespace SynologyClient.ApiTests
 
             res2.success.Should().BeTrue();
 
-            var atime = (int) (res2.data["shares"][0]["additional"]["time"]["atime"]);
+            var atime = (int)(res2.data["shares"][0]["additional"]["time"]["atime"]);
             atime.Should().BeGreaterThan(0);
 
             string real_path = res2.data["shares"][0]["additional"]["real_path"];
@@ -95,7 +94,7 @@ namespace SynologyClient.ApiTests
 
             res2.success.Should().BeTrue();
 
-            var atime = (int) (res2.data["files"][0]["additional"]["time"]["atime"]);
+            var atime = (int)(res2.data["files"][0]["additional"]["time"]["atime"]);
             atime.Should().BeGreaterThan(0);
 
             string real_path = res2.data["files"][0]["path"];
@@ -105,8 +104,8 @@ namespace SynologyClient.ApiTests
         //[Test]
         public void FileStationGetInfo()
         {
-            SynologyResponse res = _api.SynoFileStationListGetInfo(new[] {"/Data"},
-                new SynologyApi.FileGetInfoAddtionalOptions {real_path = true, size = true, owner = true, time = true});
+            SynologyResponse res = _api.SynoFileStationListGetInfo(new[] { "/Data" },
+                new SynologyApi.FileGetInfoAddtionalOptions { real_path = true, size = true, owner = true, time = true });
             res.success.Should().BeTrue();
         }
 
@@ -125,10 +124,10 @@ namespace SynologyClient.ApiTests
             {
                 SynologyResponse list = _api.SynoFileStationSearchList(taskid);
                 list.success.Should().BeTrue();
-                finished = (bool) list.data["finished"];
+                finished = (bool)list.data["finished"];
                 if (finished)
                 {
-                    ((int) list.data["finished"]).Should().BeGreaterThan(0);
+                    ((int)list.data["finished"]).Should().BeGreaterThan(0);
                     break;
                 }
 
@@ -218,10 +217,10 @@ namespace SynologyClient.ApiTests
                 Thread.Sleep(2000);
                 SynologyResponse list = _api.SynoFileStationDirsizeStatus(taskid);
                 list.success.Should().BeTrue();
-                var finished = (bool) list.data["finished"];
+                var finished = (bool)list.data["finished"];
                 if (finished)
                 {
-                    ((bool) list.data["finished"]).Should().BeTrue();
+                    ((bool)list.data["finished"]).Should().BeTrue();
                     break;
                 }
             }
@@ -244,10 +243,10 @@ namespace SynologyClient.ApiTests
                 Thread.Sleep(2000);
                 SynologyResponse list = _api.SynoFileStationMd5Status(taskid);
                 list.success.Should().BeTrue();
-                var finished = (bool) list.data["finished"];
+                var finished = (bool)list.data["finished"];
                 if (finished)
                 {
-                    ((bool) list.data["finished"]).Should().BeTrue();
+                    ((bool)list.data["finished"]).Should().BeTrue();
                     break;
                 }
             }
@@ -285,14 +284,14 @@ namespace SynologyClient.ApiTests
             Thread.Sleep(3000);
 
             byte[] file = _api.SynoFileStationDownload(dest + "/" + local.Name);
-            file.Length.Should().Be((int) local.Length);
+            file.Length.Should().Be((int)local.Length);
         }
 
         // [Test]
         public void SynoFileStationSharing()
         {
-            var create = _api.SynoFileStationSharingCreate(_synoTestFolderNoSlash);
-            var id = create.data["links"][0]["id"];
+            SynologyResponse create = _api.SynoFileStationSharingCreate(_synoTestFolderNoSlash);
+            dynamic id = create.data["links"][0]["id"];
             create.success.Should().BeTrue();
 
             SynologyResponse info = _api.SynoFileStationSharingGetInfo(id);
@@ -309,7 +308,7 @@ namespace SynologyClient.ApiTests
         // [Test]
         public void SynoFileStationCreateFolder()
         {
-            var create = _api.SynoFileStationCreateFolder(_synoTestFolderNoSlash, "newfolder");
+            SynologyResponse create = _api.SynoFileStationCreateFolder(_synoTestFolderNoSlash, "newfolder");
             create.success.Should().BeTrue();
         }
 
@@ -318,7 +317,8 @@ namespace SynologyClient.ApiTests
         {
             try
             {
-                var renamed = _api.SynoFileStationRename(_synoTestFolderNoSlash + "/newfolder", "newfolder_renamed");
+                SynologyResponse renamed = _api.SynoFileStationRename(_synoTestFolderNoSlash + "/newfolder",
+                    "newfolder_renamed");
                 renamed.success.Should().BeTrue();
             }
             catch (Exception e)
@@ -327,11 +327,12 @@ namespace SynologyClient.ApiTests
             }
         }
 
-        [Test]
+        //[Test]
         public void SynoFileStationCopyMove()
         {
             _api.SynoFileStationCreateFolder(_synoTestFolderNoSlash, "test");
-            var res = _api.SynoFileStationCopyMoveStart(_synoTestFolderNoSlash + "/synologybox.jpg", _synoTestFolderNoSlash + "/test");
+            SynologyResponse res = _api.SynoFileStationCopyMoveStart(_synoTestFolderNoSlash + "/synologybox.jpg",
+                _synoTestFolderNoSlash + "/test");
             res.success.Should().BeTrue();
 
             string taskid = res.data["taskid"];
@@ -350,8 +351,41 @@ namespace SynologyClient.ApiTests
                 }
             }
 
-            var stop = _api.SynoFileStationCopyMoveStop(taskid);
+            SynologyResponse stop = _api.SynoFileStationCopyMoveStop(taskid);
             stop.success.Should().BeTrue();
+        }
+
+        //[Test]
+        public void SynoFileStationDelete()
+        {
+            _api.SynoFileStationUpload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_upload");
+            SynologyResponse res =
+                _api.SynoFileStationDeleteStart(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
+            res.success.Should().BeTrue();
+
+            string taskid = res.data["taskid"];
+            taskid.Should().NotBeNullOrEmpty();
+
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.Sleep(2000);
+                SynologyResponse status = _api.SynoFileStationDeleteStatus(taskid);
+                status.success.Should().BeTrue();
+                var finished = (bool)status.data["finished"];
+                if (finished)
+                {
+                    ((bool)status.data["finished"]).Should().BeTrue();
+                    break;
+                }
+            }
+
+            SynologyResponse stop = _api.SynoFileStationDeleteStop(taskid);
+            stop.success.Should().BeTrue();
+
+            _api.SynoFileStationUpload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_upload");
+            SynologyResponse deleteSync =
+                _api.SynoFileStationDeleteSync(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
+            deleteSync.success.Should().BeTrue();
         }
     }
 }

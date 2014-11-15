@@ -1,9 +1,9 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using RestSharp;
 
 namespace SynologyClient
 {
@@ -45,7 +45,6 @@ namespace SynologyClient
             dir,
             all
         }
-
 
         public enum sharing_sort_by
         {
@@ -199,8 +198,8 @@ namespace SynologyClient
                 method = "start",
                 folder_path = folderPath,
                 recursive,
-                pattern = string.Join(",", globPatterns ?? new[] {""}),
-                extension = string.Join(",", extentionPatterns ?? new[] {""}),
+                pattern = string.Join(",", globPatterns ?? new[] { "" }),
+                extension = string.Join(",", extentionPatterns ?? new[] { "" }),
                 filetype = fileType,
                 size_from = minSizeBytes,
                 size_to = maxSizeBytes,
@@ -233,7 +232,7 @@ namespace SynologyClient
                 limit,
                 sort_by = sortBy,
                 sort_direction = sortDirection,
-                pattern = string.Join(",", pattern ?? new[] {""}),
+                pattern = string.Join(",", pattern ?? new[] { "" }),
                 filetype = fileType
             };
 
@@ -569,7 +568,8 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public SynologyResponse SynoFileStationSharingCreate(string path, string password = null, DateTime? dateExpires = null,
+        public SynologyResponse SynoFileStationSharingCreate(string path, string password = null,
+            DateTime? dateExpires = null,
             DateTime? dateAvailable = null)
         {
             dynamic requiredParams = new
@@ -615,7 +615,8 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public SynologyResponse SynoFileStationSharingEdit(string id, string password = null, DateTime? dateExpires = null, DateTime? dateAvailable = null)
+        public SynologyResponse SynoFileStationSharingEdit(string id, string password = null,
+            DateTime? dateExpires = null, DateTime? dateAvailable = null)
         {
             dynamic requiredParams = new
             {
@@ -632,7 +633,8 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public SynologyResponse SynoFileStationCreateFolder(string folderPath, string name, bool? forceParent = true, FileSearchListAddtionalOptions additional = null)
+        public SynologyResponse SynoFileStationCreateFolder(string folderPath, string name, bool? forceParent = true,
+            FileSearchListAddtionalOptions additional = null)
         {
             dynamic requiredParams = new
             {
@@ -651,7 +653,8 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public SynologyResponse SynoFileStationRename(string path, string name, FileSearchListAddtionalOptions additional = null, string searchTaskId = null)
+        public SynologyResponse SynoFileStationRename(string path, string name,
+            FileSearchListAddtionalOptions additional = null, string searchTaskId = null)
         {
             dynamic requiredParams = new
             {
@@ -672,34 +675,9 @@ namespace SynologyClient
         }
 
         // creates comma delimited list of only boolean public property names set as true
-        private string TypeBooleanValuesToCommaSeparated<T>(T instance) where T : class
-        {
-            if (instance == null)
-                return null;
 
-            string[] selected = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(p => (bool)p.GetValue(instance, null))
-                .Select(p => p.Name).ToArray();
-
-            return selected.Any() ? string.Join(",", selected) : null;
-        }
-
-        public SynologyResponse SynoFileStationFavoriteEdit(string path, string name)
-        {
-            dynamic requiredParams = new
-            {
-                api = "SYNO.FileStation.Favorite",
-                version = 1,
-                method = "edit",
-                path,
-                name
-            };
-
-            var proc = new FuncProcessor("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
-            return proc.Run();
-        }
-
-        public SynologyResponse SynoFileStationCopyMoveStart(string path, string destinationPath, bool? overwrite = false, bool? removeSrc = false, bool? accurateProgress = false, string taskId = null)
+        public SynologyResponse SynoFileStationCopyMoveStart(string path, string destinationPath,
+            bool? overwrite = false, bool? removeSrc = false, bool? accurateProgress = false, string taskId = null)
         {
             dynamic requiredParams = new
             {
@@ -743,6 +721,96 @@ namespace SynologyClient
             };
 
             var proc = new FuncProcessor("/FileStation/file_MVCP.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationDeleteStart(string path, bool? accurateProgress = true,
+            bool? recursive = true, string searchTaskId = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Delete",
+                version = 1,
+                method = "start",
+                path,
+                accurate_progress = accurateProgress,
+                recursive,
+                search_taskid = searchTaskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_delete.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationDeleteStatus(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Delete",
+                version = 1,
+                method = "status",
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_delete.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationDeleteStop(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Delete",
+                version = 1,
+                method = "stop",
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_delete.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationDeleteSync(string path, bool? recursive = true,
+            string searchTaskId = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Delete",
+                version = 1,
+                method = "delete",
+                path,
+                recursive,
+                search_taskid = searchTaskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_delete.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        private string TypeBooleanValuesToCommaSeparated<T>(T instance) where T : class
+        {
+            if (instance == null)
+                return null;
+
+            string[] selected = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Where(p => (bool)p.GetValue(instance, null))
+                .Select(p => p.Name).ToArray();
+
+            return selected.Any() ? string.Join(",", selected) : null;
+        }
+
+        public SynologyResponse SynoFileStationFavoriteEdit(string path, string name)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Favorite",
+                version = 1,
+                method = "edit",
+                path,
+                name
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
             return proc.Run();
         }
 
@@ -824,7 +892,5 @@ namespace SynologyClient
 
             public bool volume_status { get; set; }
         }
-
-
     }
 }

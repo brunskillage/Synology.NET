@@ -107,7 +107,6 @@ namespace SynologyClient
 
         SynologyResponse SynoFileStationCheckPermission(string path, bool? createOnly);
 
-
         SynologyResponse SynoFileStationUpload(
             FileInfo fileName,
             string destinationFilePath,
@@ -159,5 +158,16 @@ namespace SynologyClient
         SynologyResponse SynoFileStationCopyMoveStatus(string taskId);
 
         SynologyResponse SynoFileStationCopyMoveStop(string taskId);
+
+        SynologyResponse SynoFileStationDeleteStart(string path,
+            bool? accurateProgress,
+            bool? recursive,
+            string searchTaskId);
+
+        SynologyResponse SynoFileStationDeleteStatus(string taskId);
+
+        SynologyResponse SynoFileStationDeleteStop(string taskId);
+
+        SynologyResponse SynoFileStationDeleteSync(string path, bool? recursive, string searchTaskId);
     }
 }
