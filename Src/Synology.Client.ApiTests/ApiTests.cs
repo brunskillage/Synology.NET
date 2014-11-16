@@ -51,7 +51,7 @@ namespace SynologyClient.ApiTests
             res.success.Should().BeTrue();
         }
 
-        //[Test]
+        [Test]
         public void FileStationListShare()
         {
             SynologyResponse res = _api.SynoFileStationListShare();
@@ -78,7 +78,7 @@ namespace SynologyClient.ApiTests
             real_path.Should().NotBeNullOrEmpty();
         }
 
-        //[Test]
+        [Test]
         public void FileStationList()
         {
             SynologyResponse res = _api.SynoFileStationList("/Data");
@@ -101,7 +101,7 @@ namespace SynologyClient.ApiTests
             real_path.Should().NotBeNullOrEmpty();
         }
 
-        //[Test]
+        [Test]
         public void FileStationGetInfo()
         {
             SynologyResponse res = _api.SynoFileStationListGetInfo(new[] { "/Data" },
@@ -109,7 +109,7 @@ namespace SynologyClient.ApiTests
             res.success.Should().BeTrue();
         }
 
-        //[Test]
+        [Test]
         public void FileStationSearchStart()
         {
             SynologyResponse res = _api.SynoFileStationSearchStart("/Data");
@@ -138,28 +138,28 @@ namespace SynologyClient.ApiTests
             _api.SynoFileStationSearchClean(taskid).success.Should().BeTrue();
         }
 
-        // [Test]
+       [Test]
         public void SynoFileStationVirtualFolderList()
         {
             SynologyResponse res = _api.SynoFileStationVirtualFolderList();
             res.success.Should().BeTrue();
         }
 
-        // [Test]
+        [Test]
         public void SynoFileStationFavoriteList()
         {
             SynologyResponse res = _api.SynoFileStationFavoriteList();
             res.success.Should().BeTrue();
         }
 
-        //[Test]
+        [Test]
         public void SynoFileStationFavoriteDelete()
         {
             SynologyResponse res = _api.SynoFileStationFavoriteDelete("/Data");
             res.success.Should().BeTrue();
         }
 
-        //[Test]
+        [Test]
         public void SynoFileStationFavoriteAdd()
         {
             try
@@ -173,28 +173,28 @@ namespace SynologyClient.ApiTests
             }
         }
 
-        //[Test]
+        [Test]
         public void SynoFileStationFavoriteClearBroken()
         {
             SynologyResponse res = _api.SynoFileStationFavoriteClearBroken("/Data", "DataFavorite");
             res.success.Should().BeTrue();
         }
 
-        //[Test]
+        [Test]
         public void SynoFileStationFavoriteEdit()
         {
             SynologyResponse res = _api.SynoFileStationFavoriteEdit("/Data", "DataFavorite");
             res.success.Should().BeTrue();
         }
 
-        //[Test]
+        [Test]
         public void SynoFileStationFavoriteReplaceAll()
         {
             SynologyResponse res = _api.SynoFileStationFavoriteReplaceAll("/Data", "DataFavorite");
             res.success.Should().BeTrue();
         }
 
-        //[Test]
+        [Test]
         public void SynoFileStationThumbGet()
         {
             byte[] res = _api.SynoFileStationThumbGet("/homes/allanb/20130524059.jpg");
@@ -202,7 +202,7 @@ namespace SynologyClient.ApiTests
             res.Length.Should().BeGreaterThan(1);
         }
 
-        // [Test]
+        [Test]
         public void SynoFileStationDirSize()
         {
             SynologyResponse res = _api.SynoFileStationDirsizeStart("/photo");
@@ -228,7 +228,7 @@ namespace SynologyClient.ApiTests
             _api.SynoFileStationDirsizeStatus(taskid).success.Should().BeTrue();
         }
 
-        //[Test]
+        [Test]
         public void SynoFileStationMd5()
         {
             SynologyResponse res = _api.SynoFileStationMd5Start("/homes/allanb/20130524059.jpg");
@@ -254,7 +254,7 @@ namespace SynologyClient.ApiTests
             _api.SynoFileStationDirsizeStop(taskid).success.Should().BeTrue();
         }
 
-        //[Test]
+        [Test]
         public void SynoFileStationCheckPermission()
         {
             try
@@ -268,7 +268,7 @@ namespace SynologyClient.ApiTests
             }
         }
 
-        //[Test]
+        [Test]
         public void SynoFileStationUpload_Download()
         {
             var local = new FileInfo(_localTestImage);
@@ -287,7 +287,7 @@ namespace SynologyClient.ApiTests
             file.Length.Should().Be((int)local.Length);
         }
 
-        // [Test]
+        [Test]
         public void SynoFileStationSharing()
         {
             SynologyResponse create = _api.SynoFileStationSharingCreate(_synoTestFolderNoSlash);
@@ -305,14 +305,14 @@ namespace SynologyClient.ApiTests
             _api.SynoFileStationSharingClearInvalid(id);
         }
 
-        // [Test]
+        [Test]
         public void SynoFileStationCreateFolder()
         {
             SynologyResponse create = _api.SynoFileStationCreateFolder(_synoTestFolderNoSlash, "newfolder");
             create.success.Should().BeTrue();
         }
 
-        // [Test]
+        [Test]
         public void SynoFileStationRename()
         {
             try
@@ -327,7 +327,7 @@ namespace SynologyClient.ApiTests
             }
         }
 
-        //[Test]
+        [Test]
         public void SynoFileStationCopyMove()
         {
             _api.SynoFileStationCreateFolder(_synoTestFolderNoSlash, "test");
@@ -355,7 +355,7 @@ namespace SynologyClient.ApiTests
             stop.success.Should().BeTrue();
         }
 
-        //[Test]
+        [Test]
         public void SynoFileStationDelete()
         {
             _api.SynoFileStationUpload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_upload");
@@ -386,6 +386,64 @@ namespace SynologyClient.ApiTests
             SynologyResponse deleteSync =
                 _api.SynoFileStationDeleteSync(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
             deleteSync.success.Should().BeTrue();
+        }
+
+        [Test]
+        public void SynoFileStationCompress()
+        {
+            _api.SynoFileStationUpload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_compress");
+            SynologyResponse res =
+                _api.SynoFileStationCompressStart(_synoTestFolderNoSlash + "/test_compress", _synoTestFolderNoSlash + "/test_compress.zip");
+            res.success.Should().BeTrue();
+
+            string taskid = res.data["taskid"];
+            taskid.Should().NotBeNullOrEmpty();
+
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.Sleep(2000);
+                SynologyResponse status = _api.SynoFileStationCompressStatus(taskid);
+                status.success.Should().BeTrue();
+                var finished = (bool)status.data["finished"];
+                if (finished)
+                {
+                    ((bool)status.data["finished"]).Should().BeTrue();
+                    break;
+                }
+            }
+
+            SynologyResponse stop = _api.SynoFileStationCompressStop(taskid);
+            stop.success.Should().BeTrue();
+        }
+
+        [Test]
+        public void SynoFileStationExtract()
+        {
+            SynologyResponse res =
+                _api.SynoFileStationExtractStart(_synoTestFolderNoSlash + "/test_compress.zip", _synoTestFolderNoSlash + "/test_extract");
+            res.success.Should().BeTrue();
+
+            string taskid = res.data["taskid"];
+            taskid.Should().NotBeNullOrEmpty();
+
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.Sleep(2000);
+                SynologyResponse status = _api.SynoFileStationExtractStatus(taskid);
+                status.success.Should().BeTrue();
+                var finished = (bool)status.data["finished"];
+                if (finished)
+                {
+                    ((bool)status.data["finished"]).Should().BeTrue();
+                    break;
+                }
+            }
+
+            SynologyResponse stop = _api.SynoFileStationExtractStop(taskid);
+            stop.success.Should().BeTrue();
+
+            SynologyResponse list = _api.SynoFileStationExtractList(_synoTestFolderNoSlash + "/test_compress.zip");
+            list.success.Should().BeTrue();
         }
     }
 }

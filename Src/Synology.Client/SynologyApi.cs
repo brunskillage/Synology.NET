@@ -1,9 +1,9 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using RestSharp;
 
 namespace SynologyClient
 {
@@ -41,6 +41,14 @@ namespace SynologyClient
         {
             open,
             download
+        }
+
+        public enum ExtractSortBy
+        {
+            name,
+            size,
+            pack_size,
+            mtime
         }
 
         public enum FileSystemType
@@ -110,14 +118,6 @@ namespace SynologyClient
             medium,
             large,
             original
-        }
-
-        public enum ExtractSortBy
-        {
-            name,
-            size,
-            pack_size,
-            mtime
         }
 
         private readonly IRestClient _client;
@@ -236,8 +236,8 @@ namespace SynologyClient
                 method = "start",
                 folder_path = folderPath,
                 recursive,
-                pattern = string.Join(",", globPatterns ?? new[] { "" }),
-                extension = string.Join(",", extentionPatterns ?? new[] { "" }),
+                pattern = string.Join(",", globPatterns ?? new[] {""}),
+                extension = string.Join(",", extentionPatterns ?? new[] {""}),
                 filetype = fileType,
                 size_from = minSizeBytes,
                 size_to = maxSizeBytes,
@@ -270,7 +270,7 @@ namespace SynologyClient
                 limit,
                 sort_by = sortBy,
                 sort_direction = sortDirection,
-                pattern = string.Join(",", pattern ?? new[] { "" }),
+                pattern = string.Join(",", pattern ?? new[] {""}),
                 filetype = fileType
             };
 
@@ -825,9 +825,14 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public SynologyResponse SynoFileStationExtractStart(string archivePath, string destFolderPath, bool? overwrite,
-            bool? keepDir,
-            bool? createSubFolder, string codePage, string password, string itemId)
+        public SynologyResponse SynoFileStationExtractStart(string archivePath,
+            string destFolderPath,
+            bool? overwrite = false,
+            bool? keepDir = true,
+            bool? createSubFolder = false,
+            string codePage = null,
+            string password = null,
+            string itemId = null)
         {
             dynamic requiredParams = new
             {
@@ -876,8 +881,9 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public SynologyResponse SynoFileStationExtractList(string archivePath, int? offset, int? limit,
-            ExtractSortBy sortBy, SortDirection sortDirection, string codePage, string password, string itemId)
+        public SynologyResponse SynoFileStationExtractList(string archivePath, int? offset = 0, int? limit = -1,
+            ExtractSortBy sortBy = ExtractSortBy.name, SortDirection sortDirection = SortDirection.asc,
+            string codePage = "enu", string password = null, string itemId = null)
         {
             dynamic requiredParams = new
             {
@@ -887,11 +893,11 @@ namespace SynologyClient
                 file_path = archivePath,
                 offset,
                 limit,
-                sort_by = sortBy,
+                sortby = sortBy,
                 sort_direction = sortDirection,
                 codepage = codePage,
                 password,
-                item_id = itemId
+                itemId
             };
 
             var proc = new FuncProcessor("/FileStation/file_extract.cgi", _session.sid, requiredParams);
@@ -969,7 +975,7 @@ namespace SynologyClient
             {
                 api = "SYNO.FileStation.Compress",
                 version = 1,
-                method = "edit",
+                method = "start",
                 path,
                 dest_file_path = destinationFilePath,
                 level,
@@ -987,8 +993,8 @@ namespace SynologyClient
             if (instance == null)
                 return null;
 
-            string[] selected = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(p => (bool)p.GetValue(instance, null))
+            string[] selected = typeof (T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Where(p => (bool) p.GetValue(instance, null))
                 .Select(p => p.Name).ToArray();
 
             return selected.Any() ? string.Join(",", selected) : null;
