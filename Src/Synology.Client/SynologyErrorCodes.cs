@@ -65,9 +65,6 @@ namespace SynologyClient
             Dic.Add(1403, "Wrong password");
             Dic.Add(1404, "Failed to get the file and dir list in an archive");
             Dic.Add(1405, "Failed to find the item ID in an archive file");
-            
-
-
 
             Dic.Add(2000, "Sharing link does not exist");
             Dic.Add(2001, "Cannot generate sharing link because too many sharing links exist");

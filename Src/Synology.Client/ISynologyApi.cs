@@ -204,7 +204,7 @@ namespace SynologyClient
 
         SynologyResponse SynoFileStationCompressStop(string taskId);
 
-        SynologyResponse SynoFileStationBackgroundTaskList(int? offset, 
+        SynologyResponse SynoFileStationBackgroundTaskList(int? offset,
             int? limit,
             SynologyApi.BackgroundTaskSortBy sortBy,
             SynologyApi.SortDirection sortDirection,

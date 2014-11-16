@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using RestSharp;
+﻿using RestSharp;
 using System;
 using System.Reflection;
 
@@ -9,42 +8,35 @@ namespace SynologyClient
     {
         private static readonly SynologyClientConfig Config = new SynologyClientConfig();
         private readonly dynamic _args;
-        private readonly Func<dynamic, Exception, SynologyResponse> _errorHandler;
         private readonly dynamic _optionalArgs;
         private readonly string _scriptPath;
         private readonly string _sid;
-        private readonly IValidator _validator;
         public SynoRestRequest RestRequest;
 
         public FuncProcessor(
             string scriptPath,
             string sid,
             dynamic args,
-            dynamic optionalArgs = null,
-            IValidator validator = null,
-            Func<dynamic, Exception, SynologyResponse> errorHandler = null)
+            dynamic optionalArgs = null)
         {
-            _scriptPath = scriptPath;
-            if (scriptPath == null)
+            
+            if (string.IsNullOrWhiteSpace(scriptPath))
                 throw new ArgumentNullException("scriptPath");
-            if (sid == null)
+            if (string.IsNullOrWhiteSpace(sid))
                 throw new ArgumentNullException("sid");
             if (args == null)
                 throw new ArgumentNullException("args");
+
+            _scriptPath = scriptPath;
             _sid = sid;
             _args = args;
             _optionalArgs = optionalArgs;
-            _validator = validator;
-            _errorHandler = errorHandler;
         }
 
         public SynologyResponse Run()
         {
             try
             {
-                if (_validator != null)
-                    _validator.Validate(_args);
-
                 RestRequest = new SynoRestRequest();
 
                 AddParametersFromObjectProperties(_args, RestRequest);
@@ -54,7 +46,8 @@ namespace SynologyClient
 
                 RestRequest.AddParameter("_sid", _sid);
 
-                var client = new RestClient(Config.ApiBaseAddressAndPathNoTrailingSlash + _scriptPath);
+                IRestClient client = new RestClient(Config.ApiBaseAddressAndPathNoTrailingSlash + _scriptPath);
+
                 IRestResponse<SynologyResponse> response = client.Execute<SynologyResponse>(RestRequest);
 
                 if (response.Data.success == false)

@@ -1,14 +1,15 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using RestSharp;
 
 namespace SynologyClient
 {
     public class SynologyApi : ISynologyApi
     {
+        // ReSharper disable InconsistentNaming
         public enum BackgroundTaskSortBy
         {
             crtime,
@@ -119,24 +120,18 @@ namespace SynologyClient
             large,
             original
         }
+        // ReSharper restore InconsistentNaming
 
-        private readonly IRestClient _client;
-        private readonly ISynologyClientConfig _config;
         private readonly ISynologySession _session;
 
-        public SynologyApi(ISynologyClientConfig config, ISynologySession session, IRestClient client = null)
+        public SynologyApi(ISynologySession session)
         {
-            if (config == null)
-                throw new ArgumentNullException("config");
             if (session == null)
                 throw new ArgumentNullException("session");
-            _config = config;
             _session = session;
 
             if (string.IsNullOrEmpty(_session.sid))
                 throw new SynologyClientException("Session Id is empty");
-
-            _client = client;
         }
 
         public SynologyResponse SynoFilestationInfo()
@@ -169,7 +164,7 @@ namespace SynologyClient
 
             var proc = new FuncProcessor("/FileStation/file_share.cgi", _session.sid, requiredParams, new
             {
-                additional = TypeBooleanValuesToCommaSeparated(additional)
+                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
             });
 
             return proc.Run();
@@ -197,7 +192,7 @@ namespace SynologyClient
 
             var proc = new FuncProcessor("/FileStation/file_share.cgi", _session.sid, requiredParams, new
             {
-                additional = TypeBooleanValuesToCommaSeparated(additional)
+                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
             });
 
             return proc.Run();
@@ -215,13 +210,12 @@ namespace SynologyClient
 
             var proc = new FuncProcessor("/FileStation/file_share.cgi", _session.sid, requiredParams, new
             {
-                additional = TypeBooleanValuesToCommaSeparated(additional)
+                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
             });
 
             return proc.Run();
         }
 
-        /// webapi/FileStation/file_find.cgi?api=SYNO.FileStation.Search&version=1&method=start&folder_path=%2Fvideo&pattern=1
         public SynologyResponse SynoFileStationSearchStart(string folderPath, bool recursive = true,
             string[] globPatterns = null, string[] extentionPatterns = null,
             FileTypeFilter fileType = FileTypeFilter.file,
@@ -236,8 +230,8 @@ namespace SynologyClient
                 method = "start",
                 folder_path = folderPath,
                 recursive,
-                pattern = string.Join(",", globPatterns ?? new[] {""}),
-                extension = string.Join(",", extentionPatterns ?? new[] {""}),
+                pattern = string.Join(",", globPatterns ?? new[] { "" }),
+                extension = string.Join(",", extentionPatterns ?? new[] { "" }),
                 filetype = fileType,
                 size_from = minSizeBytes,
                 size_to = maxSizeBytes,
@@ -252,7 +246,6 @@ namespace SynologyClient
             };
 
             var proc = new FuncProcessor("/FileStation/file_find.cgi", _session.sid, requiredParams);
-
             return proc.Run();
         }
 
@@ -270,13 +263,13 @@ namespace SynologyClient
                 limit,
                 sort_by = sortBy,
                 sort_direction = sortDirection,
-                pattern = string.Join(",", pattern ?? new[] {""}),
+                pattern = string.Join(",", pattern ?? new[] { "" }),
                 filetype = fileType
             };
 
             var proc = new FuncProcessor("/FileStation/file_find.cgi", _session.sid, requiredParams, new
             {
-                additional = TypeBooleanValuesToCommaSeparated(additional)
+                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
             });
 
             return proc.Run();
@@ -328,7 +321,7 @@ namespace SynologyClient
 
             var proc = new FuncProcessor("/FileStation/file_virtual.cgi", _session.sid, requiredParams, new
             {
-                additional = TypeBooleanValuesToCommaSeparated(additional)
+                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
             });
             return proc.Run();
         }
@@ -348,7 +341,7 @@ namespace SynologyClient
 
             var proc = new FuncProcessor("/FileStation/file_favorite.cgi", _session.sid, requiredParams, new
             {
-                additional = TypeBooleanValuesToCommaSeparated(additional)
+                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
             });
             return proc.Run();
         }
@@ -686,7 +679,7 @@ namespace SynologyClient
 
             var proc = new FuncProcessor("/FileStation/file_crtfdr.cgi", _session.sid, requiredParams, new
             {
-                additional = TypeBooleanValuesToCommaSeparated(additional)
+                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
             });
             return proc.Run();
         }
@@ -707,12 +700,10 @@ namespace SynologyClient
 
             var proc = new FuncProcessor("/FileStation/file_rename.cgi", _session.sid, requiredParams, new
             {
-                additional = TypeBooleanValuesToCommaSeparated(additional)
+                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
             });
             return proc.Run();
         }
-
-        // creates comma delimited list of only boolean public property names set as true
 
         public SynologyResponse SynoFileStationCopyMoveStart(string path, string destinationPath,
             bool? overwrite = false, bool? removeSrc = false, bool? accurateProgress = false, string taskId = null)
@@ -988,18 +979,6 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        private string TypeBooleanValuesToCommaSeparated<T>(T instance) where T : class
-        {
-            if (instance == null)
-                return null;
-
-            string[] selected = typeof (T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(p => (bool) p.GetValue(instance, null))
-                .Select(p => p.Name).ToArray();
-
-            return selected.Any() ? string.Join(",", selected) : null;
-        }
-
         public SynologyResponse SynoFileStationFavoriteEdit(string path, string name)
         {
             dynamic requiredParams = new
@@ -1015,7 +994,22 @@ namespace SynologyClient
             return proc.Run();
         }
 
+        public string TrueBooleanValuesFromObjectToCommaSeparatedList<T>(T instance) where T : class
+        {
+            // creates comma delimited list of only boolean public property names set as true
+
+            if (instance == null)
+                return null;
+
+            string[] selected = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Where(p => (bool)p.GetValue(instance, null))
+                .Select(p => p.Name).ToArray();
+
+            return selected.Any() ? string.Join(",", selected) : null;
+        }
+
         // ReSharper disable InconsistentNaming
+        // To directly map from synology specified addtional parameters list paremeter naming conventions
         public class FileGetInfoAddtionalOptions
         {
             public bool real_path { get; set; }
@@ -1094,7 +1088,6 @@ namespace SynologyClient
 
             public bool volume_status { get; set; }
         }
-
         // ReSharper restore InconsistentNaming
     }
 }
