@@ -1,7 +1,9 @@
-﻿namespace SynologyClient.Response
+﻿using System.Collections.Generic;
+
+namespace SynologyClient.Response
 {
     public class ListGetInfo
     {
-        public File[] files { get; set; }
+        public List<File> files { get; set; }
     }
 }

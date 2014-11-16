@@ -21,10 +21,10 @@
 //            var kernel = new MoqMockingKernel();
 //            Mock<IRestClient> client = kernel.GetMock<IRestClient>();
 
-//            client.Setup(c => c.Execute<SynologyResponse>(It.IsAny<IRestRequest>()))
-//                .Returns(new RestResponse<SynologyResponse>
+//            client.Setup(c => c.Execute<BaseSynologyResponse>(It.IsAny<IRestRequest>()))
+//                .Returns(new RestResponse<BaseSynologyResponse>
 //                {
-//                    Data = new SynologyResponse { success = true },
+//                    Data = new BaseSynologyResponse { success = true },
 //                    Content = "TEST"
 //                }).Verifiable();
 
@@ -33,11 +33,11 @@
 //            string testfile = _localTestFilesBasePathNoSlash + "\\webpage.html";
 //            var args = new SynologyUploadArgs(new FileInfo(testfile), "/uploads/test");
 
-//            SynologyResponse res = api.Upload(args);
+//            BaseSynologyResponse res = api.Upload(args);
 
 //            res.success.Should().BeTrue();
 
-//            client.Verify(c => c.Execute<SynologyResponse>(It.IsAny<IRestRequest>()), Times.Once());
+//            client.Verify(c => c.Execute<BaseSynologyResponse>(It.IsAny<IRestRequest>()), Times.Once());
 //            client.VerifyAll();
 //        }
 

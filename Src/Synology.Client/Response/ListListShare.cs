@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace SynologyClient.Response
 {
@@ -9,6 +6,6 @@ namespace SynologyClient.Response
     {
         public int total { get; set; }
         public int offset { get; set; }
-        public SharedFolder[] shares { get; set; }
+        public List<SharedFolder> shares { get; set; }
     }
 }

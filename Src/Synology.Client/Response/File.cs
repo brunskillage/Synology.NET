@@ -6,6 +6,6 @@
         public string name { get; set; }
         public bool isdir { get; set; }
         public Children children { get; set; }
-        public FileAddtional addtional { get; set; }
+        public FileAddtional additional { get; set; }
     }
 }

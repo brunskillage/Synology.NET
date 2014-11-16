@@ -1,10 +1,11 @@
 ﻿using RestSharp;
 using System;
 using System.Reflection;
+using SynologyClient.Response;
 
 namespace SynologyClient
 {
-    public class FuncProcessor
+    public class FuncProcessor<TResponse> where TResponse : BaseSynologyResponse, new()
     {
         private static readonly SynologyClientConfig Config = new SynologyClientConfig();
         private readonly dynamic _args;
@@ -33,7 +34,7 @@ namespace SynologyClient
             _optionalArgs = optionalArgs;
         }
 
-        public SynologyResponse Run()
+        public TResponse Run()
         {
             try
             {
@@ -48,7 +49,7 @@ namespace SynologyClient
 
                 IRestClient client = new RestClient(Config.ApiBaseAddressAndPathNoTrailingSlash + _scriptPath);
 
-                IRestResponse<SynologyResponse> response = client.Execute<SynologyResponse>(RestRequest);
+                IRestResponse<TResponse> response = client.Execute<TResponse>(RestRequest);
 
                 if (response.Data.success == false)
                 {

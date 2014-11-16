@@ -1,7 +1,9 @@
-﻿namespace SynologyClient.Response
+﻿using System.Collections.Generic;
+
+namespace SynologyClient.Response
 {
     public class SharingCreate
     {
-        SharingLink[] links { get; set; }
+        List<SharingLink> links { get; set; }
     }
 }

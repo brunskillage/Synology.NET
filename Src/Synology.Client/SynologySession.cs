@@ -33,7 +33,7 @@ namespace SynologyClient
             request.AddParameter("session", "FileStation");
             request.AddParameter("format", "cookie");
 
-            IRestResponse<SynologyResponse> response = client.Execute<SynologyResponse>(request);
+            IRestResponse<RawSynologyResponse> response = client.Execute<RawSynologyResponse>(request);
             if (response.Data.success)
             {
                 sid = response.Data.data["sid"];

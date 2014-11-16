@@ -1,7 +1,9 @@
-﻿namespace SynologyClient.Response
+﻿using System.Collections.Generic;
+
+namespace SynologyClient.Response
 {
     public class CreateFolderCreate
     {
-        File[] folders { get; set; }
+        List<File> folders { get; set; }
     }
 }

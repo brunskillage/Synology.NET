@@ -7,6 +7,6 @@ namespace SynologyClient.Response
         public Time time { get; set; }
         public SharedFolderPerm perm { get; set; }
         public string mount_point_type { get; set; }
-        public VolumeStatus VolumeStatus { get; set; }
+        //public VolumeStatus VolumeStatus { get; set; }
     }
 }
