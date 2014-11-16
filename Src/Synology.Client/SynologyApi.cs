@@ -112,7 +112,7 @@ namespace SynologyClient
             original
         }
 
-        public enum extract_sortby
+        public enum ExtractSortBy
         {
             name,
             size,
@@ -877,7 +877,7 @@ namespace SynologyClient
         }
 
         public SynologyResponse SynoFileStationExtractList(string archivePath, int? offset, int? limit,
-            extract_sortby sortBy, SortDirection sortDirection, string codePage, string password, string itemId)
+            ExtractSortBy sortBy, SortDirection sortDirection, string codePage, string password, string itemId)
         {
             dynamic requiredParams = new
             {

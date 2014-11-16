@@ -186,7 +186,7 @@ namespace SynologyClient
         SynologyResponse SynoFileStationExtractList(string archivePath,
             int? offset,
             int? limit,
-            SynologyApi.extract_sortby sortBy,
+            SynologyApi.ExtractSortBy sortBy,
             SynologyApi.SortDirection sortDirection,
             string codePage,
             string password,
