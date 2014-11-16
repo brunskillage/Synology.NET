@@ -60,8 +60,8 @@ namespace SynologyClient.ApiTests
             SynologyResponse res2 = _api.SynoFileStationListShare(
                 0,
                 0,
-                SynologyApi.sort_by.name,
-                SynologyApi.sort_direction.asc, false,
+                SynologyApi.SortBy.name,
+                SynologyApi.SortDirection.asc, false,
                 new SynologyApi.FileListAddtionalOptions
                 {
                     size = true,
@@ -84,8 +84,8 @@ namespace SynologyClient.ApiTests
             SynologyResponse res = _api.SynoFileStationList("/Data");
             res.success.Should().BeTrue();
 
-            SynologyResponse res2 = _api.SynoFileStationList("/Data", 0, 10, SynologyApi.sort_by.name,
-                SynologyApi.sort_direction.asc, "*", SynologyApi.filetype.all, null,
+            SynologyResponse res2 = _api.SynoFileStationList("/Data", 0, 10, SynologyApi.SortBy.name,
+                SynologyApi.SortDirection.asc, "*", SynologyApi.FileTypeFilter.all, null,
                 new SynologyApi.FileListAddtionalOptions
                 {
                     real_path = true,

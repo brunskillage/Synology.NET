@@ -9,11 +9,90 @@ namespace SynologyClient
 {
     public class SynologyApi : ISynologyApi
     {
+        public enum BackgroundTaskSortBy
+        {
+            crtime,
+            finished
+        }
+
+        public enum CompressionFormat
+        {
+            formatZip,
+            format7z
+        }
+
+        public enum CompressionLevel
+        {
+            moderate,
+            fast,
+            best,
+            store
+        }
+
+        public enum CompressionMode
+        {
+            add,
+            update,
+            refreshen,
+            synchronize
+        }
+
+        public enum DownloadMode
+        {
+            open,
+            download
+        }
+
         public enum FileSystemType
         {
             none,
             cifs,
             iso
+        }
+
+        public enum FileTypeFilter
+        {
+            file,
+            dir,
+            all
+        }
+
+        public enum SharingSortBy
+        {
+            id,
+            isFolder,
+            path,
+            date_expired,
+            date_available,
+            status,
+            has_password,
+            url,
+            link_owner
+        }
+
+        public enum SortBy
+        {
+            name,
+            user,
+            group,
+            mtime,
+            atime,
+            ctime,
+            posix,
+            size
+        }
+
+        public enum SortDirection
+        {
+            asc,
+            desc
+        }
+
+        public enum StatusFilter
+        {
+            valid,
+            broken,
+            all
         }
 
         public enum ThumbnailRotateOptions
@@ -33,55 +112,12 @@ namespace SynologyClient
             original
         }
 
-        public enum download_mode
-        {
-            open,
-            download
-        }
-
-        public enum filetype
-        {
-            file,
-            dir,
-            all
-        }
-
-        public enum sharing_sort_by
-        {
-            id,
-            isFolder,
-            path,
-            date_expired,
-            date_available,
-            status,
-            has_password,
-            url,
-            link_owner
-        }
-
-        public enum sort_by
+        public enum extract_sortby
         {
             name,
-            user,
-            group,
-            mtime,
-            atime,
-            ctime,
-            posix,
-            size
-        }
-
-        public enum sort_direction
-        {
-            asc,
-            desc
-        }
-
-        public enum status_filter
-        {
-            valid,
-            broken,
-            all
+            size,
+            pack_size,
+            mtime
         }
 
         private readonly IRestClient _client;
@@ -116,7 +152,7 @@ namespace SynologyClient
         }
 
         public SynologyResponse SynoFileStationListShare(int? offset = null, int? limit = null,
-            sort_by sort_by = sort_by.ctime, sort_direction sort_direction = sort_direction.asc,
+            SortBy sortBy = SortBy.ctime, SortDirection sortDirection = SortDirection.asc,
             bool onlywritable = false, FileListAddtionalOptions additional = null)
         {
             dynamic requiredParams = new
@@ -126,8 +162,8 @@ namespace SynologyClient
                 method = "list_share",
                 offset,
                 limit,
-                sort_by,
-                sort_direction,
+                sort_by = sortBy,
+                sort_direction = sortDirection,
                 onlywritable
             };
 
@@ -140,8 +176,9 @@ namespace SynologyClient
         }
 
         public SynologyResponse SynoFileStationList(string folderPath, int? offset = null, int? limit = null,
-            sort_by sortBy = sort_by.ctime, sort_direction sortDirection = sort_direction.asc, string pattern = null,
-            filetype fileType = filetype.all, string goto_path = null, FileListAddtionalOptions additional = null)
+            SortBy sortBy = SortBy.ctime, SortDirection sortDirection = SortDirection.asc, string pattern = null,
+            FileTypeFilter fileType = FileTypeFilter.all, string gotoPath = null,
+            FileListAddtionalOptions additional = null)
         {
             dynamic requiredParams = new
             {
@@ -155,7 +192,7 @@ namespace SynologyClient
                 sort_direction = sortDirection,
                 pattern,
                 filetype = fileType,
-                goto_path
+                goto_path = gotoPath
             };
 
             var proc = new FuncProcessor("/FileStation/file_share.cgi", _session.sid, requiredParams, new
@@ -186,7 +223,8 @@ namespace SynologyClient
 
         /// webapi/FileStation/file_find.cgi?api=SYNO.FileStation.Search&version=1&method=start&folder_path=%2Fvideo&pattern=1
         public SynologyResponse SynoFileStationSearchStart(string folderPath, bool recursive = true,
-            string[] globPatterns = null, string[] extentionPatterns = null, filetype fileType = filetype.file,
+            string[] globPatterns = null, string[] extentionPatterns = null,
+            FileTypeFilter fileType = FileTypeFilter.file,
             long minSizeBytes = 0, long maxSizeBytes = Int64.MaxValue, DateTime? modifiedTimeFrom = null,
             DateTime? modifiedTimeTo = null, DateTime? createdTimeFrom = null, DateTime? createdTimeTo = null,
             DateTime? accessedTimeTo = null, DateTime? accessedTimeFrom = null, string owner = null, string group = null)
@@ -219,8 +257,8 @@ namespace SynologyClient
         }
 
         public SynologyResponse SynoFileStationSearchList(string taskId, int? offset = null, int? limit = 100,
-            sort_by sortBy = sort_by.name, sort_direction sortDirection = sort_direction.asc, string[] pattern = null,
-            filetype fileType = filetype.file, FileSearchListAddtionalOptions additional = null)
+            SortBy sortBy = SortBy.name, SortDirection sortDirection = SortDirection.asc, string[] pattern = null,
+            FileTypeFilter fileType = FileTypeFilter.file, FileSearchListAddtionalOptions additional = null)
         {
             dynamic requiredParams = new
             {
@@ -273,8 +311,8 @@ namespace SynologyClient
         }
 
         public SynologyResponse SynoFileStationVirtualFolderList(FileSystemType fileSystemType = FileSystemType.cifs,
-            int? offset = null, int? limit = null, sort_by sort_by = sort_by.ctime,
-            sort_direction sort_direction = sort_direction.asc, VirtualFolderListAddtionalOptions additional = null)
+            int? offset = null, int? limit = null, SortBy sortBy = SortBy.ctime,
+            SortDirection sortDirection = SortDirection.asc, VirtualFolderListAddtionalOptions additional = null)
         {
             dynamic requiredParams = new
             {
@@ -284,8 +322,8 @@ namespace SynologyClient
                 type = fileSystemType,
                 offset,
                 limit,
-                sort_by,
-                sort_direction
+                sort_by = sortBy,
+                sort_direction = sortDirection
             };
 
             var proc = new FuncProcessor("/FileStation/file_virtual.cgi", _session.sid, requiredParams, new
@@ -296,7 +334,7 @@ namespace SynologyClient
         }
 
         public SynologyResponse SynoFileStationFavoriteList(int? offset = null, int? limit = null,
-            status_filter statusFilter = status_filter.all, FileStationFavoriteAddtionalOptions additional = null)
+            StatusFilter statusFilter = StatusFilter.all, FileStationFavoriteAddtionalOptions additional = null)
         {
             dynamic requiredParams = new
             {
@@ -517,7 +555,7 @@ namespace SynologyClient
             return response.Data;
         }
 
-        public byte[] SynoFileStationDownload(string filePath, download_mode mode = download_mode.download)
+        public byte[] SynoFileStationDownload(string filePath, DownloadMode mode = DownloadMode.download)
         {
             var request = new SynoRestRequest();
 
@@ -549,8 +587,8 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public SynologyResponse SynoFileStationSharingList(int? offset, int? limit, sharing_sort_by sortBy,
-            sort_direction sortDirection = sort_direction.asc, bool? forceClean = true)
+        public SynologyResponse SynoFileStationSharingList(int? offset, int? limit, SharingSortBy sortBy,
+            SortDirection sortDirection = SortDirection.asc, bool? forceClean = true)
         {
             dynamic requiredParams = new
             {
@@ -787,6 +825,163 @@ namespace SynologyClient
             return proc.Run();
         }
 
+        public SynologyResponse SynoFileStationExtractStart(string archivePath, string destFolderPath, bool? overwrite,
+            bool? keepDir,
+            bool? createSubFolder, string codePage, string password, string itemId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Extract",
+                version = 1,
+                method = "start",
+                file_path = archivePath,
+                dest_folder_path = destFolderPath,
+                overwrite,
+                keep_dir = keepDir,
+                create_subfolder = createSubFolder,
+                codepage = codePage,
+                password,
+                item_id = itemId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_extract.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationExtractStatus(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Extract",
+                version = 1,
+                method = "status",
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_extract.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationExtractStop(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Extract",
+                version = 1,
+                method = "stop",
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_extract.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationExtractList(string archivePath, int? offset, int? limit,
+            extract_sortby sortBy, SortDirection sortDirection, string codePage, string password, string itemId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Extract",
+                version = 1,
+                method = "list",
+                file_path = archivePath,
+                offset,
+                limit,
+                sort_by = sortBy,
+                sort_direction = sortDirection,
+                codepage = codePage,
+                password,
+                item_id = itemId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_extract.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationCompressStatus(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Compress",
+                version = 1,
+                method = "status",
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_compress.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationCompressStop(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Compress",
+                version = 1,
+                method = "stop",
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_compress.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationBackgroundTaskList(int? offset = 0, int? limit = 0,
+            BackgroundTaskSortBy sortBy = BackgroundTaskSortBy.crtime,
+            SortDirection sortDirection = SortDirection.asc, string apiFilterNamespace = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.BackgroundTask",
+                version = 1,
+                method = "list",
+                offset,
+                limit,
+                sort_by = sortBy,
+                sort_direction = sortDirection,
+                api_filter = apiFilterNamespace
+            };
+
+            var proc = new FuncProcessor("/FileStation/background_task.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationBackgroundTaskClearFinished(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.BackgroundTask",
+                version = 1,
+                method = "clear_finished",
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor("/FileStation/background_task.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public SynologyResponse SynoFileStationCompressStart(string path, string destinationFilePath,
+            CompressionLevel level = CompressionLevel.moderate, CompressionMode mode = CompressionMode.add,
+            CompressionFormat format = CompressionFormat.formatZip,
+            string password = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Compress",
+                version = 1,
+                method = "edit",
+                path,
+                dest_file_path = destinationFilePath,
+                level,
+                mode,
+                format,
+                password
+            };
+
+            var proc = new FuncProcessor("/FileStation/file_compress.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
         private string TypeBooleanValuesToCommaSeparated<T>(T instance) where T : class
         {
             if (instance == null)
@@ -814,6 +1009,7 @@ namespace SynologyClient
             return proc.Run();
         }
 
+        // ReSharper disable InconsistentNaming
         public class FileGetInfoAddtionalOptions
         {
             public bool real_path { get; set; }
@@ -892,5 +1088,7 @@ namespace SynologyClient
 
             public bool volume_status { get; set; }
         }
+
+        // ReSharper restore InconsistentNaming
     }
 }

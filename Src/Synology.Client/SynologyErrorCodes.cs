@@ -56,6 +56,19 @@ namespace SynologyClient
             Dic.Add(1101, "The number of folders to the parent folder would exceed the system limitation");
             Dic.Add(1200, "Failed to rename it. More information in <errors> object");
 
+            Dic.Add(1300, "Failed to compress files/folders");
+            Dic.Add(1301, "Cannot create the archive because the given archive name is too long");
+
+            Dic.Add(1400, "Failed to extract files.");
+            Dic.Add(1401, "Cannot open the file as archive");
+            Dic.Add(1402, "Failed to read archive data error");
+            Dic.Add(1403, "Wrong password");
+            Dic.Add(1404, "Failed to get the file and dir list in an archive");
+            Dic.Add(1405, "Failed to find the item ID in an archive file");
+            
+
+
+
             Dic.Add(2000, "Sharing link does not exist");
             Dic.Add(2001, "Cannot generate sharing link because too many sharing links exist");
             Dic.Add(2002, "Failed to access sharing links");

@@ -12,8 +12,8 @@ namespace SynologyClient
         SynologyResponse SynoFileStationListShare(
             int? offset,
             int? limit,
-            SynologyApi.sort_by sort_by,
-            SynologyApi.sort_direction sort_direction,
+            SynologyApi.SortBy sortBy,
+            SynologyApi.SortDirection sortDirection,
             bool onlywritable,
             SynologyApi.FileListAddtionalOptions additional);
 
@@ -22,11 +22,11 @@ namespace SynologyClient
             string folderPath,
             int? offset,
             int? limit,
-            SynologyApi.sort_by sortBy,
-            SynologyApi.sort_direction sortDirection,
+            SynologyApi.SortBy sortBy,
+            SynologyApi.SortDirection sortDirection,
             string pattern,
-            SynologyApi.filetype fileType,
-            string goto_path,
+            SynologyApi.FileTypeFilter fileType,
+            string gotoPath,
             SynologyApi.FileListAddtionalOptions additional);
 
         //p32
@@ -39,7 +39,7 @@ namespace SynologyClient
             bool recursive,
             string[] globPatterns,
             string[] extentionPatterns,
-            SynologyApi.filetype fileType,
+            SynologyApi.FileTypeFilter fileType,
             long minSizeBytes,
             long maxSizeBytes,
             DateTime? modifiedTimeFrom,
@@ -55,9 +55,9 @@ namespace SynologyClient
             string taskId,
             int? offset,
             int? limit,
-            SynologyApi.sort_by sortBy,
-            SynologyApi.sort_direction direction, string[] pattern,
-            SynologyApi.filetype fileType,
+            SynologyApi.SortBy sortBy,
+            SynologyApi.SortDirection direction, string[] pattern,
+            SynologyApi.FileTypeFilter fileType,
             SynologyApi.FileSearchListAddtionalOptions additional);
 
         //42
@@ -70,14 +70,14 @@ namespace SynologyClient
             SynologyApi.FileSystemType fileSystemType,
             int? offset,
             int? limit,
-            SynologyApi.sort_by sort_by,
-            SynologyApi.sort_direction sort_direction,
+            SynologyApi.SortBy sortBy,
+            SynologyApi.SortDirection sortDirection,
             SynologyApi.VirtualFolderListAddtionalOptions additional);
 
         SynologyResponse SynoFileStationFavoriteList(
             int? offset,
             int? limit,
-            SynologyApi.status_filter statusFilter,
+            SynologyApi.StatusFilter statusFilter,
             SynologyApi.FileStationFavoriteAddtionalOptions additional);
 
         SynologyResponse SynoFileStationFavoriteAdd(string path, string name, int index);
@@ -113,14 +113,14 @@ namespace SynologyClient
             bool createParents,
             bool? overwrite);
 
-        byte[] SynoFileStationDownload(string filePath, SynologyApi.download_mode mode);
+        byte[] SynoFileStationDownload(string filePath, SynologyApi.DownloadMode mode);
 
         SynologyResponse SynoFileStationSharingGetInfo(string id);
 
         SynologyResponse SynoFileStationSharingList(int? offest,
             int? limit,
-            SynologyApi.sharing_sort_by sortBy,
-            SynologyApi.sort_direction sortDirection,
+            SynologyApi.SharingSortBy sortBy,
+            SynologyApi.SortDirection sortDirection,
             bool? forceClean);
 
         SynologyResponse SynoFileStationSharingCreate(string path,
@@ -169,5 +169,48 @@ namespace SynologyClient
         SynologyResponse SynoFileStationDeleteStop(string taskId);
 
         SynologyResponse SynoFileStationDeleteSync(string path, bool? recursive, string searchTaskId);
+
+        SynologyResponse SynoFileStationExtractStart(string archivePath,
+            string destFolderPath,
+            bool? overwrite,
+            bool? keepDir,
+            bool? createSubFolder,
+            string codePage,
+            string password,
+            string itemId);
+
+        SynologyResponse SynoFileStationExtractStatus(string taskId);
+
+        SynologyResponse SynoFileStationExtractStop(string taskId);
+
+        SynologyResponse SynoFileStationExtractList(string archivePath,
+            int? offset,
+            int? limit,
+            SynologyApi.extract_sortby sortBy,
+            SynologyApi.SortDirection sortDirection,
+            string codePage,
+            string password,
+            string itemId
+            );
+
+        SynologyResponse SynoFileStationCompressStart(string path,
+            string destinationFilePath,
+            SynologyApi.CompressionLevel level,
+            SynologyApi.CompressionMode mode,
+            SynologyApi.CompressionFormat format,
+            string password);
+
+        SynologyResponse SynoFileStationCompressStatus(string taskId);
+
+        SynologyResponse SynoFileStationCompressStop(string taskId);
+
+        SynologyResponse SynoFileStationBackgroundTaskList(int? offset, 
+            int? limit,
+            SynologyApi.BackgroundTaskSortBy sortBy,
+            SynologyApi.SortDirection sortDirection,
+            string apiFilterNamespace
+            );
+
+        SynologyResponse SynoFileStationBackgroundTaskClearFinished(string taskId);
     }
 }
