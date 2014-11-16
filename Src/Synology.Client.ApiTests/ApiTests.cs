@@ -15,7 +15,7 @@ namespace SynologyClient.ApiTests
         {
             _session = new SynologySession(new SynologyClientConfig());
             _session.Login();
-            _api = new SynologyApi(new SynologyClientConfig(), _session);
+            _api = new SynologyApi(_session);
         }
 
         [TearDown]
