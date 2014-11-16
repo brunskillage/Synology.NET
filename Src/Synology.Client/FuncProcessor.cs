@@ -52,7 +52,7 @@ namespace SynologyClient
 
                 if (response.Data.success == false)
                 {
-                    throw new SynologyClientException(SynologyErrorCodes.Dic[(int)response.Data.error["code"]]);
+                    throw new SynologyClientException(SynologyErrorCodes.Dic[response.Data.error.code]);
                 }
 
                 return response.Data;

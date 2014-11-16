@@ -1009,7 +1009,7 @@ namespace SynologyClient
         }
 
         // ReSharper disable InconsistentNaming
-        // To directly map from synology specified addtional parameters list paremeter naming conventions
+        // To directly map from synology specified Addtional parameters list paremeter naming conventions
         public class FileGetInfoAddtionalOptions
         {
             public bool real_path { get; set; }

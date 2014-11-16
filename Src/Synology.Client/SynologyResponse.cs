@@ -1,4 +1,6 @@
-﻿namespace SynologyClient
+﻿using SynologyClient.Response;
+
+namespace SynologyClient
 {
     public class SynologyResponse
     {
@@ -7,7 +9,7 @@
 
         public dynamic data { get; set; }
 
-        public dynamic error { get; set; }
+        public Error error { get; set; }
 
         public dynamic errormsg { get; set; }
 

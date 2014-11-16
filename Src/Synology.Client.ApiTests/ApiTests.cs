@@ -95,10 +95,10 @@ namespace SynologyClient.ApiTests
 
             res2.success.Should().BeTrue();
 
-            var atime = (int)(res2.data["shares"][0]["additional"]["time"]["atime"]);
+            var atime = (int)(res2.data["SharedFolders"][0]["additional"]["time"]["atime"]);
             atime.Should().BeGreaterThan(0);
 
-            string real_path = res2.data["shares"][0]["additional"]["real_path"];
+            string real_path = res2.data["SharedFolders"][0]["additional"]["real_path"];
             real_path.Should().NotBeNullOrEmpty();
         }
 
@@ -422,8 +422,8 @@ namespace SynologyClient.ApiTests
             string dest = _synoTestFolderNoSlash;
             string downloadedName = _localTestFolderNoSlash + "\\dload_" + local.Name;
 
-            if (File.Exists(downloadedName))
-                File.Delete(downloadedName);
+            if (System.IO.File.Exists(downloadedName))
+                System.IO.File.Delete(downloadedName);
 
             SynologyResponse res = _api.SynoFileStationUpload(new FileInfo(_localTestImage), dest, true, true);
             res.success.Should().BeTrue();
