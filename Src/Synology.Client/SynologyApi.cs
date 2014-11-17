@@ -426,6 +426,82 @@ namespace SynologyClient
             return proc.Run();
         }
 
+        public RawSynologyResponse SynoFileStationUpload(FileInfo fileName, string destinationFilePath,
+            bool createParents = true, bool? overwrite = false)
+        {
+            var request = new SynoRestRequest(Method.POST);
+
+            request.AddParameter("_sid", _session.sid);
+            request.AddParameter("api", "SYNO.FileStation.Upload");
+            request.AddParameter("version", "1");
+            request.AddParameter("method", "upload");
+            request.AddParameter("dest_folder_path", destinationFilePath);
+            request.AddParameter("create_parents", createParents);
+            request.AddParameter("mtime", DateTimeExtender.GetUnixTimeFromDate(fileName.LastWriteTimeUtc).ToString());
+            request.AddParameter("crtime", DateTimeExtender.GetUnixTimeFromDate(fileName.CreationTimeUtc).ToString());
+            request.AddParameter("atime", DateTimeExtender.GetUnixTimeFromDate(fileName.LastAccessTimeUtc).ToString());
+            request.AddParameter("overwrite", overwrite);
+
+            request.AddFile(fileName.Name, fileName.FullName);
+
+            var config = new SynologyClientConfig();
+            var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/api_upload.cgi");
+
+            IRestResponse<RawSynologyResponse> response = client.Execute<RawSynologyResponse>(request);
+            return response.Data;
+        }
+
+
+        public CompressStartResponse SynoFileStationCompressStart(string path, string destinationFilePath,
+            CompressionLevel level = CompressionLevel.moderate, CompressionMode mode = CompressionMode.add,
+            CompressionFormat format = CompressionFormat.formatZip,
+            string password = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Compress",
+                version = 1,
+                method = "start",
+                path,
+                dest_file_path = destinationFilePath,
+                level,
+                mode,
+                format,
+                password
+            };
+
+            var proc = new FuncProcessor<CompressStartResponse>("/FileStation/file_compress.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public CompressStatusResponse SynoFileStationCompressStatus(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Compress",
+                version = 1,
+                method = "status",
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor<CompressStatusResponse>("/FileStation/file_compress.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public CompressStopResponse SynoFileStationCompressStop(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Compress",
+                version = 1,
+                method = "stop",
+                taskid = taskId
+            };
+
+            var proc = new FuncProcessor<CompressStopResponse>("/FileStation/file_compress.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+        
         //public byte[] SynoFileStationThumbGet(string path, ThumbnailSizeOption size = ThumbnailSizeOption.small,
         //    ThumbnailRotateOptions rotate = ThumbnailRotateOptions.none)
         //{
@@ -544,30 +620,7 @@ namespace SynologyClient
         //    return proc.Run();
         //}
 
-        //public BaseSynologyResponse SynoFileStationUpload(FileInfo fileName, string destinationFilePath,
-        //    bool createParents = true, bool? overwrite = false)
-        //{
-        //    var request = new SynoRestRequest(Method.POST);
 
-        //    request.AddParameter("_sid", _session.sid);
-        //    request.AddParameter("api", "SYNO.FileStation.Upload");
-        //    request.AddParameter("version", "1");
-        //    request.AddParameter("method", "upload");
-        //    request.AddParameter("dest_folder_path", destinationFilePath);
-        //    request.AddParameter("create_parents", createParents);
-        //    request.AddParameter("mtime", DateTimeExtender.GetUnixTimeFromDate(fileName.LastWriteTimeUtc).ToString());
-        //    request.AddParameter("crtime", DateTimeExtender.GetUnixTimeFromDate(fileName.CreationTimeUtc).ToString());
-        //    request.AddParameter("atime", DateTimeExtender.GetUnixTimeFromDate(fileName.LastAccessTimeUtc).ToString());
-        //    request.AddParameter("overwrite", overwrite);
-
-        //    request.AddFile(fileName.Name, fileName.FullName);
-
-        //    var config = new SynologyClientConfig();
-        //    var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/api_upload.cgi");
-
-        //    IRestResponse<BaseSynologyResponse> response = client.Execute<BaseSynologyResponse>(request);
-        //    return response.Data;
-        //}
 
         //public byte[] SynoFileStationDownload(string filePath, DownloadMode mode = DownloadMode.download)
         //{
@@ -916,33 +969,6 @@ namespace SynologyClient
         //    return proc.Run();
         //}
 
-        //public BaseSynologyResponse SynoFileStationCompressStatus(string taskId)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Compress",
-        //        version = 1,
-        //        method = "status",
-        //        taskid = taskId
-        //    };
-
-        //    var proc = new FuncProcessor("/FileStation/file_compress.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
-
-        //public BaseSynologyResponse SynoFileStationCompressStop(string taskId)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Compress",
-        //        version = 1,
-        //        method = "stop",
-        //        taskid = taskId
-        //    };
-
-        //    var proc = new FuncProcessor("/FileStation/file_compress.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
 
         //public BaseSynologyResponse SynoFileStationBackgroundTaskList(int? offset = 0, int? limit = 0,
         //    BackgroundTaskSortBy sortBy = BackgroundTaskSortBy.crtime,
@@ -978,27 +1004,7 @@ namespace SynologyClient
         //    return proc.Run();
         //}
 
-        //public BaseSynologyResponse SynoFileStationCompressStart(string path, string destinationFilePath,
-        //    CompressionLevel level = CompressionLevel.moderate, CompressionMode mode = CompressionMode.add,
-        //    CompressionFormat format = CompressionFormat.formatZip,
-        //    string password = null)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Compress",
-        //        version = 1,
-        //        method = "start",
-        //        path,
-        //        dest_file_path = destinationFilePath,
-        //        level,
-        //        mode,
-        //        format,
-        //        password
-        //    };
 
-        //    var proc = new FuncProcessor("/FileStation/file_compress.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
 
         public string TrueBooleanValuesFromObjectToCommaSeparatedList<T>(T instance) where T : class
         {

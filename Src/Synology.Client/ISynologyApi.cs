@@ -55,6 +55,24 @@ namespace SynologyClient
 
         FavoritReplaceAllResponse SynoFileStationFavoriteReplaceAll(string path, string name);
 
+        RawSynologyResponse SynoFileStationUpload(
+            FileInfo fileName,
+            string destinationFilePath,
+            bool createParents,
+            bool? overwrite);
+
+
+        CompressStartResponse SynoFileStationCompressStart(string path,
+            string destinationFilePath,
+            SynologyApi.CompressionLevel level,
+            SynologyApi.CompressionMode mode,
+            SynologyApi.CompressionFormat format,
+            string password);
+
+        CompressStatusResponse SynoFileStationCompressStatus(string taskId);
+
+        CompressStopResponse SynoFileStationCompressStop(string taskId);
+
         //byte[] SynoFileStationThumbGet(
         //    string path,
         //    SynologyApi.ThumbnailSizeOption size,
@@ -74,11 +92,7 @@ namespace SynologyClient
 
         //BaseSynologyResponse SynoFileStationCheckPermission(string path, bool? createOnly);
 
-        //BaseSynologyResponse SynoFileStationUpload(
-        //    FileInfo fileName,
-        //    string destinationFilePath,
-        //    bool createParents,
-        //    bool? overwrite);
+
 
         //byte[] SynoFileStationDownload(string filePath, SynologyApi.DownloadMode mode);
 
@@ -160,16 +174,6 @@ namespace SynologyClient
         //    string itemId
         //    );
 
-        //BaseSynologyResponse SynoFileStationCompressStart(string path,
-        //    string destinationFilePath,
-        //    SynologyApi.CompressionLevel level,
-        //    SynologyApi.CompressionMode mode,
-        //    SynologyApi.CompressionFormat format,
-        //    string password);
-
-        //BaseSynologyResponse SynoFileStationCompressStatus(string taskId);
-
-        //BaseSynologyResponse SynoFileStationCompressStop(string taskId);
 
         //BaseSynologyResponse SynoFileStationBackgroundTaskList(int? offset,
         //    int? limit,

@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompressStartResponse.cs" />
+    <Compile Include="CompressStatusResponse.cs" />
+    <Compile Include="CompressStopResponse.cs" />
     <Compile Include="DateTimeExtender.cs" />
     <Compile Include="FavoriteAddResponse.cs" />
     <Compile Include="FavoriteClearBrokenResponse.cs" />
