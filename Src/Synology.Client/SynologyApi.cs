@@ -55,7 +55,6 @@ namespace SynologyClient
 
         public enum FileSystemType
         {
-            none,
             cifs,
             iso
         }
@@ -135,7 +134,7 @@ namespace SynologyClient
                 throw new SynologyClientException("Session Id is empty");
         }
 
-        public InfoGetInfoResponse SynoFilestationInfoGetInfo()
+        public InfoGetInfoResponse Info_GetInfo()
         {
             var proc = new FuncProcessor<InfoGetInfoResponse>("/FileStation/info.cgi", _session.sid, new
             {
@@ -147,7 +146,7 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public ListListShareResponse SynoFileStationList_ListShare(int? offset = null, int? limit = null,
+        public ListListShareResponse List_ListShare(int? offset = null, int? limit = null,
             SortBy sortBy = SortBy.ctime, SortDirection sortDirection = SortDirection.asc,
             bool onlywritable = false, FileListAddtionalOptions additional = null)
         {
@@ -171,7 +170,7 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public ListListResponse SynoFileStationList_List(string folderPath, int? offset = null, int? limit = null,
+        public ListListResponse List_List(string folderPath, int? offset = null, int? limit = null,
             SortBy sortBy = SortBy.ctime, SortDirection sortDirection = SortDirection.asc, string pattern = null,
             FileTypeFilter fileType = FileTypeFilter.all, string gotoPath = null,
             FileListAddtionalOptions additional = null)
@@ -199,7 +198,7 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public ListGetInfoResponse SynoFileStationList_GetInfo(string[] paths, FileGetInfoAddtionalOptions additional = null)
+        public ListGetInfoResponse List_GetInfo(string[] paths, FileGetInfoAddtionalOptions additional = null)
         {
             dynamic requiredParams = new
             {
@@ -221,194 +220,211 @@ namespace SynologyClient
 
 
 
-        //public BaseSynologyResponse SynoFileStationSearchStart(string folderPath, bool recursive = true,
-        //    string[] globPatterns = null, string[] extentionPatterns = null,
-        //    FileTypeFilter fileType = FileTypeFilter.file,
-        //    long minSizeBytes = 0, long maxSizeBytes = Int64.MaxValue, DateTime? modifiedTimeFrom = null,
-        //    DateTime? modifiedTimeTo = null, DateTime? createdTimeFrom = null, DateTime? createdTimeTo = null,
-        //    DateTime? accessedTimeTo = null, DateTime? accessedTimeFrom = null, string owner = null, string group = null)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Search",
-        //        version = 1,
-        //        method = "start",
-        //        folder_path = folderPath,
-        //        recursive,
-        //        pattern = string.Join(",", globPatterns ?? new[] { "" }),
-        //        extension = string.Join(",", extentionPatterns ?? new[] { "" }),
-        //        filetype = fileType,
-        //        size_from = minSizeBytes,
-        //        size_to = maxSizeBytes,
-        //        mtime_from = modifiedTimeFrom,
-        //        mtime_to = modifiedTimeTo,
-        //        crtime_from = createdTimeFrom,
-        //        crtime_to = createdTimeTo,
-        //        atime_from = accessedTimeFrom,
-        //        atiime_to = accessedTimeTo,
-        //        owner,
-        //        group
-        //    };
+        public SearchStartResponse Search_Start(string folderPath, bool recursive = true,
+            string[] globPatterns = null, string[] extentionPatterns = null,
+            FileTypeFilter fileType = FileTypeFilter.file,
+            long minSizeBytes = 0, long maxSizeBytes = Int64.MaxValue, DateTime? modifiedTimeFrom = null,
+            DateTime? modifiedTimeTo = null, DateTime? createdTimeFrom = null, DateTime? createdTimeTo = null,
+            DateTime? accessedTimeTo = null, DateTime? accessedTimeFrom = null, string owner = null, string group = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Search",
+                version = 1,
+                method = "start",
+                folder_path = folderPath,
+                recursive,
+                pattern = string.Join(",", globPatterns ?? new[] { "" }),
+                extension = string.Join(",", extentionPatterns ?? new[] { "" }),
+                filetype = fileType,
+                size_from = minSizeBytes,
+                size_to = maxSizeBytes,
+                mtime_from = modifiedTimeFrom,
+                mtime_to = modifiedTimeTo,
+                crtime_from = createdTimeFrom,
+                crtime_to = createdTimeTo,
+                atime_from = accessedTimeFrom,
+                atiime_to = accessedTimeTo,
+                owner,
+                group
+            };
 
-        //    var proc = new FuncProcessor("/FileStation/file_find.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+            var proc = new FuncProcessor<SearchStartResponse>("/FileStation/file_find.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //public BaseSynologyResponse SynoFileStationSearchList(string taskId, int? offset = null, int? limit = 100,
-        //    SortBy sortBy = SortBy.name, SortDirection sortDirection = SortDirection.asc, string[] pattern = null,
-        //    FileTypeFilter fileType = FileTypeFilter.file, FileSearchListAddtionalOptions additional = null)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Search",
-        //        version = 1,
-        //        method = "list",
-        //        taskid = taskId,
-        //        offset,
-        //        limit,
-        //        sort_by = sortBy,
-        //        sort_direction = sortDirection,
-        //        pattern = string.Join(",", pattern ?? new[] { "" }),
-        //        filetype = fileType
-        //    };
+        public SearchListResponse Search_List(string taskId, int? offset = null, int? limit = 100,
+            SortBy sortBy = SortBy.name, SortDirection sortDirection = SortDirection.asc, string[] pattern = null,
+            FileTypeFilter fileType = FileTypeFilter.file, FileSearchListAddtionalOptions additional = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Search",
+                version = 1,
+                method = "list",
+                taskid = taskId,
+                offset,
+                limit,
+                sort_by = sortBy,
+                sort_direction = sortDirection,
+                pattern = string.Join(",", pattern ?? new[] { "" }),
+                filetype = fileType
+            };
 
-        //    var proc = new FuncProcessor("/FileStation/file_find.cgi", _session.sid, requiredParams, new
-        //    {
-        //        additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
-        //    });
+            var proc = new FuncProcessor<SearchListResponse>("/FileStation/file_find.cgi", _session.sid, requiredParams, new
+            {
+                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
+            });
 
-        //    return proc.Run();
-        //}
+            return proc.Run();
+        }
 
-        //public BaseSynologyResponse SynoFileStationSearchStop(string taskId)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Search",
-        //        version = 1,
-        //        method = "stop",
-        //        taskid = taskId
-        //    };
+        public SearchStopResponse Search_Stop(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Search",
+                version = 1,
+                method = "stop",
+                taskid = taskId
+            };
 
-        //    var proc = new FuncProcessor("/FileStation/file_find.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+            var proc = new FuncProcessor<SearchStopResponse>("/FileStation/file_find.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //public BaseSynologyResponse SynoFileStationSearchClean(string taskId)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Search",
-        //        version = 1,
-        //        method = "clean",
-        //        taskid = taskId
-        //    };
+        public SearchCleanResponse Search_Clean(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Search",
+                version = 1,
+                method = "clean",
+                taskid = taskId
+            };
 
-        //    var proc = new FuncProcessor("/FileStation/file_find.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+            var proc = new FuncProcessor<SearchCleanResponse>("/FileStation/file_find.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //public BaseSynologyResponse SynoFileStationVirtualFolderList(FileSystemType fileSystemType = FileSystemType.cifs,
-        //    int? offset = null, int? limit = null, SortBy sortBy = SortBy.ctime,
-        //    SortDirection sortDirection = SortDirection.asc, VirtualFolderListAddtionalOptions additional = null)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.VirtualFolder",
-        //        version = 1,
-        //        method = "list",
-        //        type = fileSystemType,
-        //        offset,
-        //        limit,
-        //        sort_by = sortBy,
-        //        sort_direction = sortDirection
-        //    };
+        public VirtualFolderListResponse VirtualFolder_List(FileSystemType fileSystemType = FileSystemType.cifs,
+            int? offset = null, int? limit = null, SortBy sortBy = SortBy.ctime,
+            SortDirection sortDirection = SortDirection.asc, VirtualFolderListAddtionalOptions additional = null)
+        {
+            // string systype = fileSystemType.ToString() == FileSystemType.none.ToString() ? null : fileSystemType.ToString();
 
-        //    var proc = new FuncProcessor("/FileStation/file_virtual.cgi", _session.sid, requiredParams, new
-        //    {
-        //        additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
-        //    });
-        //    return proc.Run();
-        //}
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.VirtualFolder",
+                version = 1,
+                method = "list",
+                type = fileSystemType,
+                offset,
+                limit,
+                sort_by = sortBy,
+                sort_direction = sortDirection
+            };
 
-        //public BaseSynologyResponse SynoFileStationFavoriteList(int? offset = null, int? limit = null,
-        //    StatusFilter statusFilter = StatusFilter.all, FileStationFavoriteAddtionalOptions additional = null)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Favorite",
-        //        version = 1,
-        //        method = "list",
-        //        offset,
-        //        limit,
-        //        status_filter = statusFilter
-        //    };
+            var proc = new FuncProcessor<VirtualFolderListResponse>("/FileStation/file_virtual.cgi", _session.sid, requiredParams, new
+            {
+                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
+            });
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_favorite.cgi", _session.sid, requiredParams, new
-        //    {
-        //        additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
-        //    });
-        //    return proc.Run();
-        //}
+        public FavoriteListResponse Favorite_List(int? offset = null, int? limit = null,
+            StatusFilter statusFilter = StatusFilter.all, FileStationFavoriteAddtionalOptions additional = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Favorite",
+                version = 1,
+                method = "list",
+                offset,
+                limit,
+                status_filter = statusFilter
+            };
 
-        //public BaseSynologyResponse SynoFileStationFavoriteAdd(string path, string name, int index = -1)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Favorite",
-        //        version = 1,
-        //        method = "add",
-        //        path,
-        //        name
-        //    };
+            var proc = new FuncProcessor<FavoriteListResponse>("/FileStation/file_favorite.cgi", _session.sid, requiredParams, new
+            {
+                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
+            });
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public FavoriteAddResponse SynoFileStationFavoriteAdd(string path, string name, int index = -1)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Favorite",
+                version = 1,
+                method = "add",
+                path,
+                name
+            };
 
-        //public BaseSynologyResponse SynoFileStationFavoriteDelete(string path)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Favorite",
-        //        version = 1,
-        //        method = "delete",
-        //        path
-        //    };
+            var proc = new FuncProcessor<FavoriteAddResponse>("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public FavoriteDeleteResponse SynoFileStationFavoriteDelete(string path)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Favorite",
+                version = 1,
+                method = "delete",
+                path
+            };
 
-        //public BaseSynologyResponse SynoFileStationFavoriteClearBroken(string path, string name)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Favorite",
-        //        version = 1,
-        //        method = "clear_broken",
-        //        path,
-        //        name
-        //    };
+            var proc = new FuncProcessor<FavoriteDeleteResponse>("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public FavoriteClearBrokenResponse SynoFileStationFavoriteClearBroken(string path, string name)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Favorite",
+                version = 1,
+                method = "clear_broken",
+                path,
+                name
+            };
 
-        //public BaseSynologyResponse SynoFileStationFavoriteReplaceAll(string path, string name)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Favorite",
-        //        version = 1,
-        //        method = "replace_all",
-        //        path,
-        //        name
-        //    };
+            var proc = new FuncProcessor<FavoriteClearBrokenResponse>("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public FavoriteEditResponse SynoFileStationFavoriteEdit(string path, string name)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Favorite",
+                version = 1,
+                method = "edit",
+                path,
+                name
+            };
+
+            var proc = new FuncProcessor<FavoriteEditResponse>("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
+
+        public FavoritReplaceAllResponse SynoFileStationFavoriteReplaceAll(string path, string name)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Favorite",
+                version = 1,
+                method = "replace_all",
+                path,
+                name
+            };
+
+            var proc = new FuncProcessor<FavoritReplaceAllResponse>("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
         //public byte[] SynoFileStationThumbGet(string path, ThumbnailSizeOption size = ThumbnailSizeOption.small,
         //    ThumbnailRotateOptions rotate = ThumbnailRotateOptions.none)
@@ -981,21 +997,6 @@ namespace SynologyClient
         //    };
 
         //    var proc = new FuncProcessor("/FileStation/file_compress.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
-
-        //public BaseSynologyResponse SynoFileStationFavoriteEdit(string path, string name)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Favorite",
-        //        version = 1,
-        //        method = "edit",
-        //        path,
-        //        name
-        //    };
-
-        //    var proc = new FuncProcessor("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
         //    return proc.Run();
         //}
 

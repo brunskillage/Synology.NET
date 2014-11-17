@@ -6,8 +6,6 @@ namespace SynologyClient.Response
     {
         public int total { get; set; }
         public int offset { get; set; }
-        public List<Favorite> favourites { get; set; }
+        public List<Favorite> favorites { get; set; }
     }
-
-
 }

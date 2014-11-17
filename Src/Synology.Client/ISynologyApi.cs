@@ -7,88 +7,53 @@ namespace SynologyClient
     public interface ISynologyApi
     {
         // 19
-        InfoGetInfoResponse SynoFilestationInfoGetInfo();
+        InfoGetInfoResponse Info_GetInfo();
 
         //// p21
-        ListListShareResponse SynoFileStationList_ListShare(
-            int? offset,
-            int? limit,
-            SynologyApi.SortBy sortBy,
-            SynologyApi.SortDirection sortDirection,
-            bool onlywritable,
-            SynologyApi.FileListAddtionalOptions additional);
+        ListListShareResponse List_ListShare(int? offset, int? limit, SynologyApi.SortBy sortBy,
+            SynologyApi.SortDirection sortDirection, bool onlywritable, SynologyApi.FileListAddtionalOptions additional);
 
         ////p26
-        ListListResponse SynoFileStationList_List(
-            string folderPath,
-            int? offset,
-            int? limit,
-            SynologyApi.SortBy sortBy,
-            SynologyApi.SortDirection sortDirection,
-            string pattern,
-            SynologyApi.FileTypeFilter fileType,
-            string gotoPath,
-            SynologyApi.FileListAddtionalOptions additional);
+        ListListResponse List_List(string folderPath, int? offset, int? limit, SynologyApi.SortBy sortBy,
+            SynologyApi.SortDirection sortDirection, string pattern, SynologyApi.FileTypeFilter fileType,
+            string gotoPath, SynologyApi.FileListAddtionalOptions additional);
 
         ////p32
-        ListGetInfoResponse SynoFileStationList_GetInfo(string[] paths, 
-            SynologyApi.FileGetInfoAddtionalOptions additional);
+        ListGetInfoResponse List_GetInfo(string[] paths, SynologyApi.FileGetInfoAddtionalOptions additional);
 
         ////p35
         ////Note: Linux timestamp in second, defined as the number of seconds that have elapsed since 00:00:00 Coordinated Universal Time (UTC), Thursday, 1 January 1970.
-        //BaseSynologyResponse SynoFileStationSearchStart(
-        //    string folderPath,
-        //    bool recursive,
-        //    string[] globPatterns,
-        //    string[] extentionPatterns,
-        //    SynologyApi.FileTypeFilter fileType,
-        //    long minSizeBytes,
-        //    long maxSizeBytes,
-        //    DateTime? modifiedTimeFrom,
-        //    DateTime? modifiedTimeTo,
-        //    DateTime? createdTimeFrom,
-        //    DateTime? createdTimeTo,
-        //    DateTime? accessedTimeTo,
-        //    DateTime? accessedTimeFrom,
-        //    string owner,
-        //    string group);
+        SearchStartResponse Search_Start(string folderPath, bool recursive, string[] globPatterns,
+            string[] extentionPatterns, SynologyApi.FileTypeFilter fileType, long minSizeBytes, long maxSizeBytes,
+            DateTime? modifiedTimeFrom, DateTime? modifiedTimeTo, DateTime? createdTimeFrom, DateTime? createdTimeTo,
+            DateTime? accessedTimeTo, DateTime? accessedTimeFrom, string owner, string group);
 
-        //BaseSynologyResponse SynoFileStationSearchList(
-        //    string taskId,
-        //    int? offset,
-        //    int? limit,
-        //    SynologyApi.SortBy sortBy,
-        //    SynologyApi.SortDirection direction, string[] pattern,
-        //    SynologyApi.FileTypeFilter fileType,
-        //    SynologyApi.FileSearchListAddtionalOptions additional);
+        SearchListResponse Search_List(string taskId, int? offset, int? limit, SynologyApi.SortBy sortBy,
+            SynologyApi.SortDirection direction, string[] pattern, SynologyApi.FileTypeFilter fileType,
+            SynologyApi.FileSearchListAddtionalOptions additional);
 
-        ////42
-        //BaseSynologyResponse SynoFileStationSearchStop(string taskId);
+        //42
+        SearchStopResponse Search_Stop(string taskId);
 
-        ////42
-        //BaseSynologyResponse SynoFileStationSearchClean(string taskId);
+        //42
+        SearchCleanResponse Search_Clean(string taskId);
 
-        //BaseSynologyResponse SynoFileStationVirtualFolderList(
-        //    SynologyApi.FileSystemType fileSystemType,
-        //    int? offset,
-        //    int? limit,
-        //    SynologyApi.SortBy sortBy,
-        //    SynologyApi.SortDirection sortDirection,
-        //    SynologyApi.VirtualFolderListAddtionalOptions additional);
+        VirtualFolderListResponse VirtualFolder_List(SynologyApi.FileSystemType fileSystemType, int? offset, int? limit,
+            SynologyApi.SortBy sortBy, SynologyApi.SortDirection sortDirection,
+            SynologyApi.VirtualFolderListAddtionalOptions additional);
 
-        //BaseSynologyResponse SynoFileStationFavoriteList(
-        //    int? offset,
-        //    int? limit,
-        //    SynologyApi.StatusFilter statusFilter,
-        //    SynologyApi.FileStationFavoriteAddtionalOptions additional);
+        FavoriteListResponse Favorite_List(int? offset, int? limit, SynologyApi.StatusFilter statusFilter,
+            SynologyApi.FileStationFavoriteAddtionalOptions additional);
 
-        //BaseSynologyResponse SynoFileStationFavoriteAdd(string path, string name, int index);
+        FavoriteAddResponse SynoFileStationFavoriteAdd(string path, string name, int index);
 
-        //BaseSynologyResponse SynoFileStationFavoriteDelete(string path);
+        FavoriteDeleteResponse SynoFileStationFavoriteDelete(string path);
 
-        //BaseSynologyResponse SynoFileStationFavoriteClearBroken(string path, string name);
+        FavoriteClearBrokenResponse SynoFileStationFavoriteClearBroken(string path, string name);
 
-        //BaseSynologyResponse SynoFileStationFavoriteReplaceAll(string path, string name);
+        FavoriteEditResponse SynoFileStationFavoriteEdit(string path, string name);
+
+        FavoritReplaceAllResponse SynoFileStationFavoriteReplaceAll(string path, string name);
 
         //byte[] SynoFileStationThumbGet(
         //    string path,

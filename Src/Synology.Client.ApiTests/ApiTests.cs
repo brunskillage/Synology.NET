@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using FluentAssertions;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
+using FluentAssertions;
+using NUnit.Framework;
 using SynologyClient.Response;
 
 namespace SynologyClient.ApiTests
@@ -46,129 +46,181 @@ namespace SynologyClient.ApiTests
             _synoTestFolderNoSlash = synoTestFolderNoSlash;
         }
 
-        //[Test]
-        //public void FileStationInfoGetInfo()
-        //{
-        //    InfoGetInfoResponse res = _api.SynoFilestationInfoGetInfo();
-        //    res.success.Should().BeTrue();
-        //}        
-
-
-        //[Test]
-        //public void FileStationListListShare()
-        //{
-        //    ListListShareResponse resp = _api.SynoFileStationList_ListShare(
-        //        0,
-        //        0,
-        //        SynologyApi.SortBy.name,
-        //        SynologyApi.SortDirection.asc, false,
-        //        new SynologyApi.FileListAddtionalOptions
-        //        {
-        //            size = true,
-        //            time = true,
-        //            real_path = true,
-        //            mount_point_type = true,
-        //            owner = true,
-        //            perm = true
-        //        });
-
-        //    resp.success.Should().BeTrue();
-        //    resp.Data.shares.Count().Should().BeGreaterOrEqualTo(1);
-        //}
-
-        //[Test]
-        //public void FileStationList()
-        //{
-        //    ListListResponse resp = _api.SynoFileStationList_List("/Data", 0, 10, SynologyApi.SortBy.name,
-        //        SynologyApi.SortDirection.asc, "*", SynologyApi.FileTypeFilter.all, null,
-        //        new SynologyApi.FileListAddtionalOptions
-        //        {
-        //            real_path = true,
-        //            time = true,mount_point_type = true,owner = true,perm = true,size = true,volume_status = true
-        //        });
-
-        //    resp.success.Should().BeTrue();
-        //}
-
         [Test]
-        public void FileStationGetInfo()
+        public void FileStationInfo()
         {
-            ListGetInfoResponse resp = _api.SynoFileStationList_GetInfo(new[] { "/Data" },
-                new SynologyApi.FileGetInfoAddtionalOptions { real_path = true, size = true, owner = true, time = true });
-            resp.success.Should().BeTrue();
+            InfoGetInfoResponse res = _api.Info_GetInfo();
+            res.success.Should().BeTrue();
         }
 
-        //[Test]
-        //public void FileStationSearchStart()
-        //{
-        //    BaseSynologyResponse res = _api.SynoFileStationSearchStart("/Data");
 
-        //    res.success.Should().BeTrue();
+        [Test]
+        public void FileStationList()
+        {
+            ListGetInfoResponse getinfo = _api.List_GetInfo(new[] { "/Data" },
+                new SynologyApi.FileGetInfoAddtionalOptions
+                {
+                    real_path = true,
+                    size = true,
+                    owner = true,
+                    time = true,
+                    mount_point_type = true,
+                    perm = true,
+                    type = true
+                });
+            getinfo.success.Should().BeTrue();
 
-        //    string taskid = res.data["taskid"];
-        //    taskid.Should().NotBeNullOrEmpty();
 
-        //    bool finished = false;
-        //    for (int i = 0; i < 10; i++)
-        //    {
-        //        BaseSynologyResponse list = _api.SynoFileStationSearchList(taskid);
-        //        list.success.Should().BeTrue();
-        //        finished = (bool)list.data["finished"];
-        //        if (finished)
-        //        {
-        //            ((int)list.data["finished"]).Should().BeGreaterThan(0);
-        //            break;
-        //        }
+            ListListResponse list = _api.List_List("/Data", 0, 10, SynologyApi.SortBy.name,
+                SynologyApi.SortDirection.asc, "*", SynologyApi.FileTypeFilter.all, null,
+                new SynologyApi.FileListAddtionalOptions
+                {
+                    real_path = true,
+                    time = true,
+                    mount_point_type = true,
+                    owner = true,
+                    perm = true,
+                    size = true,
+                    volume_status = true
+                });
 
-        //        Thread.Sleep(2000);
-        //    }
+            list.success.Should().BeTrue();
 
-        //    _api.SynoFileStationSearchStop(taskid).success.Should().BeTrue();
-        //    _api.SynoFileStationSearchClean(taskid).success.Should().BeTrue();
-        //}
+            ListListShareResponse listShare = _api.List_ListShare(0, 0, SynologyApi.SortBy.name,
+                SynologyApi.SortDirection.asc, false, new SynologyApi.FileListAddtionalOptions
+                {
+                    size = true,
+                    time = true,
+                    real_path = true,
+                    mount_point_type = true,
+                    owner = true,
+                    perm = true
+                });
 
-        //[Test]
-        //public void SynoFileStationCheckPermission()
-        //{
-        //    try
-        //    {
-        //        BaseSynologyResponse res = _api.SynoFileStationCheckPermission("/Data");
-        //        res.success.Should().BeTrue();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        Assert.Pass();
-        //    }
-        //}
+            listShare.success.Should().BeTrue();
+            listShare.Data.shares.Count().Should().BeGreaterOrEqualTo(1);
+        }
 
-        //[Test]
-        //public void SynoFileStationCompress()
-        //{
-        //    _api.SynoFileStationUpload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_compress");
-        //    BaseSynologyResponse res =
-        //        _api.SynoFileStationCompressStart(_synoTestFolderNoSlash + "/test_compress",
-        //            _synoTestFolderNoSlash + "/test_compress.zip");
-        //    res.success.Should().BeTrue();
+        [Test]
+        public void FileStationSearch()
+        {
+            SearchStartResponse start = _api.Search_Start(_synoTestFolderNoSlash);
 
-        //    string taskid = res.data["taskid"];
-        //    taskid.Should().NotBeNullOrEmpty();
+            start.success.Should().BeTrue();
 
-        //    for (int i = 0; i < 10; i++)
-        //    {
-        //        Thread.Sleep(2000);
-        //        BaseSynologyResponse status = _api.SynoFileStationCompressStatus(taskid);
-        //        status.success.Should().BeTrue();
-        //        var finished = (bool)status.data["finished"];
-        //        if (finished)
-        //        {
-        //            ((bool)status.data["finished"]).Should().BeTrue();
-        //            break;
-        //        }
-        //    }
+            string taskid = start.Data.taskid;
+            taskid.Should().NotBeNullOrEmpty();
 
-        //    BaseSynologyResponse stop = _api.SynoFileStationCompressStop(taskid);
-        //    stop.success.Should().BeTrue();
-        //}
+            for (int i = 0; i < 10; i++)
+            {
+                SearchListResponse list = _api.Search_List(taskid, 0, 100, SynologyApi.SortBy.name,
+                    SynologyApi.SortDirection.asc, new[] { "*" }, SynologyApi.FileTypeFilter.all,
+                    new SynologyApi.FileSearchListAddtionalOptions
+                    {
+                        owner = true,
+                        perm = true,
+                        real_path = true,
+                        size = true,
+                        time = true,
+                        type = true
+                    });
+                list.success.Should().BeTrue();
+
+                if (list.Data.finished)
+                    break;
+
+                Thread.Sleep(2000);
+            }
+
+            _api.Search_Stop(taskid).success.Should().BeTrue();
+            _api.Search_Clean(taskid).success.Should().BeTrue();
+        }
+
+        [Test]
+        public void FileStationVirtualFolder()
+        {
+            VirtualFolderListResponse list = _api.VirtualFolder_List(SynologyApi.FileSystemType.cifs, 0, 0,
+                SynologyApi.SortBy.name, SynologyApi.SortDirection.asc,
+                new SynologyApi.VirtualFolderListAddtionalOptions
+                {
+                    owner = true,
+                    perm = true,
+                    real_path = true,
+                    size = true,
+                    time = true,
+                    volume_status = true
+                });
+
+            list.success.Should().BeTrue();
+        }
+
+        [Test]
+        public void FileStationFavorite()
+        {
+            FavoriteListResponse list = _api.Favorite_List(0, 0, SynologyApi.StatusFilter.all,
+                new SynologyApi.FileStationFavoriteAddtionalOptions
+                {
+                    mount_point_type = true,
+                    owner = true,
+                    perm = true,
+                    real_path = true,
+                    size = true,
+                    time = true
+                });
+
+            list.success.Should().BeTrue();
+
+            var testFavoritesDest = _synoTestFolderNoSlash + "/fav_test";
+            var testFavoritesName = _synoTestFolderNoSlash + "/fav_test";
+
+            FavoriteDeleteResponse delete = _api.SynoFileStationFavoriteDelete(testFavoritesDest);
+            delete.success.Should().BeTrue();
+
+            FavoriteAddResponse add = _api.SynoFileStationFavoriteAdd(testFavoritesDest, testFavoritesName);
+            add.success.Should().BeTrue();
+
+            FavoriteEditResponse edit = _api.SynoFileStationFavoriteEdit(testFavoritesDest, testFavoritesName);
+            edit.success.Should().BeTrue();
+
+            FavoritReplaceAllResponse replace = _api.SynoFileStationFavoriteReplaceAll(testFavoritesDest, testFavoritesName);
+            replace.success.Should().BeTrue();
+
+            FavoriteClearBrokenResponse clear = _api.SynoFileStationFavoriteClearBroken(testFavoritesDest, testFavoritesName);
+            clear.success.Should().BeTrue();
+        }
+
+        [Test]
+        public void SynoFileStationCompress()
+        {
+            _api.SynoFileStationUpload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_compress");
+
+            CompressStartResponse start =
+                _api.SynoFileStationCompressStart(_synoTestFolderNoSlash + "/test_compress",
+                    _synoTestFolderNoSlash + "/test_compress.zip", 
+                    SynologyApi.CompressionLevel.moderate, SynologyApi.CompressionMode.add, 
+                    SynologyApi.CompressionFormat.formatZip);
+
+            start.success.Should().BeTrue();
+
+            start.Data.taskid.Should().NotBeNullOrEmpty();
+
+            for (int i = 0; i < 10; i++)
+            {
+                CompressStatusResponse status = _api.SynoFileStationCompressStatus(start.Data.taskid);
+                status.success.Should().BeTrue();
+
+                if (status.Data.finished)
+                    break;
+
+                Thread.Sleep(2000);
+            }
+
+            BaseSynologyResponse stop = _api.SynoFileStationCompressStop(start.Data.taskid);
+            stop.success.Should().BeTrue();
+        }
+
+
+
 
         //[Test]
         //public void SynoFileStationCopyMove()
@@ -295,47 +347,6 @@ namespace SynologyClient.ApiTests
         //    list.success.Should().BeTrue();
         //}
 
-        //[Test]
-        //public void SynoFileStationFavoriteAdd()
-        //{
-        //    try
-        //    {
-        //        BaseSynologyResponse res = _api.SynoFileStationFavoriteAdd("/Data", "DataFavorite");
-        //        res.success.Should().BeTrue();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        e.Message.Should().Be("A folder path of favorite folder is already added to user’s favorites");
-        //    }
-        //}
-
-        //[Test]
-        //public void SynoFileStationFavoriteClearBroken()
-        //{
-        //    BaseSynologyResponse res = _api.SynoFileStationFavoriteClearBroken("/Data", "DataFavorite");
-        //    res.success.Should().BeTrue();
-        //}
-
-        //[Test]
-        //public void SynoFileStationFavoriteDelete()
-        //{
-        //    BaseSynologyResponse res = _api.SynoFileStationFavoriteDelete("/Data");
-        //    res.success.Should().BeTrue();
-        //}
-
-        //[Test]
-        //public void SynoFileStationFavoriteEdit()
-        //{
-        //    BaseSynologyResponse res = _api.SynoFileStationFavoriteEdit("/Data", "DataFavorite");
-        //    res.success.Should().BeTrue();
-        //}
-
-        //[Test]
-        //public void SynoFileStationFavoriteList()
-        //{
-        //    BaseSynologyResponse res = _api.SynoFileStationFavoriteList();
-        //    res.success.Should().BeTrue();
-        //}
 
         //[Test]
         //public void SynoFileStationFavoriteReplaceAll()
@@ -442,6 +453,20 @@ namespace SynologyClient.ApiTests
         //{
         //    BaseSynologyResponse res = _api.SynoFilestationGetInfo();
         //    res.success.Should().BeTrue();
+        //}
+
+        //[Test]
+        //public void FileStationCheckPermission()
+        //{
+        //    try
+        //    {
+        //        BaseSynologyResponse res = _api.SynoFileStationCheckPermission("/Data");
+        //        res.success.Should().BeTrue();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        Assert.Pass();
+        //    }
         //}
     }
 }

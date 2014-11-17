@@ -1,4 +1,6 @@
-﻿namespace SynologyClient.Response
+﻿using System.Collections.Generic;
+
+namespace SynologyClient.Response
 {
     public class BaseSynologyResponse
     {
@@ -11,6 +13,8 @@
         //public dynamic data { get; set; }
 
         public Error error { get; set; }
+        
+        public List<Error> errors { get; set; }
 
         public dynamic errormsg { get; set; }
 

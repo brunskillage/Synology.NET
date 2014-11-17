@@ -51,10 +51,10 @@ namespace SynologyClient
 
                 IRestResponse<TResponse> response = client.Execute<TResponse>(RestRequest);
 
-                if (response.Data.success == false)
-                {
-                    throw new SynologyClientException(SynologyErrorCodes.Dic[response.Data.error.code]);
-                }
+                //if (response.Data.success == false)
+                //{
+                //    throw new SynologyClientException(SynologyErrorCodes.Dic[response.Data.error.code]);
+                //}
 
                 return response.Data;
             }
