@@ -1,7 +1,6 @@
 ﻿using RestSharp;
 using System;
 using System.Reflection;
-using SynologyClient.Response;
 
 namespace SynologyClient
 {
@@ -12,7 +11,7 @@ namespace SynologyClient
         private readonly dynamic _optionalArgs;
         private readonly string _scriptPath;
         private readonly string _sid;
-        public SynoRestRequest RestRequest;
+        public SynologyRestRequest RestRequest;
 
         public FuncProcessor(
             string scriptPath,
@@ -38,7 +37,7 @@ namespace SynologyClient
         {
             try
             {
-                RestRequest = new SynoRestRequest();
+                RestRequest = new SynologyRestRequest();
 
                 AddParametersFromObjectProperties(_args, RestRequest);
 

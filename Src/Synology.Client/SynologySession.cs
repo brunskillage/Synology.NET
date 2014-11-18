@@ -1,6 +1,5 @@
 ﻿using RestSharp;
 using System;
-using SynologyClient.Response;
 
 namespace SynologyClient
 {
@@ -24,7 +23,7 @@ namespace SynologyClient
         public ISynologySession Login()
         {
             var client = new RestClient(_authBaseUrl);
-            var request = new SynoRestRequest();
+            var request = new SynologyRestRequest();
             request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
             request.AddParameter("api", "SYNO.API.Auth");
             request.AddParameter("version", "3");
@@ -47,7 +46,7 @@ namespace SynologyClient
         public void LogOut()
         {
             var client = new RestClient(_authBaseUrl);
-            var request = new SynoRestRequest();
+            var request = new SynologyRestRequest();
             request.AddParameter("api", "SYNO.API.Auth");
             request.AddParameter("version", "1");
             request.AddParameter("method", "logout");
