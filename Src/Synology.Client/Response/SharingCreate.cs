@@ -4,6 +4,6 @@ namespace SynologyClient.Response
 {
     public class SharingCreate
     {
-        List<SharingLink> links { get; set; }
+        public List<SharedLink> links { get; set; }
     }
 }

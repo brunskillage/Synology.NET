@@ -62,63 +62,63 @@ namespace SynologyClient
             bool? overwrite);
 
 
-        CompressStartResponse SynoFileStationCompressStart(string path,
+        CompressStartResponse SynoFileStationCompress_Start(string path,
             string destinationFilePath,
             SynologyApi.CompressionLevel level,
             SynologyApi.CompressionMode mode,
             SynologyApi.CompressionFormat format,
             string password);
 
-        CompressStatusResponse SynoFileStationCompressStatus(string taskId);
+        CompressStatusResponse SynoFileStationCompress_Status(string taskId);
 
-        CompressStopResponse SynoFileStationCompressStop(string taskId);
+        CompressStopResponse SynoFileStationCompress_Stop(string taskId);
 
-        //byte[] SynoFileStationThumbGet(
-        //    string path,
-        //    SynologyApi.ThumbnailSizeOption size,
-        //    SynologyApi.ThumbnailRotateOptions rotate);
+        byte[] SynoFileStationThumbGet(
+            string path,
+            SynologyApi.ThumbnailSizeOption size,
+            SynologyApi.ThumbnailRotateOptions rotate);
 
-        //BaseSynologyResponse SynoFileStationDirsizeStart(string path);
+        DirSizeStartResponse SynoFileStationDirsizeStart(string path);
 
-        //BaseSynologyResponse SynoFileStationDirsizeStatus(string taskId);
+        DirSizeStatusResponse SynoFileStationDirsizeStatus(string taskId);
 
-        //BaseSynologyResponse SynoFileStationDirsizeStop(string taskId);
+        DirSizeStopResponse SynoFileStationDirsizeStop(string taskId);
 
-        //BaseSynologyResponse SynoFileStationMd5Start(string filePath);
+        Md5StartResponse SynoFileStationMd5Start(string filePath);
 
-        //BaseSynologyResponse SynoFileStationMd5Status(string taskId);
+        Md5StatusResponse SynoFileStationMd5Status(string taskId);
 
-        //BaseSynologyResponse SynoFileStationMd5Stop(string taskId);
+        Md5StopResponse SynoFileStationMd5Stop(string taskId);
 
-        //BaseSynologyResponse SynoFileStationCheckPermission(string path, bool? createOnly);
+        RawSynologyResponse SynoFileStationCheckPermissionWrite(string path, bool? createOnly);
 
 
 
-        //byte[] SynoFileStationDownload(string filePath, SynologyApi.DownloadMode mode);
+        byte[] SynoFileStationDownload(string filePath, SynologyApi.DownloadMode mode);
 
-        //BaseSynologyResponse SynoFileStationSharingGetInfo(string id);
+        SharingGetInfoResponse SynoFileStationSharingGetInfo(string id);
 
-        //BaseSynologyResponse SynoFileStationSharingList(int? offest,
-        //    int? limit,
-        //    SynologyApi.SharingSortBy sortBy,
-        //    SynologyApi.SortDirection sortDirection,
-        //    bool? forceClean);
+        SharingListResponse SynoFileStationSharingList(int? offest,
+            int? limit,
+            SynologyApi.SharingSortBy sortBy,
+            SynologyApi.SortDirection sortDirection,
+            bool? forceClean);
 
-        //BaseSynologyResponse SynoFileStationSharingCreate(string path,
-        //    string password,
-        //    DateTime? dateExpires,
-        //    DateTime? dateAvailable
-        //    );
+        SharingCreateResponse SynoFileStationSharingCreate(string path,
+            string password,
+            DateTime? dateExpires,
+            DateTime? dateAvailable
+            );
 
-        //BaseSynologyResponse SynoFileStationSharingDelete(string id);
+        SharingDeleteResponse SynoFileStationSharingDelete(string id);
 
-        //BaseSynologyResponse SynoFileStationSharingClearInvalid(string id);
+        SharingClearInvalidResponse SynoFileStationSharingClearInvalid(string id);
 
-        //BaseSynologyResponse SynoFileStationSharingEdit(string id,
-        //    string password,
-        //    DateTime? dateExpires,
-        //    DateTime? dateAvailable
-        //    );
+        SharingEditResponse SynoFileStationSharingEdit(string id,
+            string password,
+            DateTime? dateExpires,
+            DateTime? dateAvailable
+            );
 
         //BaseSynologyResponse SynoFileStationCreateFolder(string folderPath,
         //    string name,

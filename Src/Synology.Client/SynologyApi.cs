@@ -452,7 +452,7 @@ namespace SynologyClient
         }
 
 
-        public CompressStartResponse SynoFileStationCompressStart(string path, string destinationFilePath,
+        public CompressStartResponse SynoFileStationCompress_Start(string path, string destinationFilePath,
             CompressionLevel level = CompressionLevel.moderate, CompressionMode mode = CompressionMode.add,
             CompressionFormat format = CompressionFormat.formatZip,
             string password = null)
@@ -474,7 +474,7 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public CompressStatusResponse SynoFileStationCompressStatus(string taskId)
+        public CompressStatusResponse SynoFileStationCompress_Status(string taskId)
         {
             dynamic requiredParams = new
             {
@@ -488,7 +488,7 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public CompressStopResponse SynoFileStationCompressStop(string taskId)
+        public CompressStopResponse SynoFileStationCompress_Stop(string taskId)
         {
             dynamic requiredParams = new
             {
@@ -501,242 +501,240 @@ namespace SynologyClient
             var proc = new FuncProcessor<CompressStopResponse>("/FileStation/file_compress.cgi", _session.sid, requiredParams);
             return proc.Run();
         }
-        
-        //public byte[] SynoFileStationThumbGet(string path, ThumbnailSizeOption size = ThumbnailSizeOption.small,
-        //    ThumbnailRotateOptions rotate = ThumbnailRotateOptions.none)
-        //{
-        //    var request = new SynoRestRequest();
-        //    request.AddParameter("api", "SYNO.FileStation.Thumb");
-        //    request.AddParameter("version", "1");
-        //    request.AddParameter("method", "get");
-        //    request.AddParameter("path", path);
-        //    request.AddParameter("size", size);
-        //    request.AddParameter("rotate", rotate);
-        //    request.AddParameter("_sid", _session.sid);
-        //    var config = new SynologyClientConfig();
-        //    var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/file_thumb.cgi");
-        //    IRestResponse response = client.Execute(request);
-        //    if (response.StatusCode != HttpStatusCode.OK)
-        //        throw new SynologyClientException("Errored with http status code " + response.StatusCode);
-        //    return response.RawBytes;
-        //}
 
-        //public BaseSynologyResponse SynoFileStationDirsizeStart(string path)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.DirSize",
-        //        version = 1,
-        //        method = "start",
-        //        path
-        //    };
+        public byte[] SynoFileStationThumbGet(string path, ThumbnailSizeOption size = ThumbnailSizeOption.small,
+            ThumbnailRotateOptions rotate = ThumbnailRotateOptions.none)
+        {
+            var request = new SynoRestRequest();
+            request.AddParameter("api", "SYNO.FileStation.Thumb");
+            request.AddParameter("version", "1");
+            request.AddParameter("method", "get");
+            request.AddParameter("path", path);
+            request.AddParameter("size", size);
+            request.AddParameter("rotate", rotate);
+            request.AddParameter("_sid", _session.sid);
+            var config = new SynologyClientConfig();
+            var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/file_thumb.cgi");
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new SynologyClientException("Errored with http status code " + response.StatusCode);
+            return response.RawBytes;
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_dirSize.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public DirSizeStartResponse SynoFileStationDirsizeStart(string path)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.DirSize",
+                version = 1,
+                method = "start",
+                path
+            };
 
-        //public BaseSynologyResponse SynoFileStationDirsizeStatus(string taskId)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.DirSize",
-        //        version = 1,
-        //        method = "status",
-        //        taskid = taskId
-        //    };
+            var proc = new FuncProcessor<DirSizeStartResponse>("/FileStation/file_dirSize.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_dirSize.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public DirSizeStatusResponse SynoFileStationDirsizeStatus(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.DirSize",
+                version = 1,
+                method = "status",
+                taskid = taskId
+            };
 
-        //public BaseSynologyResponse SynoFileStationDirsizeStop(string taskId)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.DirSize",
-        //        version = 1,
-        //        method = "stop",
-        //        taskid = taskId
-        //    };
+            var proc = new FuncProcessor<DirSizeStatusResponse>("/FileStation/file_dirSize.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_dirSize.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public DirSizeStopResponse SynoFileStationDirsizeStop(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.DirSize",
+                version = 1,
+                method = "stop",
+                taskid = taskId
+            };
 
-        //public BaseSynologyResponse SynoFileStationMd5Start(string filePath)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.MD5",
-        //        version = 1,
-        //        method = "start",
-        //        file_path = filePath
-        //    };
+            var proc = new FuncProcessor<DirSizeStopResponse>("/FileStation/file_dirSize.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_md5.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public Md5StartResponse SynoFileStationMd5Start(string filePath)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.MD5",
+                version = 1,
+                method = "start",
+                file_path = filePath
+            };
 
-        //public BaseSynologyResponse SynoFileStationMd5Status(string taskId)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.MD5",
-        //        version = 1,
-        //        method = "status",
-        //        taskid = taskId
-        //    };
+            var proc = new FuncProcessor<Md5StartResponse>("/FileStation/file_md5.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_md5.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public Md5StatusResponse SynoFileStationMd5Status(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.MD5",
+                version = 1,
+                method = "status",
+                taskid = taskId
+            };
 
-        //public BaseSynologyResponse SynoFileStationMd5Stop(string taskId)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.MD5",
-        //        version = 1,
-        //        method = "stop",
-        //        taskid = taskId
-        //    };
+            var proc = new FuncProcessor<Md5StatusResponse>("/FileStation/file_md5.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_md5.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public Md5StopResponse SynoFileStationMd5Stop(string taskId)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.MD5",
+                version = 1,
+                method = "stop",
+                taskid = taskId
+            };
 
-        //public BaseSynologyResponse SynoFileStationCheckPermission(string path, bool? createOnly = true)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.CheckPermission",
-        //        version = 1,
-        //        method = "write",
-        //        path,
-        //        create_only = createOnly
-        //    };
+            var proc = new FuncProcessor<Md5StopResponse>("/FileStation/file_md5.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_permission.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public RawSynologyResponse SynoFileStationCheckPermissionWrite(string path, bool? createOnly = true)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.CheckPermission",
+                version = 1,
+                method = "write",
+                path,
+                create_only = createOnly
+            };
 
+            var proc = new FuncProcessor<RawSynologyResponse>("/FileStation/file_permission.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
+        public byte[] SynoFileStationDownload(string filePath, DownloadMode mode = DownloadMode.download)
+        {
+            var request = new SynoRestRequest();
 
-        //public byte[] SynoFileStationDownload(string filePath, DownloadMode mode = DownloadMode.download)
-        //{
-        //    var request = new SynoRestRequest();
+            request.AddParameter("api", "SYNO.FileStation.Download");
+            request.AddParameter("version", "1");
+            request.AddParameter("method", "download");
+            request.AddParameter("path", filePath);
+            request.AddParameter("mode", mode);
+            request.AddParameter("_sid", _session.sid);
+            var config = new SynologyClientConfig();
+            var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/file_download.cgi");
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new SynologyClientException("Errored with http status code " + response.StatusCode);
+            return response.RawBytes;
+        }
 
-        //    request.AddParameter("api", "SYNO.FileStation.Download");
-        //    request.AddParameter("version", "1");
-        //    request.AddParameter("method", "download");
-        //    request.AddParameter("path", filePath);
-        //    request.AddParameter("mode", mode);
-        //    request.AddParameter("_sid", _session.sid);
-        //    var config = new SynologyClientConfig();
-        //    var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/file_download.cgi");
-        //    IRestResponse response = client.Execute(request);
-        //    if (response.StatusCode != HttpStatusCode.OK)
-        //        throw new SynologyClientException("Errored with http status code " + response.StatusCode);
-        //    return response.RawBytes;
-        //}
+        public SharingGetInfoResponse SynoFileStationSharingGetInfo(string id)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Sharing",
+                version = 1,
+                method = "getinfo",
+                id
+            };
 
-        //public BaseSynologyResponse SynoFileStationSharingGetInfo(string id)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Sharing",
-        //        version = 1,
-        //        method = "getinfo",
-        //        id
-        //    };
+            var proc = new FuncProcessor<SharingGetInfoResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public SharingListResponse SynoFileStationSharingList(int? offset, int? limit, SharingSortBy sortBy,
+            SortDirection sortDirection = SortDirection.asc, bool? forceClean = true)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Sharing",
+                version = 1,
+                method = "list",
+                offset,
+                limit,
+                sort_by = sortBy,
+                sort_direction = sortDirection,
+                force_clean = forceClean
+            };
 
-        //public BaseSynologyResponse SynoFileStationSharingList(int? offset, int? limit, SharingSortBy sortBy,
-        //    SortDirection sortDirection = SortDirection.asc, bool? forceClean = true)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Sharing",
-        //        version = 1,
-        //        method = "list",
-        //        offset,
-        //        limit,
-        //        sort_by = sortBy,
-        //        sort_direction = sortDirection,
-        //        force_clean = forceClean
-        //    };
+            var proc = new FuncProcessor<SharingListResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public SharingCreateResponse SynoFileStationSharingCreate(string path, string password = null,
+            DateTime? dateExpires = null,
+            DateTime? dateAvailable = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Sharing",
+                version = 1,
+                method = "create",
+                path,
+                password,
+                date_expired = dateExpires.HasValue ? dateExpires.Value.ToString("yyyy-MM-dd") : "0",
+                date_available = dateAvailable.HasValue ? dateAvailable.Value.ToString("yyyy-MM-dd") : "0"
+            };
 
-        //public BaseSynologyResponse SynoFileStationSharingCreate(string path, string password = null,
-        //    DateTime? dateExpires = null,
-        //    DateTime? dateAvailable = null)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Sharing",
-        //        version = 1,
-        //        method = "create",
-        //        path,
-        //        password,
-        //        date_expired = dateExpires.HasValue ? dateExpires.Value.ToString("yyyy-MM-dd") : "0",
-        //        date_available = dateAvailable.HasValue ? dateAvailable.Value.ToString("yyyy-MM-dd") : "0"
-        //    };
+            var proc = new FuncProcessor<SharingCreateResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public SharingDeleteResponse SynoFileStationSharingDelete(string id)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Sharing",
+                version = 1,
+                method = "delete",
+                id
+            };
 
-        //public BaseSynologyResponse SynoFileStationSharingDelete(string id)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Sharing",
-        //        version = 1,
-        //        method = "delete",
-        //        id
-        //    };
+            var proc = new FuncProcessor<SharingDeleteResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public SharingClearInvalidResponse SynoFileStationSharingClearInvalid(string id)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Sharing",
+                version = 1,
+                method = "clear_invalid",
+                id
+            };
 
-        //public BaseSynologyResponse SynoFileStationSharingClearInvalid(string id)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Sharing",
-        //        version = 1,
-        //        method = "clear_invalid",
-        //        id
-        //    };
+            var proc = new FuncProcessor<SharingClearInvalidResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
-        //    var proc = new FuncProcessor("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+        public SharingEditResponse SynoFileStationSharingEdit(string id, string password = null,
+            DateTime? dateExpires = null, DateTime? dateAvailable = null)
+        {
+            dynamic requiredParams = new
+            {
+                api = "SYNO.FileStation.Sharing",
+                version = 1,
+                method = "edit",
+                id,
+                password,
+                date_expired = dateExpires.HasValue ? dateExpires.Value.ToString("yyyy-MM-dd") : "0",
+                date_available = dateAvailable.HasValue ? dateAvailable.Value.ToString("yyyy-MM-dd") : "0"
+            };
 
-        //public BaseSynologyResponse SynoFileStationSharingEdit(string id, string password = null,
-        //    DateTime? dateExpires = null, DateTime? dateAvailable = null)
-        //{
-        //    dynamic requiredParams = new
-        //    {
-        //        api = "SYNO.FileStation.Sharing",
-        //        version = 1,
-        //        method = "edit",
-        //        id,
-        //        password,
-        //        date_expired = dateExpires.HasValue ? dateExpires.Value.ToString("yyyy-MM-dd") : "0",
-        //        date_available = dateAvailable.HasValue ? dateAvailable.Value.ToString("yyyy-MM-dd") : "0"
-        //    };
-
-        //    var proc = new FuncProcessor("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
-        //    return proc.Run();
-        //}
+            var proc = new FuncProcessor<SharingEditResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            return proc.Run();
+        }
 
         //public BaseSynologyResponse SynoFileStationCreateFolder(string folderPath, string name, bool? forceParent = true,
         //    FileSearchListAddtionalOptions additional = null)

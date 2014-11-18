@@ -1,5 +1,6 @@
 ﻿using RestSharp;
 using System;
+using SynologyClient.Response;
 
 namespace SynologyClient
 {

@@ -189,13 +189,15 @@ namespace SynologyClient.ApiTests
             clear.success.Should().BeTrue();
         }
 
+
+
         [Test]
         public void SynoFileStationCompress()
         {
             _api.SynoFileStationUpload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_compress");
 
             CompressStartResponse start =
-                _api.SynoFileStationCompressStart(_synoTestFolderNoSlash + "/test_compress",
+                _api.SynoFileStationCompress_Start(_synoTestFolderNoSlash + "/test_compress",
                     _synoTestFolderNoSlash + "/test_compress.zip", 
                     SynologyApi.CompressionLevel.moderate, SynologyApi.CompressionMode.add, 
                     SynologyApi.CompressionFormat.formatZip);
@@ -206,7 +208,7 @@ namespace SynologyClient.ApiTests
 
             for (int i = 0; i < 10; i++)
             {
-                CompressStatusResponse status = _api.SynoFileStationCompressStatus(start.Data.taskid);
+                CompressStatusResponse status = _api.SynoFileStationCompress_Status(start.Data.taskid);
                 status.success.Should().BeTrue();
 
                 if (status.Data.finished)
@@ -215,12 +217,106 @@ namespace SynologyClient.ApiTests
                 Thread.Sleep(2000);
             }
 
-            BaseSynologyResponse stop = _api.SynoFileStationCompressStop(start.Data.taskid);
+            BaseSynologyResponse stop = _api.SynoFileStationCompress_Stop(start.Data.taskid);
             stop.success.Should().BeTrue();
         }
 
 
+        [Test]
+        public void SynoFileStationThumbGet()
+        {
+            byte[] thumb = _api.SynoFileStationThumbGet("/homes/allanb/20130524059.jpg");
+            //File.WriteAllBytes("c:\\test\\20130524059.jpg", res);
+            thumb.Length.Should().BeGreaterThan(1);
+            
+        }
 
+        [Test]
+        public void SynoFileStationDirSize()
+        {
+            DirSizeStartResponse start = _api.SynoFileStationDirsizeStart("/photo");
+
+            start.success.Should().BeTrue();
+            start.Data.taskid.Should().NotBeNullOrEmpty();
+
+            for (int i = 0; i < 10; i++)
+            {
+                
+                DirSizeStatusResponse status = _api.SynoFileStationDirsizeStatus(start.Data.taskid);
+                status.success.Should().BeTrue();
+                if (status.Data.finished)
+                    break;
+
+                Thread.Sleep(2000);
+            }
+
+            _api.SynoFileStationDirsizeStatus(start.Data.taskid).success.Should().BeTrue();
+        }
+
+        [Test]
+        public void SynoFileStationMd5()
+        {
+            Md5StartResponse start = _api.SynoFileStationMd5Start("/homes/allanb/20130524059.jpg");
+
+            start.success.Should().BeTrue();
+
+            start.Data.taskid.Should().NotBeNullOrEmpty();
+
+            for (int i = 0; i < 10; i++)
+            {
+                Md5StatusResponse status = _api.SynoFileStationMd5Status(start.Data.taskid);
+                status.success.Should().BeTrue();
+                if (status.Data.finished)
+                    break;
+                
+                Thread.Sleep(2000);
+            }
+
+            _api.SynoFileStationDirsizeStop(start.Data.taskid).success.Should().BeTrue();
+        }
+
+        [Test]
+        public void FileStationCheckPermission()
+        {
+            RawSynologyResponse check = _api.SynoFileStationCheckPermissionWrite("/Data");
+            Assert.Pass();
+        }
+
+        [Test]
+        public void SynoFileStationUpload_Download()
+        {
+            var local = new FileInfo(_localTestImage);
+            string dest = _synoTestFolderNoSlash;
+            string downloadedName = _localTestFolderNoSlash + "\\dload_" + local.Name;
+
+            if (System.IO.File.Exists(downloadedName))
+                System.IO.File.Delete(downloadedName);
+
+            RawSynologyResponse res = _api.SynoFileStationUpload(new FileInfo(_localTestImage), dest, true, true);
+            res.success.Should().BeTrue();
+
+            Thread.Sleep(3000);
+
+            byte[] file = _api.SynoFileStationDownload(dest + "/" + local.Name);
+            file.Length.Should().Be((int)local.Length);
+        }
+
+        [Test]
+        public void SynoFileStationSharing()
+        {
+            SharingCreateResponse create = _api.SynoFileStationSharingCreate(_synoTestFolderNoSlash);
+            create.success.Should().BeTrue();
+
+            SharingGetInfoResponse info = _api.SynoFileStationSharingGetInfo(create.Data.links.First().id);
+            info.success.Should().BeTrue();
+
+            SharingEditResponse edit = _api.SynoFileStationSharingEdit(create.Data.links.First().id);
+            edit.success.Should().BeTrue();
+
+            _api.SynoFileStationSharingDelete(create.Data.links.First().id);
+
+            _api.SynoFileStationSharingClearInvalid(create.Data.links.First().id);
+        }
 
         //[Test]
         //public void SynoFileStationCopyMove()
@@ -290,31 +386,7 @@ namespace SynologyClient.ApiTests
         //    deleteSync.success.Should().BeTrue();
         //}
 
-        //[Test]
-        //public void SynoFileStationDirSize()
-        //{
-        //    BaseSynologyResponse res = _api.SynoFileStationDirsizeStart("/photo");
 
-        //    res.success.Should().BeTrue();
-
-        //    string taskid = res.data["taskid"];
-        //    taskid.Should().NotBeNullOrEmpty();
-
-        //    for (int i = 0; i < 10; i++)
-        //    {
-        //        Thread.Sleep(2000);
-        //        BaseSynologyResponse list = _api.SynoFileStationDirsizeStatus(taskid);
-        //        list.success.Should().BeTrue();
-        //        var finished = (bool)list.data["finished"];
-        //        if (finished)
-        //        {
-        //            ((bool)list.data["finished"]).Should().BeTrue();
-        //            break;
-        //        }
-        //    }
-
-        //    _api.SynoFileStationDirsizeStatus(taskid).success.Should().BeTrue();
-        //}
 
         //[Test]
         //public void SynoFileStationExtract()
@@ -355,31 +427,7 @@ namespace SynologyClient.ApiTests
         //    res.success.Should().BeTrue();
         //}
 
-        //[Test]
-        //public void SynoFileStationMd5()
-        //{
-        //    BaseSynologyResponse res = _api.SynoFileStationMd5Start("/homes/allanb/20130524059.jpg");
 
-        //    res.success.Should().BeTrue();
-
-        //    string taskid = res.data["taskid"];
-        //    taskid.Should().NotBeNullOrEmpty();
-
-        //    for (int i = 0; i < 10; i++)
-        //    {
-        //        Thread.Sleep(2000);
-        //        BaseSynologyResponse list = _api.SynoFileStationMd5Status(taskid);
-        //        list.success.Should().BeTrue();
-        //        var finished = (bool)list.data["finished"];
-        //        if (finished)
-        //        {
-        //            ((bool)list.data["finished"]).Should().BeTrue();
-        //            break;
-        //        }
-        //    }
-
-        //    _api.SynoFileStationDirsizeStop(taskid).success.Should().BeTrue();
-        //}
 
         //[Test]
         //public void SynoFileStationRename()
@@ -397,51 +445,6 @@ namespace SynologyClient.ApiTests
         //}
 
         //[Test]
-        //public void SynoFileStationSharing()
-        //{
-        //    BaseSynologyResponse create = _api.SynoFileStationSharingCreate(_synoTestFolderNoSlash);
-        //    dynamic id = create.data["links"][0]["id"];
-        //    create.success.Should().BeTrue();
-
-        //    BaseSynologyResponse info = _api.SynoFileStationSharingGetInfo(id);
-        //    info.success.Should().BeTrue();
-
-        //    BaseSynologyResponse edit = _api.SynoFileStationSharingEdit(id);
-        //    edit.success.Should().BeTrue();
-
-        //    _api.SynoFileStationSharingDelete(id);
-
-        //    _api.SynoFileStationSharingClearInvalid(id);
-        //}
-
-        //[Test]
-        //public void SynoFileStationThumbGet()
-        //{
-        //    byte[] res = _api.SynoFileStationThumbGet("/homes/allanb/20130524059.jpg");
-        //    //File.WriteAllBytes("c:\\test\\20130524059.jpg", res);
-        //    res.Length.Should().BeGreaterThan(1);
-        //}
-
-        //[Test]
-        //public void SynoFileStationUpload_Download()
-        //{
-        //    var local = new FileInfo(_localTestImage);
-        //    string dest = _synoTestFolderNoSlash;
-        //    string downloadedName = _localTestFolderNoSlash + "\\dload_" + local.Name;
-
-        //    if (System.IO.File.Exists(downloadedName))
-        //        System.IO.File.Delete(downloadedName);
-
-        //    BaseSynologyResponse res = _api.SynoFileStationUpload(new FileInfo(_localTestImage), dest, true, true);
-        //    res.success.Should().BeTrue();
-
-        //    Thread.Sleep(3000);
-
-        //    byte[] file = _api.SynoFileStationDownload(dest + "/" + local.Name);
-        //    file.Length.Should().Be((int)local.Length);
-        //}
-
-        //[Test]
         //public void SynoFileStationVirtualFolderList()
         //{
         //    BaseSynologyResponse res = _api.SynoFileStationVirtualFolderList();
@@ -455,18 +458,5 @@ namespace SynologyClient.ApiTests
         //    res.success.Should().BeTrue();
         //}
 
-        //[Test]
-        //public void FileStationCheckPermission()
-        //{
-        //    try
-        //    {
-        //        BaseSynologyResponse res = _api.SynoFileStationCheckPermission("/Data");
-        //        res.success.Should().BeTrue();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        Assert.Pass();
-        //    }
-        //}
     }
 }

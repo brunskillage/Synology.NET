@@ -1,6 +1,4 @@
-﻿using SynologyClient.Response;
-
-namespace SynologyClient
+﻿namespace SynologyClient.Response
 {
     public class ListListResponse : BaseSynologyResponse
     {

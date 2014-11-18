@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SynologyClient
+namespace SynologyClient.Response
 {
     public interface ISynologyResponse
     {

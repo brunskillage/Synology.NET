@@ -1,4 +1,4 @@
-﻿namespace SynologyClient
+﻿namespace SynologyClient.Response
 {
     public class FavoriteReplaceAll
     {
