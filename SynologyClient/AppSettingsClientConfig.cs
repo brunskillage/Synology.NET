@@ -3,9 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace SynologyClient
 {
-    public class SynologyClientConfig : ISynologyClientConfig
+    public class AppSettingsClientConfig : ISynologyClientConfig
     {
-        public SynologyClientConfig()
+        public AppSettingsClientConfig()
         {
             ApiBaseAddressAndPathNoTrailingSlash = ConfigurationManager.AppSettings.Get("Syno.ApiBaseAddress");
             User = ConfigurationManager.AppSettings.Get("Syno.User");

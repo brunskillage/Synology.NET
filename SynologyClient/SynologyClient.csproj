@@ -149,7 +149,7 @@
     <Compile Include="GetSharingInfoResponse.cs" />
     <Compile Include="GetUserSharesResponse.cs" />
     <Compile Include="SynologyApi.cs" />
-    <Compile Include="SynologyClientConfig.cs" />
+    <Compile Include="AppSettingsClientConfig.cs" />
     <Compile Include="SynologyClientException.cs" />
     <Compile Include="ISynologyClientConfig.cs" />
     <Compile Include="ISynologyResponse.cs" />
@@ -161,6 +161,7 @@
     <Compile Include="GetVirtualFoldersResponse.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.sample.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

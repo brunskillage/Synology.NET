@@ -15,7 +15,7 @@ namespace SynologyClient.ApiTests
         public void Setup()
         {
             if (_session == null) {
-                _session = new SynologySession(new SynologyClientConfig());
+                _session = new SynologySession(new AppSettingsClientConfig());
                 _session.Login();
                 _api = new SynologyApi(_session);
             }
@@ -35,7 +35,7 @@ namespace SynologyClient.ApiTests
             var executingAssembly = new FileInfo(Assembly.GetExecutingAssembly().FullName);
             _localTestFolderNoSlash = executingAssembly.DirectoryName + "\\TestFiles";
             _localTestImage = _localTestFolderNoSlash + "\\image\\synologybox.jpg";
-            _session = new SynologySession(new SynologyClientConfig());
+            _session = new SynologySession(new AppSettingsClientConfig());
             _session.Login();
             _api = new SynologyApi(_session);
         }

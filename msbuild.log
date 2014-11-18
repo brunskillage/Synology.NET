@@ -1,0 +1,100 @@
+Build started 18/11/2014 21:01:21.
+     1>Project "C:\Users\Allan\Documents\GitHub\Synology.NET\Synology.NET.sln" on node 1 (Clean;Rebuild target(s)).
+     1>ValidateSolutionConfiguration:
+         Building solution configuration "Release|Any CPU".
+     1>Project "C:\Users\Allan\Documents\GitHub\Synology.NET\Synology.NET.sln" (1) is building "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (2) on node 1 (Clean target(s)).
+     2>CoreClean:
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\TestFiles\Apples\Braeburn.txt".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\TestFiles\image\synologybox.jpg".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\TestFiles\oranges.js".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\TestFiles\webpage.html".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\SynologyClient.ApiTests.dll.config".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\SynologyClient.ApiTests.dll".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\SynologyClient.ApiTests.pdb".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\Castle.Core.dll".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\FluentAssertions.dll".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\nunit.framework.dll".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\Synology.dll".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\RestSharp.dll".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\Synology.pdb".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\Castle.Core.xml".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\FluentAssertions.pdb".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\FluentAssertions.xml".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\nunit.framework.xml".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\RestSharp.xml".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\obj\Release\SynologyClient.ApiTests.dll".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\obj\Release\SynologyClient.ApiTests.pdb".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\obj\Release\SynologyClient.Tests.csprojResolveAssemblyReference.cache".
+     1>Project "C:\Users\Allan\Documents\GitHub\Synology.NET\Synology.NET.sln" (1) is building "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\SynologyClient.csproj" (3) on node 2 (Clean target(s)).
+     3>CoreClean:
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\bin\Release\Synology.dll".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\bin\Release\Synology.pdb".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\bin\Release\RestSharp.dll".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\bin\Release\RestSharp.xml".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\obj\Release\Synology.dll".
+         Deleting file "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\obj\Release\Synology.pdb".
+     3>Done Building Project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\SynologyClient.csproj" (Clean target(s)).
+     2>Done Building Project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (Clean target(s)).
+     1>Project "C:\Users\Allan\Documents\GitHub\Synology.NET\Synology.NET.sln" (1) is building "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (2:2) on node 1 (Rebuild target(s)).
+     2>RestorePackages:
+         "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.exe" install "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\packages.config" -source ""  -NonInteractive -RequireConsent -solutionDir "C:\Users\Allan\Documents\GitHub\Synology.NET\ "
+     1>Project "C:\Users\Allan\Documents\GitHub\Synology.NET\Synology.NET.sln" (1) is building "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\SynologyClient.csproj" (3:3) on node 2 (Rebuild target(s)).
+     3>RestorePackages:
+         "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.exe" install "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\packages.config" -source ""  -NonInteractive -RequireConsent -solutionDir "C:\Users\Allan\Documents\GitHub\Synology.NET\ "
+     2>RestorePackages:
+         Restoring NuGet packages...
+         To prevent NuGet from downloading packages during build, open the Visual Studio Options dialog, click on the Package Manager node and uncheck 'Allow NuGet to download missing packages'.
+     3>RestorePackages:
+         Restoring NuGet packages...
+         To prevent NuGet from downloading packages during build, open the Visual Studio Options dialog, click on the Package Manager node and uncheck 'Allow NuGet to download missing packages'.
+     2>RestorePackages:
+         All packages listed in packages.config are already installed.
+     3>RestorePackages:
+         All packages listed in packages.config are already installed.
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreCompile:
+         C:\Windows\Microsoft.NET\Framework\v4.0.30319\Csc.exe /noconfig /nowarn:1701,1702 /nostdlib+ /platform:AnyCPU /errorreport:prompt /warn:4 /define:TRACE /highentropyva- /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.CSharp.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\mscorlib.dll" /reference:C:\Users\Allan\Documents\GitHub\Synology.NET\packages\RestSharp.104.5.0\lib\net4\RestSharp.dll /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Configuration.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /debug:pdbonly /filealign:512 /optimize+ /out:obj\Release\Synology.dll /target:library /utf8output ClearFinishedBackgroundTasksResponse.cs GetBackgroundTasksResponse.cs CopyMoveAsyncResponse.cs CopyMoveStatusResponse.cs CopyMoveStopResponse.cs AddFolderResponse.cs DeleteAsyncResponse.cs DeleteStatusResponse.cs DeleteStopResponse.cs DeleteResponse.cs ExtractListResponse.cs ExtractAsyncResponse.cs ExtractStatusResponse.cs ExtractStopResponse.cs RenameResponse.cs CompressAsyncResposne.cs CompressStatusResponse.cs CompressStopResponse.cs DateTimeExtender.cs DirSizeStatusResponse.cs GetDirectorySizeAsyncResponse.cs DirSizeStopResponse.cs AddFavoriteResponse.cs ClearBrokenFavoritesResponse.cs DeleteFavoriteResponse.cs EditFavoriteResponse.cs FavoriteListResponse.cs FavoriteReplaceAll.cs ReplaceFavoriteResponse.cs FuncProcessor.cs ISynologyApi.cs GetFileSystemInfoResponse.cs GetFileSystemEntriesResponse.cs GetSharesResponse.cs GetFileMd5AsyncResponse.cs GetFileMd5StatusResponse.cs GetFileMd5StopResponse.cs RawSynologyResponse.cs Acl.cs Addtional.cs AdvancedRights.cs ArchiveItem.cs BackgroundTask.cs BackgroundTaskList.cs CheckPermissionWrite.cs Children.cs CompressStatus.cs CopyMoveStatus.cs CreateFolder.cs DeleteStatus.cs DirSizeStatus.cs DownloadDownload.cs Error.cs ExtractList.cs ExtractStatus.cs Favorite.cs FavoriteAdd.cs FavoriteAdditional.cs FavoriteClearBroken.cs FavoriteDelete.cs FavoriteEdit.cs FavoriteList.cs FileAddtional.cs File.cs InfoGetInfo.cs GetDiskstationInfoResponse.cs ListGetInfo.cs ListList.cs ListListShare.cs Md5Status.cs MethodStatus.cs MethodStop.cs Owner.cs Params.cs Permission.cs MethodStart.cs RenameRename.cs SearchList.cs SharedFolder.cs SharedFolderPerm.cs SharedLink.cs SharingCreate.cs SharingInfo.cs SharingLink.cs BaseSynologyResponse.cs SharingList.cs Time.cs VirtualFolder.cs VirtualFolderAddtional.cs VirtualFolderList.cs VolumeStatus.cs SearchCleanResponse.cs SearchStatusResponse.cs SearchStartResponse.cs SearchStopResponse.cs ClearInvalidSharesResponse.cs AddShareResponse.cs DeleteShareResponse.cs EditShareResponse.cs GetSharingInfoResponse.cs GetUserSharesResponse.cs SynologyApi.cs AppSettingsClientConfig.cs SynologyClientException.cs ISynologyClientConfig.cs ISynologyResponse.cs ISynologySession.cs SynologyErrorCodes.cs Properties\AssemblyInfo.cs SynologySession.cs SynologyRestRequest.cs GetVirtualFoldersResponse.cs "C:\Users\Allan\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cs"
+       _CopyFilesMarkedCopyLocal:
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\packages\RestSharp.104.5.0\lib\net4\RestSharp.dll" to "bin\Release\RestSharp.dll".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\packages\RestSharp.104.5.0\lib\net4\RestSharp.xml" to "bin\Release\RestSharp.xml".
+       CopyFilesToOutputDirectory:
+         Copying file from "obj\Release\Synology.dll" to "bin\Release\Synology.dll".
+         SynologyClient -> C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\bin\Release\Synology.dll
+         Copying file from "obj\Release\Synology.pdb" to "bin\Release\Synology.pdb".
+     3>Done Building Project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\SynologyClient.csproj" (Rebuild target(s)).
+     2>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreCompile:
+         C:\Windows\Microsoft.NET\Framework\v4.0.30319\Csc.exe /noconfig /nowarn:1701,1702 /nostdlib+ /errorreport:prompt /warn:4 /define:TRACE /highentropyva- /reference:C:\Users\Allan\Documents\GitHub\Synology.NET\packages\Castle.Core.3.0.0.2001\lib\net40-client\Castle.Core.dll /reference:C:\Users\Allan\Documents\GitHub\Synology.NET\packages\FluentAssertions.1.7.1.1\Lib\net40\FluentAssertions.dll /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\mscorlib.dll" /reference:C:\Users\Allan\Documents\GitHub\Synology.NET\packages\NUnit.2.6.3\lib\nunit.framework.dll /reference:C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\bin\Release\Synology.dll /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.Linq.dll" /debug:pdbonly /filealign:512 /optimize+ /out:obj\Release\SynologyClient.ApiTests.dll /target:library /utf8output AllTestsAsSingleTest.cs ApiTests.cs Properties\AssemblyInfo.cs "C:\Users\Allan\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cs"
+       _CopyFilesMarkedCopyLocal:
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\packages\Castle.Core.3.0.0.2001\lib\net40-client\Castle.Core.dll" to "bin\Release\Castle.Core.dll".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\packages\FluentAssertions.1.7.1.1\Lib\net40\FluentAssertions.dll" to "bin\Release\FluentAssertions.dll".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\packages\NUnit.2.6.3\lib\nunit.framework.dll" to "bin\Release\nunit.framework.dll".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\bin\Release\Synology.dll" to "bin\Release\Synology.dll".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\bin\Release\RestSharp.dll" to "bin\Release\RestSharp.dll".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\bin\Release\Synology.pdb" to "bin\Release\Synology.pdb".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\packages\Castle.Core.3.0.0.2001\lib\net40-client\Castle.Core.xml" to "bin\Release\Castle.Core.xml".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\packages\FluentAssertions.1.7.1.1\Lib\net40\FluentAssertions.pdb" to "bin\Release\FluentAssertions.pdb".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\packages\FluentAssertions.1.7.1.1\Lib\net40\FluentAssertions.xml" to "bin\Release\FluentAssertions.xml".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\packages\NUnit.2.6.3\lib\nunit.framework.xml" to "bin\Release\nunit.framework.xml".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\bin\Release\RestSharp.xml" to "bin\Release\RestSharp.xml".
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\TestFiles\Apples\Braeburn.txt" to "bin\Release\TestFiles\Apples\Braeburn.txt".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\TestFiles\image\synologybox.jpg" to "bin\Release\TestFiles\image\synologybox.jpg".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\TestFiles\oranges.js" to "bin\Release\TestFiles\oranges.js".
+         Copying file from "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\TestFiles\webpage.html" to "bin\Release\TestFiles\webpage.html".
+       _CopyAppConfigFile:
+         Copying file from "app.config" to "bin\Release\SynologyClient.ApiTests.dll.config".
+       CopyFilesToOutputDirectory:
+         Copying file from "obj\Release\SynologyClient.ApiTests.dll" to "bin\Release\SynologyClient.ApiTests.dll".
+         SynologyClient.Tests -> C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\bin\Release\SynologyClient.ApiTests.dll
+         Copying file from "obj\Release\SynologyClient.ApiTests.pdb" to "bin\Release\SynologyClient.ApiTests.pdb".
+     2>Done Building Project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (Rebuild target(s)).
+     1>Done Building Project "C:\Users\Allan\Documents\GitHub\Synology.NET\Synology.NET.sln" (Clean;Rebuild target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.09

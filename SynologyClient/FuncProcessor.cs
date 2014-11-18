@@ -6,7 +6,7 @@ namespace SynologyClient
 {
     public class FuncProcessor<TResponse> where TResponse : BaseSynologyResponse, new()
     {
-        private static readonly SynologyClientConfig Config = new SynologyClientConfig();
+        private static readonly AppSettingsClientConfig Config = new AppSettingsClientConfig();
         private readonly dynamic _args;
         private readonly dynamic _optionalArgs;
         private readonly string _scriptPath;
@@ -43,11 +43,6 @@ namespace SynologyClient
                 IRestClient client = new RestClient(Config.ApiBaseAddressAndPathNoTrailingSlash + _scriptPath);
 
                 IRestResponse<TResponse> response = client.Execute<TResponse>(RestRequest);
-
-                //if (response.Data.success == false)
-                //{
-                //    throw new SynologyClientException(SynologyErrorCodes.Dic[response.Data.error.code]);
-                //}
 
                 return response.Data;
             }

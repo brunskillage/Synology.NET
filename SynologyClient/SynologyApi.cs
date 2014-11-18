@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -424,7 +425,7 @@ namespace SynologyClient
 
             request.AddFile(fileName.Name, fileName.FullName);
 
-            var config = new SynologyClientConfig();
+            var config = new AppSettingsClientConfig();
             var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/api_upload.cgi");
 
             IRestResponse<RawSynologyResponse> response = client.Execute<RawSynologyResponse>(request);
@@ -494,7 +495,7 @@ namespace SynologyClient
             request.AddParameter("size", size);
             request.AddParameter("rotate", rotate);
             request.AddParameter("_sid", _session.sid);
-            var config = new SynologyClientConfig();
+            var config = new AppSettingsClientConfig();
             var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/file_thumb.cgi");
             IRestResponse response = client.Execute(request);
             if (response.StatusCode != HttpStatusCode.OK)
@@ -618,7 +619,7 @@ namespace SynologyClient
             request.AddParameter("path", filePath);
             request.AddParameter("mode", mode);
             request.AddParameter("_sid", _session.sid);
-            var config = new SynologyClientConfig();
+            var config = new AppSettingsClientConfig();
             var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/file_download.cgi");
             IRestResponse response = client.Execute(request);
             if (response.StatusCode != HttpStatusCode.OK)
@@ -1037,8 +1038,7 @@ namespace SynologyClient
             string[] selected =
                 typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
                     .Where(p => (bool)p.GetValue(instance, null))
-                    .Select(p => p.Name)
-                    .ToArray();
+                    .Select(p => p.Name).ToArray();
 
             return selected.Any() ? string.Join(",", selected) : null;
         }
