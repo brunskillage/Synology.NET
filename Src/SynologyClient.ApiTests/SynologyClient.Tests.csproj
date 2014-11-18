@@ -39,51 +39,23 @@
     <Reference Include="FluentAssertions">
       <HintPath>..\packages\FluentAssertions.1.7.1.1\Lib\net40\FluentAssertions.dll</HintPath>
     </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject">
-      <HintPath>..\packages\Ninject.3.2.0.0\lib\net40\Ninject.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject.Extensions.Factory">
-      <HintPath>..\packages\Ninject.Extensions.Factory.3.2.0.0\lib\net40\Ninject.Extensions.Factory.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject.MockingKernel">
-      <HintPath>..\packages\Ninject.MockingKernel.3.2.0.0\lib\net40-full\Ninject.MockingKernel.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject.MockingKernel.Moq">
-      <HintPath>..\packages\Ninject.MockingKernel.Moq.3.2.0.0\lib\net40-full\Ninject.MockingKernel.Moq.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.104.5.0\lib\net4\RestSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllTestsAsSingleTest.cs" />
     <Compile Include="ApiTests.cs" />
-    <Compile Include="Archive\UploadTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Synology.Client\SynologyClient.csproj">
-      <Project>{bf5758ba-d03c-4ce1-9dae-bdeefccca7f5}</Project>
-      <Name>SynologyClient</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestFiles\Apples\Braeburn.txt">
@@ -101,6 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SynologyClient\SynologyClient.csproj">
+      <Project>{BF5758BA-D03C-4CE1-9DAE-BDEEFCCCA7F5}</Project>
+      <Name>SynologyClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
