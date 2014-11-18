@@ -4,7 +4,7 @@ if "%config%" == "" (
    set config=Release
 )
 
-%WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe Synology.NET.sln /p:Configuration=%config% /m /v:M /fl /flp:LogFile=msbuild.log;Verbosity=Normal /nr:true /p:BuildInParallel=true /p:RestorePackages=true /t:Clean,Rebuild
+%WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe Synology.NET.sln /p:Configuration=%config% /m /v:M /fl /nr:true /p:BuildInParallel=true /p:RestorePackages=true /t:Clean,Rebuild
 
 if not "%errorlevel%"=="0" goto failure
 
