@@ -313,7 +313,7 @@ namespace SynologyClient.ApiTests
         [Test]
         public void Search()
         {
-            SearchStartResponse start = _api.SearchStart(_synoTestFolderNoSlash);
+            SearchStartResponse start = _api.SearchStartAsync(_synoTestFolderNoSlash);
 
             start.success.Should().BeTrue();
 
@@ -321,7 +321,7 @@ namespace SynologyClient.ApiTests
             taskid.Should().NotBeNullOrEmpty();
 
             for (int i = 0; i < 10; i++) {
-                SearchesResponse list = _api.Searches(taskid, 0, 100, SynologyApi.SortBy.name,
+                SearchStatusResponse list = _api.SearchStatus(taskid, 0, 100, SynologyApi.SortBy.name,
                     SynologyApi.SortDirection.asc, new[] { "*" }, SynologyApi.FileTypeFilter.all,
                     new SynologyApi.FileSearchListAddtionalOptions {
                         owner = true,

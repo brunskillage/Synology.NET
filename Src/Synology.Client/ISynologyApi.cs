@@ -17,12 +17,12 @@ namespace SynologyClient
         GetFileSystemInfoResponse GetFileSystemInfo(string[] paths, SynologyApi.FileGetInfoAddtionalOptions additional);
 
         ////Note: Linux timestamp in second, defined as the number of seconds that have elapsed since 00:00:00 Coordinated Universal Time (UTC), Thursday, 1 January 1970.
-        SearchStartResponse SearchStart(string folderPath, bool recursive, string[] globPatterns,
+        SearchStartResponse SearchStartAsync(string folderPath, bool recursive, string[] globPatterns,
             string[] extentionPatterns, SynologyApi.FileTypeFilter fileType, long minSizeBytes, long maxSizeBytes,
             DateTime? modifiedTimeFrom, DateTime? modifiedTimeTo, DateTime? createdTimeFrom, DateTime? createdTimeTo,
             DateTime? accessedTimeTo, DateTime? accessedTimeFrom, string owner, string group);
 
-        SearchesResponse Searches(string taskId, int? offset, int? limit, SynologyApi.SortBy sortBy,
+        SearchStatusResponse SearchStatus(string taskId, int? offset, int? limit, SynologyApi.SortBy sortBy,
             SynologyApi.SortDirection direction, string[] pattern, SynologyApi.FileTypeFilter fileType,
             SynologyApi.FileSearchListAddtionalOptions additional);
 
