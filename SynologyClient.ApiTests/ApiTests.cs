@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Web.Configuration;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -35,6 +37,10 @@ namespace SynologyClient.ApiTests
             var executingAssembly = new FileInfo(Assembly.GetExecutingAssembly().FullName);
             _localTestFolderNoSlash = executingAssembly.DirectoryName + "\\TestFiles";
             _localTestImage = _localTestFolderNoSlash + "\\image\\synologybox.jpg";
+            _synoTestFolderNoSlash = WebConfigurationManager.AppSettings.Get("Syno.TestFolder");
+             if(string.IsNullOrWhiteSpace(_synoTestFolderNoSlash))
+                  throw new ConfigurationErrorsException("No Syno.TestFolder in app config found or value is empty");
+            
             _session = new SynologySession(new AppSettingsClientConfig());
             _session.Login();
             _api = new SynologyApi(_session);
@@ -42,7 +48,7 @@ namespace SynologyClient.ApiTests
 
         public ApiTests(SynologySession session) {}
 
-        private readonly string _synoTestFolderNoSlash = "/public/apitest";
+        private readonly string _synoTestFolderNoSlash;
         private static string _localTestFolderNoSlash;
         private readonly string _localTestImage;
 
