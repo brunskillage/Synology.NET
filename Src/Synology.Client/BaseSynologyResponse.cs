@@ -6,14 +6,12 @@ namespace SynologyClient
     {
         // ReSharper disable InconsistentNaminge
 
-        public BaseSynologyResponse(){}
-
         public bool success { get; set; }
 
         //public dynamic data { get; set; }
 
         public Error error { get; set; }
-        
+
         public List<Error> errors { get; set; }
 
         public dynamic errormsg { get; set; }
@@ -23,8 +21,8 @@ namespace SynologyClient
         public int http_status { get; set; }
 
         // ReSharper restore InconsistentNaming
-    }    
-    
+    }
+
     //public class SynologyResponse2
     //{
     //    // ReSharper disable InconsistentNaminge

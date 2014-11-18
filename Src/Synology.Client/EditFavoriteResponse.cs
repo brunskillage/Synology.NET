@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class FavoriteEditResponse : BaseSynologyResponse
+    public class EditFavoriteResponse : BaseSynologyResponse
     {
         public FavoriteEdit Data { get; set; }
     }

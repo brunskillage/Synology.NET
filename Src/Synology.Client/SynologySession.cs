@@ -1,5 +1,5 @@
-﻿using RestSharp;
-using System;
+﻿using System;
+using RestSharp;
 
 namespace SynologyClient
 {
@@ -34,8 +34,7 @@ namespace SynologyClient
             request.AddParameter("format", "cookie");
 
             IRestResponse<RawSynologyResponse> response = client.Execute<RawSynologyResponse>(request);
-            if (response.Data.success)
-            {
+            if (response.Data.success) {
                 sid = response.Data.data["sid"];
                 loggedInTime = DateTime.UtcNow;
                 return this;

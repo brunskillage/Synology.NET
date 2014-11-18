@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class ListGetInfoResponse : BaseSynologyResponse
+    public class GetFileSystemInfoResponse : BaseSynologyResponse
     {
         public ListGetInfo Data { get; set; }
     }

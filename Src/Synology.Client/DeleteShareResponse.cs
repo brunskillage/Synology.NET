@@ -1,6 +1,6 @@
 namespace SynologyClient
 {
-    public class SharingDeleteResponse : BaseSynologyResponse
+    public class DeleteShareResponse : BaseSynologyResponse
     {
         public dynamic Data { get; set; }
     }

@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllTestsAsSingleTest.cs" />
     <Compile Include="ApiTests.cs" />
     <Compile Include="Archive\UploadTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

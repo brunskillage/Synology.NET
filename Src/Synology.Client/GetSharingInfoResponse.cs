@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class SharingGetInfoResponse : BaseSynologyResponse
+    public class GetSharingInfoResponse : BaseSynologyResponse
     {
         public SharingGetInfo Data { get; set; }
     }

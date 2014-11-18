@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class VirtualFolderListResponse : BaseSynologyResponse
+    public class GetVirtualFoldersResponse : BaseSynologyResponse
     {
         public VirtualFolderList Data { get; set; }
     }

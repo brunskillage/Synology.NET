@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class BackgroundTaskListResponse : BaseSynologyResponse
+    public class GetBackgroundTasksResponse : BaseSynologyResponse
     {
         public BackgroundTaskList Data { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class InfoGetInfoResponse : BaseSynologyResponse
+    public class GetDiskstationInfoResponse : BaseSynologyResponse
     {
         public InfoGetInfo Data { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class BackgroundTaskClearFinishedResponse : BaseSynologyResponse
+    public class ExtractAsyncResponse : BaseSynologyResponse
     {
         public MethodStop Data { get; set; }
     }

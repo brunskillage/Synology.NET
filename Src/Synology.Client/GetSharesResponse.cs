@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class ListListShareResponse : BaseSynologyResponse
+    public class GetSharesResponse : BaseSynologyResponse
     {
         public ListListShare Data { get; set; }
     }

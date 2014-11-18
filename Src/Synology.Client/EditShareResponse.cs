@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class SharingEditResponse : BaseSynologyResponse
+    public class EditShareResponse : BaseSynologyResponse
     {
         public SharingLink Data { get; set; }
     }

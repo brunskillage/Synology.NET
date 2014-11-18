@@ -4,6 +4,6 @@ namespace SynologyClient
 {
     public class ExtractList
     {
-        List<ArchiveItem> items { get; set; }
+        private List<ArchiveItem> items { get; set; }
     }
 }

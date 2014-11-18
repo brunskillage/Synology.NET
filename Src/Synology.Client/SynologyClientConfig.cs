@@ -10,10 +10,8 @@ namespace SynologyClient
             ApiBaseAddressAndPathNoTrailingSlash = ConfigurationSettings.AppSettings.Get("Syno.ApiBaseAddress");
             User = ConfigurationSettings.AppSettings.Get("Syno.User");
             Password = ConfigurationSettings.AppSettings.Get("Syno.Pass");
-            if (string.IsNullOrWhiteSpace(Password))
-            {
-                string machineconfig = RuntimeEnvironment.GetRuntimeDirectory() +
-                                       "Config\\machine.config";
+            if (string.IsNullOrWhiteSpace(Password)) {
+                string machineconfig = RuntimeEnvironment.GetRuntimeDirectory() + "Config\\machine.config";
                 throw new SynologyClientException(
                     "Missing Credentials. Please enter appsettings Syno.User, Syno.Pass, Syno.ApiBaseAddress in " +
                     machineconfig);

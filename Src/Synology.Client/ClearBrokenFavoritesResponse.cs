@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class FavoriteClearBrokenResponse : BaseSynologyResponse
+    public class ClearBrokenFavoritesResponse : BaseSynologyResponse
     {
         public FavoriteClearBroken Data { get; set; }
     }

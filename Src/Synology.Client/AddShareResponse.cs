@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class SharingCreateResponse : BaseSynologyResponse
+    public class AddShareResponse : BaseSynologyResponse
     {
         public SharingCreate Data { get; set; }
     }

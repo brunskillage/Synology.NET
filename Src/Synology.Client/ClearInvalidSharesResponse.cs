@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class SharingClearInvalidResponse : BaseSynologyResponse
+    public class ClearInvalidSharesResponse : BaseSynologyResponse
     {
         public dynamic Data { get; set; }
     }

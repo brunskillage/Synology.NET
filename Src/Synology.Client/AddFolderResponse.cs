@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class CreateFolderResponse : BaseSynologyResponse
+    public class AddFolderResponse : BaseSynologyResponse
     {
         public CreateFolder Data { get; set; }
     }

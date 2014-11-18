@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class Md5StartResponse : BaseSynologyResponse
+    public class CopyMoveAsyncResponse : BaseSynologyResponse
     {
         public MethodStop Data { get; set; }
     }

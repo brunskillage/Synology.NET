@@ -1,6 +1,6 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.Reflection;
+using RestSharp;
 
 namespace SynologyClient
 {
@@ -13,13 +13,8 @@ namespace SynologyClient
         private readonly string _sid;
         public SynologyRestRequest RestRequest;
 
-        public FuncProcessor(
-            string scriptPath,
-            string sid,
-            dynamic args,
-            dynamic optionalArgs = null)
+        public FuncProcessor(string scriptPath, string sid, dynamic args, dynamic optionalArgs = null)
         {
-            
             if (string.IsNullOrWhiteSpace(scriptPath))
                 throw new ArgumentNullException("scriptPath");
             if (string.IsNullOrWhiteSpace(sid))
@@ -35,8 +30,7 @@ namespace SynologyClient
 
         public TResponse Run()
         {
-            try
-            {
+            try {
                 RestRequest = new SynologyRestRequest();
 
                 AddParametersFromObjectProperties(_args, RestRequest);
@@ -57,8 +51,7 @@ namespace SynologyClient
 
                 return response.Data;
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 throw new SynologyClientException(e.Message, e);
             }
         }

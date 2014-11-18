@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class ExtractStartResponse : BaseSynologyResponse
+    public class DeleteResponse : BaseSynologyResponse
     {
         public MethodStop Data { get; set; }
     }

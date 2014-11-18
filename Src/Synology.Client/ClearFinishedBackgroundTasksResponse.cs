@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class CopyMoveStartResponse : BaseSynologyResponse
+    public class ClearFinishedBackgroundTasksResponse : BaseSynologyResponse
     {
         public MethodStop Data { get; set; }
     }

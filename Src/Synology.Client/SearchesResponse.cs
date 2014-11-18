@@ -1,6 +1,6 @@
 namespace SynologyClient
 {
-    public class SearchListResponse : BaseSynologyResponse
+    public class SearchesResponse : BaseSynologyResponse
     {
         public SearchList Data { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿namespace SynologyClient
 {
-    public class FavoritReplaceAllResponse : BaseSynologyResponse
+    public class ReplaceFavoriteResponse : BaseSynologyResponse
     {
         public FavoriteReplaceAll Data { get; set; }
     }

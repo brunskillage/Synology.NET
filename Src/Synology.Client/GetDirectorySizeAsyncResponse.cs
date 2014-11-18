@@ -1,6 +1,6 @@
 namespace SynologyClient
 {
-    public class DeleteStartResponse : BaseSynologyResponse
+    public class GetDirectorySizeAsyncResponse : BaseSynologyResponse
     {
         public MethodStart Data { get; set; }
     }

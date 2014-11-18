@@ -1,9 +1,9 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using RestSharp;
 
 namespace SynologyClient
 {
@@ -133,10 +133,9 @@ namespace SynologyClient
                 throw new SynologyClientException("Session Id is empty");
         }
 
-        public InfoGetInfoResponse GetDiskstationInfo()
+        public GetDiskstationInfoResponse GetDiskstationInfo()
         {
-            var proc = new FuncProcessor<InfoGetInfoResponse>("/FileStation/info.cgi", _session.sid, new
-            {
+            var proc = new FuncProcessor<GetDiskstationInfoResponse>("/FileStation/info.cgi", _session.sid, new {
                 api = "SYNO.FileStation.Info",
                 version = 1,
                 method = "getinfo"
@@ -145,14 +144,12 @@ namespace SynologyClient
             return proc.Run();
         }
 
-
-        public FileSystemListResponse GetFileSystemEntries(string folderPath, int? offset = null, int? limit = null,
-            SortBy sortBy = SortBy.ctime, SortDirection sortDirection = SortDirection.asc, string pattern = null,
-            FileTypeFilter fileType = FileTypeFilter.all, string gotoPath = null,
+        public GetFileSystemEntriesResponse GetFileSystemEntries(string folderPath, int? offset = null,
+            int? limit = null, SortBy sortBy = SortBy.ctime, SortDirection sortDirection = SortDirection.asc,
+            string pattern = null, FileTypeFilter fileType = FileTypeFilter.all, string gotoPath = null,
             FileListAddtionalOptions additional = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.List",
                 version = 1,
                 method = "list",
@@ -166,45 +163,38 @@ namespace SynologyClient
                 goto_path = gotoPath
             };
 
-            var proc = new FuncProcessor<FileSystemListResponse>("/FileStation/file_share.cgi", _session.sid, requiredParams, new
-            {
-                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
-            });
+            var proc = new FuncProcessor<GetFileSystemEntriesResponse>("/FileStation/file_share.cgi", _session.sid,
+                requiredParams, new {
+                    additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
+                });
 
             return proc.Run();
         }
 
-        public ListGetInfoResponse GetFileSystemInfo(string[] paths, FileGetInfoAddtionalOptions additional = null)
+        public GetFileSystemInfoResponse GetFileSystemInfo(string[] paths, FileGetInfoAddtionalOptions additional = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.List",
                 version = 1,
                 method = "getinfo",
                 path = string.Join(",", paths)
             };
 
-            var proc = new FuncProcessor<ListGetInfoResponse>("/FileStation/file_share.cgi", _session.sid, requiredParams, new
-            {
-                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
-            });
+            var proc = new FuncProcessor<GetFileSystemInfoResponse>("/FileStation/file_share.cgi", _session.sid,
+                requiredParams, new {
+                    additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
+                });
 
             return proc.Run();
         }
 
-
-
-
-
-        public SearchStartResponse SearchStart(string folderPath, bool recursive = true,
-            string[] globPatterns = null, string[] extentionPatterns = null,
-            FileTypeFilter fileType = FileTypeFilter.file,
-            long minSizeBytes = 0, long maxSizeBytes = Int64.MaxValue, DateTime? modifiedTimeFrom = null,
-            DateTime? modifiedTimeTo = null, DateTime? createdTimeFrom = null, DateTime? createdTimeTo = null,
-            DateTime? accessedTimeTo = null, DateTime? accessedTimeFrom = null, string owner = null, string group = null)
+        public SearchStartResponse SearchStart(string folderPath, bool recursive = true, string[] globPatterns = null,
+            string[] extentionPatterns = null, FileTypeFilter fileType = FileTypeFilter.file, long minSizeBytes = 0,
+            long maxSizeBytes = Int64.MaxValue, DateTime? modifiedTimeFrom = null, DateTime? modifiedTimeTo = null,
+            DateTime? createdTimeFrom = null, DateTime? createdTimeTo = null, DateTime? accessedTimeTo = null,
+            DateTime? accessedTimeFrom = null, string owner = null, string group = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Search",
                 version = 1,
                 method = "start",
@@ -229,12 +219,11 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public SearchListResponse Searches(string taskId, int? offset = null, int? limit = 100,
+        public SearchesResponse Searches(string taskId, int? offset = null, int? limit = 100,
             SortBy sortBy = SortBy.name, SortDirection sortDirection = SortDirection.asc, string[] pattern = null,
             FileTypeFilter fileType = FileTypeFilter.file, FileSearchListAddtionalOptions additional = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Search",
                 version = 1,
                 method = "list",
@@ -247,18 +236,17 @@ namespace SynologyClient
                 filetype = fileType
             };
 
-            var proc = new FuncProcessor<SearchListResponse>("/FileStation/file_find.cgi", _session.sid, requiredParams, new
-            {
-                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
-            });
+            var proc = new FuncProcessor<SearchesResponse>("/FileStation/file_find.cgi", _session.sid, requiredParams,
+                new {
+                    additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
+                });
 
             return proc.Run();
         }
 
         public SearchStopResponse SearchStop(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Search",
                 version = 1,
                 method = "stop",
@@ -271,8 +259,7 @@ namespace SynologyClient
 
         public SearchCleanResponse SearchClean(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Search",
                 version = 1,
                 method = "clean",
@@ -283,14 +270,11 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public VirtualFolderListResponse VirtualFolderList(FileSystemType fileSystemType = FileSystemType.cifs,
+        public GetVirtualFoldersResponse GetVirtualFolders(FileSystemType fileSystemType = FileSystemType.cifs,
             int? offset = null, int? limit = null, SortBy sortBy = SortBy.ctime,
             SortDirection sortDirection = SortDirection.asc, VirtualFolderListAddtionalOptions additional = null)
         {
-            // string systype = fileSystemType.ToString() == FileSystemType.none.ToString() ? null : fileSystemType.ToString();
-
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.VirtualFolder",
                 version = 1,
                 method = "list",
@@ -301,18 +285,17 @@ namespace SynologyClient
                 sort_direction = sortDirection
             };
 
-            var proc = new FuncProcessor<VirtualFolderListResponse>("/FileStation/file_virtual.cgi", _session.sid, requiredParams, new
-            {
-                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
-            });
+            var proc = new FuncProcessor<GetVirtualFoldersResponse>("/FileStation/file_virtual.cgi", _session.sid,
+                requiredParams, new {
+                    additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
+                });
             return proc.Run();
         }
 
         public FavoriteListResponse FavoriteList(int? offset = null, int? limit = null,
             StatusFilter statusFilter = StatusFilter.all, FileStationFavoriteAddtionalOptions additional = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Favorite",
                 version = 1,
                 method = "list",
@@ -321,17 +304,16 @@ namespace SynologyClient
                 status_filter = statusFilter
             };
 
-            var proc = new FuncProcessor<FavoriteListResponse>("/FileStation/file_favorite.cgi", _session.sid, requiredParams, new
-            {
-                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
-            });
+            var proc = new FuncProcessor<FavoriteListResponse>("/FileStation/file_favorite.cgi", _session.sid,
+                requiredParams, new {
+                    additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
+                });
             return proc.Run();
         }
 
-        public FavoriteAddResponse FavoriteAdd(string path, string name, int index = -1)
+        public AddFavoriteResponse AddFavorite(string path, string name, int index = -1)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Favorite",
                 version = 1,
                 method = "add",
@@ -339,28 +321,28 @@ namespace SynologyClient
                 name
             };
 
-            var proc = new FuncProcessor<FavoriteAddResponse>("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<AddFavoriteResponse>("/FileStation/file_favorite.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public FavoriteDeleteResponse FavoriteDelete(string path)
+        public DeleteFavoriteResponse DeleteFavorite(string path)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Favorite",
                 version = 1,
                 method = "delete",
                 path
             };
 
-            var proc = new FuncProcessor<FavoriteDeleteResponse>("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<DeleteFavoriteResponse>("/FileStation/file_favorite.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public FavoriteClearBrokenResponse FavoriteClearBroken(string path, string name)
+        public ClearBrokenFavoritesResponse ClearBrokenFavorites(string path, string name)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Favorite",
                 version = 1,
                 method = "clear_broken",
@@ -368,14 +350,14 @@ namespace SynologyClient
                 name
             };
 
-            var proc = new FuncProcessor<FavoriteClearBrokenResponse>("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<ClearBrokenFavoritesResponse>("/FileStation/file_favorite.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public FavoriteEditResponse FavoriteEdit(string path, string name)
+        public EditFavoriteResponse EditFavorite(string path, string name)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Favorite",
                 version = 1,
                 method = "edit",
@@ -383,14 +365,14 @@ namespace SynologyClient
                 name
             };
 
-            var proc = new FuncProcessor<FavoriteEditResponse>("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<EditFavoriteResponse>("/FileStation/file_favorite.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public FavoritReplaceAllResponse FavoriteReplaceAll(string path, string name)
+        public ReplaceFavoriteResponse ReplaceFavorite(string path, string name)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Favorite",
                 version = 1,
                 method = "replace_all",
@@ -398,12 +380,13 @@ namespace SynologyClient
                 name
             };
 
-            var proc = new FuncProcessor<FavoritReplaceAllResponse>("/FileStation/file_favorite.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<ReplaceFavoriteResponse>("/FileStation/file_favorite.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public RawSynologyResponse Upload(FileInfo fileName, string destinationFilePath,
-            bool createParents = true, bool? overwrite = false)
+        public RawSynologyResponse Upload(FileInfo fileName, string destinationFilePath, bool createParents = true,
+            bool? overwrite = false)
         {
             var request = new SynologyRestRequest(Method.POST);
 
@@ -427,14 +410,11 @@ namespace SynologyClient
             return response.Data;
         }
 
-
-        public CompressStartResponse CompressStart(string path, string destinationFilePath,
+        public CompressAsyncResposne CompressAsync(string path, string destinationFilePath,
             CompressionLevel level = CompressionLevel.moderate, CompressionMode mode = CompressionMode.add,
-            CompressionFormat format = CompressionFormat.formatZip,
-            string password = null)
+            CompressionFormat format = CompressionFormat.formatZip, string password = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Compress",
                 version = 1,
                 method = "start",
@@ -446,35 +426,36 @@ namespace SynologyClient
                 password
             };
 
-            var proc = new FuncProcessor<CompressStartResponse>("/FileStation/file_compress.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<CompressAsyncResposne>("/FileStation/file_compress.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
         public CompressStatusResponse CompressStatus(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Compress",
                 version = 1,
                 method = "status",
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<CompressStatusResponse>("/FileStation/file_compress.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<CompressStatusResponse>("/FileStation/file_compress.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
         public CompressStopResponse CompressStop(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Compress",
                 version = 1,
                 method = "stop",
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<CompressStopResponse>("/FileStation/file_compress.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<CompressStopResponse>("/FileStation/file_compress.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
@@ -497,94 +478,93 @@ namespace SynologyClient
             return response.RawBytes;
         }
 
-        public DirSizeStartResponse GetDirectorySizeStart(string path)
+        public GetDirectorySizeAsyncResponse GetDirectorySizeAsync(string path)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.DirSize",
                 version = 1,
                 method = "start",
                 path
             };
 
-            var proc = new FuncProcessor<DirSizeStartResponse>("/FileStation/file_dirSize.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<GetDirectorySizeAsyncResponse>("/FileStation/file_dirSize.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
         public DirSizeStatusResponse GetDirectorySizeStatus(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.DirSize",
                 version = 1,
                 method = "status",
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<DirSizeStatusResponse>("/FileStation/file_dirSize.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<DirSizeStatusResponse>("/FileStation/file_dirSize.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
         public DirSizeStopResponse GetDirectorySizeStop(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.DirSize",
                 version = 1,
                 method = "stop",
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<DirSizeStopResponse>("/FileStation/file_dirSize.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<DirSizeStopResponse>("/FileStation/file_dirSize.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public Md5StartResponse GetFileMd5Start(string filePath)
+        public GetFileMd5AsyncResponse GetFileMd5Async(string filePath)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.MD5",
                 version = 1,
                 method = "start",
                 file_path = filePath
             };
 
-            var proc = new FuncProcessor<Md5StartResponse>("/FileStation/file_md5.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<GetFileMd5AsyncResponse>("/FileStation/file_md5.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public Md5StatusResponse GetFileMd5Status(string taskId)
+        public GetFileMd5StatusResponse GetFileMd5Status(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.MD5",
                 version = 1,
                 method = "status",
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<Md5StatusResponse>("/FileStation/file_md5.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<GetFileMd5StatusResponse>("/FileStation/file_md5.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public Md5StopResponse GetFileMd5Stop(string taskId)
+        public GetFileMd5StopResponse GetFileMd5Stop(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.MD5",
                 version = 1,
                 method = "stop",
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<Md5StopResponse>("/FileStation/file_md5.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<GetFileMd5StopResponse>("/FileStation/file_md5.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
         public RawSynologyResponse CheckWritePermission(string path, bool? createOnly = true)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.CheckPermission",
                 version = 1,
                 method = "write",
@@ -592,7 +572,8 @@ namespace SynologyClient
                 create_only = createOnly
             };
 
-            var proc = new FuncProcessor<RawSynologyResponse>("/FileStation/file_permission.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<RawSynologyResponse>("/FileStation/file_permission.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
@@ -614,26 +595,25 @@ namespace SynologyClient
             return response.RawBytes;
         }
 
-        public SharingGetInfoResponse GetSharingInfo(string id)
+        public GetSharingInfoResponse GetSharingInfo(string id)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Sharing",
                 version = 1,
                 method = "getinfo",
                 id
             };
 
-            var proc = new FuncProcessor<SharingGetInfoResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<GetSharingInfoResponse>("/FileStation/file_sharing.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public ListListShareResponse GetShares(int? offset = null, int? limit = null,
-                    SortBy sortBy = SortBy.ctime, SortDirection sortDirection = SortDirection.asc,
-                            bool onlywritable = false, FileListAddtionalOptions additional = null)
+        public GetSharesResponse GetShares(int? offset = null, int? limit = null, SortBy sortBy = SortBy.ctime,
+            SortDirection sortDirection = SortDirection.asc, bool onlywritable = false,
+            FileListAddtionalOptions additional = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.List",
                 version = 1,
                 method = "list_share",
@@ -644,20 +624,18 @@ namespace SynologyClient
                 onlywritable
             };
 
-            var proc = new FuncProcessor<ListListShareResponse>("/FileStation/file_share.cgi", _session.sid, requiredParams, new
-            {
-                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
-            });
+            var proc = new FuncProcessor<GetSharesResponse>("/FileStation/file_share.cgi", _session.sid, requiredParams,
+                new {
+                    additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
+                });
 
             return proc.Run();
         }
 
-
-        public SharingListResponse GetUserShares(int? offset, int? limit, SharingSortBy sortBy,
+        public GetUserSharesResponse GetUserShares(int? offset, int? limit, SharingSortBy sortBy,
             SortDirection sortDirection = SortDirection.asc, bool? forceClean = true)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Sharing",
                 version = 1,
                 method = "list",
@@ -668,16 +646,15 @@ namespace SynologyClient
                 force_clean = forceClean
             };
 
-            var proc = new FuncProcessor<SharingListResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<GetUserSharesResponse>("/FileStation/file_sharing.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public SharingCreateResponse CreateShare(string path, string password = null,
-            DateTime? dateExpires = null,
+        public AddShareResponse AddShare(string path, string password = null, DateTime? dateExpires = null,
             DateTime? dateAvailable = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Sharing",
                 version = 1,
                 method = "create",
@@ -687,43 +664,42 @@ namespace SynologyClient
                 date_available = dateAvailable.HasValue ? dateAvailable.Value.ToString("yyyy-MM-dd") : "0"
             };
 
-            var proc = new FuncProcessor<SharingCreateResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<AddShareResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
             return proc.Run();
         }
 
-        public SharingDeleteResponse DeleteShare(string id)
+        public DeleteShareResponse DeleteShare(string id)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Sharing",
                 version = 1,
                 method = "delete",
                 id
             };
 
-            var proc = new FuncProcessor<SharingDeleteResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<DeleteShareResponse>("/FileStation/file_sharing.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public SharingClearInvalidResponse ClearInvalidShares(string id)
+        public ClearInvalidSharesResponse ClearInvalidShares(string id)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Sharing",
                 version = 1,
                 method = "clear_invalid",
                 id
             };
 
-            var proc = new FuncProcessor<SharingClearInvalidResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<ClearInvalidSharesResponse>("/FileStation/file_sharing.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public SharingEditResponse EditShare(string id, string password = null,
-            DateTime? dateExpires = null, DateTime? dateAvailable = null)
+        public EditShareResponse EditShare(string id, string password = null, DateTime? dateExpires = null,
+            DateTime? dateAvailable = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Sharing",
                 version = 1,
                 method = "edit",
@@ -733,15 +709,15 @@ namespace SynologyClient
                 date_available = dateAvailable.HasValue ? dateAvailable.Value.ToString("yyyy-MM-dd") : "0"
             };
 
-            var proc = new FuncProcessor<SharingEditResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<EditShareResponse>("/FileStation/file_sharing.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public CreateFolderResponse CreateFolder(string folderPath, string name, bool? forceParent = true,
+        public AddFolderResponse AddFolder(string folderPath, string name, bool? forceParent = true,
             FileSearchListAddtionalOptions additional = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.CreateFolder",
                 version = 1,
                 method = "create",
@@ -750,19 +726,18 @@ namespace SynologyClient
                 force_parent = forceParent
             };
 
-            var proc = new FuncProcessor<CreateFolderResponse>("/FileStation/file_crtfdr.cgi", _session.sid, requiredParams, new
-            {
-                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
-            });
+            var proc = new FuncProcessor<AddFolderResponse>("/FileStation/file_crtfdr.cgi", _session.sid, requiredParams,
+                new {
+                    additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
+                });
 
             return proc.Run();
         }
 
-        public RenameResponse FIleSystemRename(string path, string name,
+        public RenameResponse FileSystemRename(string path, string name,
             FileSearchListAddtionalOptions additional = null, string searchTaskId = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Rename",
                 version = 1,
                 method = "rename",
@@ -772,18 +747,17 @@ namespace SynologyClient
                 search_taskid = searchTaskId
             };
 
-            var proc = new FuncProcessor<RenameResponse>("/FileStation/file_rename.cgi", _session.sid, requiredParams, new
-            {
-                additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
-            });
+            var proc = new FuncProcessor<RenameResponse>("/FileStation/file_rename.cgi", _session.sid, requiredParams,
+                new {
+                    additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
+                });
             return proc.Run();
         }
 
-        public CopyMoveStartResponse CopyMoveStart(string path, string destinationPath,
-            bool? overwrite = false, bool? removeSrc = false, bool? accurateProgress = false, string taskId = null)
+        public CopyMoveAsyncResponse CopyMoveAsync(string path, string destinationPath, bool? overwrite = false,
+            bool? removeSrc = false, bool? accurateProgress = false, string taskId = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.CopyMove",
                 version = 1,
                 method = "start",
@@ -795,43 +769,43 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<CopyMoveStartResponse>("/FileStation/file_MVCP.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<CopyMoveAsyncResponse>("/FileStation/file_MVCP.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
         public CopyMoveStatusResponse CopyMoveStatus(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.CopyMove",
                 version = 1,
                 method = "status",
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<CopyMoveStatusResponse>("/FileStation/file_MVCP.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<CopyMoveStatusResponse>("/FileStation/file_MVCP.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
         public CopyMoveStopResponse CopyMoveStop(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.CopyMove",
                 version = 1,
                 method = "stop",
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<CopyMoveStopResponse>("/FileStation/file_MVCP.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<CopyMoveStopResponse>("/FileStation/file_MVCP.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public DeleteStartResponse DeleteStart(string path, bool? accurateProgress = true,
-            bool? recursive = true, string searchTaskId = null)
+        public DeleteAsyncResponse DeleteAsync(string path, bool? accurateProgress = true, bool? recursive = true,
+            string searchTaskId = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Delete",
                 version = 1,
                 method = "start",
@@ -841,43 +815,42 @@ namespace SynologyClient
                 search_taskid = searchTaskId
             };
 
-            var proc = new FuncProcessor<DeleteStartResponse>("/FileStation/file_delete.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<DeleteAsyncResponse>("/FileStation/file_delete.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
         public DeleteStatusResponse DeleteStatus(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Delete",
                 version = 1,
                 method = "status",
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<DeleteStatusResponse>("/FileStation/file_delete.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<DeleteStatusResponse>("/FileStation/file_delete.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
         public DeleteStopResponse DeleteStop(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Delete",
                 version = 1,
                 method = "stop",
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<DeleteStopResponse>("/FileStation/file_delete.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<DeleteStopResponse>("/FileStation/file_delete.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public DeleteSyncResponse Delete(string path, bool? recursive = true,
-            string searchTaskId = null)
+        public DeleteResponse Delete(string path, bool? recursive = true, string searchTaskId = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Delete",
                 version = 1,
                 method = "delete",
@@ -886,21 +859,15 @@ namespace SynologyClient
                 search_taskid = searchTaskId
             };
 
-            var proc = new FuncProcessor<DeleteSyncResponse>("/FileStation/file_delete.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<DeleteResponse>("/FileStation/file_delete.cgi", _session.sid, requiredParams);
             return proc.Run();
         }
 
-        public ExtractStartResponse ExtractStart(string archivePath,
-            string destFolderPath,
-            bool? overwrite = false,
-            bool? keepDir = true,
-            bool? createSubFolder = false,
-            string codePage = null,
-            string password = null,
+        public ExtractAsyncResponse ExtractAsync(string archivePath, string destFolderPath, bool? overwrite = false,
+            bool? keepDir = true, bool? createSubFolder = false, string codePage = null, string password = null,
             string itemId = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Extract",
                 version = 1,
                 method = "start",
@@ -914,35 +881,36 @@ namespace SynologyClient
                 item_id = itemId
             };
 
-            var proc = new FuncProcessor<ExtractStartResponse>("/FileStation/file_extract.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<ExtractAsyncResponse>("/FileStation/file_extract.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
         public ExtractStatusResponse ExtractStatus(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Extract",
                 version = 1,
                 method = "status",
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<ExtractStatusResponse>("/FileStation/file_extract.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<ExtractStatusResponse>("/FileStation/file_extract.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
         public ExtractStopResponse ExtractStop(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Extract",
                 version = 1,
                 method = "stop",
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<ExtractStopResponse>("/FileStation/file_extract.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<ExtractStopResponse>("/FileStation/file_extract.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
@@ -950,8 +918,7 @@ namespace SynologyClient
             ExtractSortBy sortBy = ExtractSortBy.name, SortDirection sortDirection = SortDirection.asc,
             string codePage = "enu", string password = null, string itemId = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.Extract",
                 version = 1,
                 method = "list",
@@ -965,17 +932,16 @@ namespace SynologyClient
                 itemId
             };
 
-            var proc = new FuncProcessor<ExtractListResponse>("/FileStation/file_extract.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<ExtractListResponse>("/FileStation/file_extract.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-
-        public BackgroundTaskListResponse GetBackgroundTasks(int? offset = 0, int? limit = 0,
-            BackgroundTaskSortBy sortBy = BackgroundTaskSortBy.crtime,
-            SortDirection sortDirection = SortDirection.asc, string apiFilterNamespace = null)
+        public GetBackgroundTasksResponse GetBackgroundTasks(int? offset = 0, int? limit = 0,
+            BackgroundTaskSortBy sortBy = BackgroundTaskSortBy.crtime, SortDirection sortDirection = SortDirection.asc,
+            string apiFilterNamespace = null)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.BackgroundTask",
                 version = 1,
                 method = "list",
@@ -986,21 +952,22 @@ namespace SynologyClient
                 api_filter = apiFilterNamespace
             };
 
-            var proc = new FuncProcessor<BackgroundTaskListResponse>("/FileStation/background_task.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<GetBackgroundTasksResponse>("/FileStation/background_task.cgi", _session.sid,
+                requiredParams);
             return proc.Run();
         }
 
-        public BackgroundTaskClearFinishedResponse ClearFinishedBackgroundTasks(string taskId)
+        public ClearFinishedBackgroundTasksResponse ClearFinishedBackgroundTasks(string taskId)
         {
-            dynamic requiredParams = new
-            {
+            dynamic requiredParams = new {
                 api = "SYNO.FileStation.BackgroundTask",
                 version = 1,
                 method = "clear_finished",
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<BackgroundTaskClearFinishedResponse>("/FileStation/background_task.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<ClearFinishedBackgroundTasksResponse>("/FileStation/background_task.cgi",
+                _session.sid, requiredParams);
             return proc.Run();
         }
 
@@ -1011,9 +978,11 @@ namespace SynologyClient
             if (instance == null)
                 return null;
 
-            string[] selected = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(p => (bool)p.GetValue(instance, null))
-                .Select(p => p.Name).ToArray();
+            string[] selected =
+                typeof (T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                    .Where(p => (bool) p.GetValue(instance, null))
+                    .Select(p => p.Name)
+                    .ToArray();
 
             return selected.Any() ? string.Join(",", selected) : null;
         }
@@ -1098,6 +1067,7 @@ namespace SynologyClient
 
             public bool volume_status { get; set; }
         }
+
         // ReSharper restore InconsistentNaming
     }
 }
