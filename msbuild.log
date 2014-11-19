@@ -1,4 +1,4 @@
-Build started 19/11/2014 00:10:44.
+Build started 19/11/2014 00:29:26.
      1>Project "C:\Users\Allan\Documents\GitHub\Synology.NET\Synology.NET.sln" on node 1 (Clean;Rebuild target(s)).
      1>Building with tools version "2.0".
      1>Target "ValidateSolutionConfiguration" in file "C:\Users\Allan\Documents\GitHub\Synology.NET\Synology.NET.sln.metaproj" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\Synology.NET.sln" (entry point):
@@ -258,18 +258,6 @@ Build started 19/11/2014 00:10:44.
            Configuration=Release
            Platform=AnyCPU
            VisualStudioVersion=11.0
-     1>Project "C:\Users\Allan\Documents\GitHub\Synology.NET\Synology.NET.sln" (1) is building "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (2:2) on node 1 (Rebuild target(s)).
-   2:2>Building with tools version "4.0".
-       Target "_CheckForInvalidConfigurationAndPlatform" skipped. Previously built successfully.
-   2:2>Target "BeforeRebuild" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "Rebuild" depends on it):
-   2:2>Done building target "BeforeRebuild" in project "SynologyClient.Tests.csproj".
-       Target "Clean" skipped. Previously built successfully.
-   2:2>Target "CheckPrerequisites" in file "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "RestorePackages" depends on it):
-       Task "Error" skipped, due to false condition; ('$(DownloadNuGetExe)' != 'true' AND !Exists('$(NuGetExePath)')) was evaluated as ('false' != 'true' AND !Exists('C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.exe')).
-       Task "MsBuild"
-         Global Properties:
-           Configuration=NOT_IMPORTANT
-           DownloadNuGetExe=false
      1>Project "C:\Users\Allan\Documents\GitHub\Synology.NET\Synology.NET.sln" (1) is building "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\SynologyClient.csproj" (3:3) on node 2 (Rebuild target(s)).
    3:3>Building with tools version "4.0".
        Target "_CheckForInvalidConfigurationAndPlatform" skipped. Previously built successfully.
@@ -283,36 +271,87 @@ Build started 19/11/2014 00:10:44.
          Global Properties:
            Configuration=NOT_IMPORTANT
            DownloadNuGetExe=false
+     1>Project "C:\Users\Allan\Documents\GitHub\Synology.NET\Synology.NET.sln" (1) is building "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (2:2) on node 1 (Rebuild target(s)).
+   2:2>Building with tools version "4.0".
+       Target "_CheckForInvalidConfigurationAndPlatform" skipped. Previously built successfully.
+   2:2>Target "BeforeRebuild" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "Rebuild" depends on it):
+   2:2>Done building target "BeforeRebuild" in project "SynologyClient.Tests.csproj".
+       Target "Clean" skipped. Previously built successfully.
+   2:2>Target "CheckPrerequisites" in file "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "RestorePackages" depends on it):
+       Task "Error" skipped, due to false condition; ('$(DownloadNuGetExe)' != 'true' AND !Exists('$(NuGetExePath)')) was evaluated as ('false' != 'true' AND !Exists('C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.exe')).
+       Task "MsBuild"
+         Global Properties:
+           Configuration=NOT_IMPORTANT
+           DownloadNuGetExe=false
    2:2>Project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (2:2) is building "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.targets" (4) on node 5 (_DownloadNuGet target(s)).
      4>Building with tools version "4.0".
+     4>Target "_DownloadNuGet" in project "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.targets" (entry point):
+       Task "DownloadNuGet" skipped, due to false condition; ( '$(DownloadNuGetExe)' == 'true' AND !Exists('$(NuGetExePath)')) was evaluated as ( 'false' == 'true' AND !Exists('C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.exe')).
+     4>Done building target "_DownloadNuGet" in project "NuGet.targets".
+     4>Done Building Project "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.targets" (_DownloadNuGet target(s)).
    3:3>Project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\SynologyClient.csproj" (3:3) is building "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.targets" (4:2) on node 5 (_DownloadNuGet target(s)).
    4:2>Building with tools version "4.0".
        Target "_DownloadNuGet" skipped. Previously built successfully.
    4:2>Done Building Project "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.targets" (_DownloadNuGet target(s)).
-     4>Target "_DownloadNuGet" in project "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.targets" (entry point):
-     4>Task "DownloadNuGet" skipped, due to false condition; ( '$(DownloadNuGetExe)' == 'true' AND !Exists('$(NuGetExePath)')) was evaluated as ( 'false' == 'true' AND !Exists('C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.exe')).
-     4>Done building target "_DownloadNuGet" in project "NuGet.targets".
-     4>Done Building Project "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.targets" (_DownloadNuGet target(s)).
    2:2>Done executing task "MsBuild".
    2:2>Done building target "CheckPrerequisites" in project "SynologyClient.Tests.csproj".
    2:2>Target "RestorePackages" in file "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "Build" depends on it):
        Task "Exec" skipped, due to false condition; ('$(OS)' != 'Windows_NT' And Exists('$(PackagesConfig)')) was evaluated as ('Windows_NT' != 'Windows_NT' And Exists('C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\packages.config')).
        Using "Exec" task from assembly "Microsoft.Build.Tasks.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
        Task "Exec"
+         "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.exe" install "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\packages.config" -source ""  -NonInteractive -RequireConsent -solutionDir "C:\Users\Allan\Documents\GitHub\Synology.NET\ "
    3:3>Done executing task "MsBuild".
    3:3>Done building target "CheckPrerequisites" in project "SynologyClient.csproj".
-   2:2>RestorePackages:
-         "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.exe" install "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\packages.config" -source ""  -NonInteractive -RequireConsent -solutionDir "C:\Users\Allan\Documents\GitHub\Synology.NET\ "
    3:3>Target "RestorePackages" in file "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\SynologyClient.csproj" (target "Build" depends on it):
-   3:3>Task "Exec" skipped, due to false condition; ('$(OS)' != 'Windows_NT' And Exists('$(PackagesConfig)')) was evaluated as ('Windows_NT' != 'Windows_NT' And Exists('C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\packages.config')).
+       Task "Exec" skipped, due to false condition; ('$(OS)' != 'Windows_NT' And Exists('$(PackagesConfig)')) was evaluated as ('Windows_NT' != 'Windows_NT' And Exists('C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\packages.config')).
        Using "Exec" task from assembly "Microsoft.Build.Tasks.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
        Task "Exec"
          "C:\Users\Allan\Documents\GitHub\Synology.NET\.nuget\NuGet.exe" install "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\packages.config" -source ""  -NonInteractive -RequireConsent -solutionDir "C:\Users\Allan\Documents\GitHub\Synology.NET\ "
-         Restoring NuGet packages...
-         To prevent NuGet from downloading packages during build, open the Visual Studio Options dialog, click on the Package Manager node and uncheck 'Allow NuGet to download missing packages'.
    2:2>RestorePackages:
          Restoring NuGet packages...
          To prevent NuGet from downloading packages during build, open the Visual Studio Options dialog, click on the Package Manager node and uncheck 'Allow NuGet to download missing packages'.
+   3:3>RestorePackages:
+         Restoring NuGet packages...
+         To prevent NuGet from downloading packages during build, open the Visual Studio Options dialog, click on the Package Manager node and uncheck 'Allow NuGet to download missing packages'.
+   2:2>RestorePackages:
+         All packages listed in packages.config are already installed.
+       Done executing task "Exec".
+   2:2>Done building target "RestorePackages" in project "SynologyClient.Tests.csproj".
+       Target "EntityDeploy" skipped, due to false condition; ('@(EntityDeploy)' != '') was evaluated as ('' != '').
+   2:2>Target "BeforeBuild" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "Build" depends on it):
+   2:2>Done building target "BeforeBuild" in project "SynologyClient.Tests.csproj".
+   2:2>Target "BuildOnlySettings" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "CoreBuild" depends on it):
+   2:2>Done building target "BuildOnlySettings" in project "SynologyClient.Tests.csproj".
+   2:2>Target "GetFrameworkPaths" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.NETFramework.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "PrepareForBuild" depends on it):
+   2:2>Done building target "GetFrameworkPaths" in project "SynologyClient.Tests.csproj".
+       Target "GetWinFXPath" skipped, due to false condition; (('@(Page)' != '' or '@(ApplicationDefinition)' != '' or '@(Resource)' != '') and ('$(GetWinFXNativePath)' != '' or '$(GetWinFXWoWPath)' != '' )) was evaluated as (('' != '' or '' != '' or '' != '') and ('' != '' or '' != '' )).
+   2:2>Target "GetReferenceAssemblyPaths" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "PrepareForBuild" depends on it):
+       Task "GetReferenceAssemblyPaths" skipped, due to false condition; ('$(TargetFrameworkMoniker)' != '' and ('$(_TargetFrameworkDirectories)' == '' or '$(_FullFrameworkReferenceAssemblyPaths)' == '')) was evaluated as ('.NETFramework,Version=v4.0' != '' and ('C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0' == '' or 'C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0' == '')).
+   2:2>Done building target "GetReferenceAssemblyPaths" in project "SynologyClient.Tests.csproj".
+   2:2>Target "EnsureNuGetPackageBuildImports" in project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "PrepareForBuild" depends on it):
+       Task "Error" skipped, due to false condition; (!Exists('$(SolutionDir)\.nuget\NuGet.targets')) was evaluated as (!Exists('C:\Users\Allan\Documents\GitHub\Synology.NET\\.nuget\NuGet.targets')).
+   2:2>Done building target "EnsureNuGetPackageBuildImports" in project "SynologyClient.Tests.csproj".
+   2:2>Target "PrepareForBuild" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "CoreBuild" depends on it):
+       Using "FindAppConfigFile" task from assembly "Microsoft.Build.Tasks.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+       Task "FindAppConfigFile"
+         Found "app.config".
+       Done executing task "FindAppConfigFile".
+       Task "MakeDir"
+       Done executing task "MakeDir".
+   2:2>Done building target "PrepareForBuild" in project "SynologyClient.Tests.csproj".
+       Target "PreBuildEvent" skipped, due to false condition; ('$(PreBuildEvent)'!='') was evaluated as (''!='').
+   2:2>Target "BeforeResolveReferences" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "ResolveReferences" depends on it):
+   2:2>Done building target "BeforeResolveReferences" in project "SynologyClient.Tests.csproj".
+       Target "AssignProjectConfiguration" skipped. Previously built successfully.
+       Target "AssignProjectConfiguration" skipped. Previously built successfully.
+       Target "_SplitProjectReferencesByFileExistence" skipped. Previously built successfully.
+   2:2>Target "ResolveProjectReferences" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "ResolveReferences" depends on it):
+       Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and ('$(BuildingInsideVisualStudio)' == 'true' or '$(BuildProjectReferences)' != 'true') and '$(VisualStudioVersion)' != '10.0' and '@(_MSBuildProjectReferenceExistent)' != '') was evaluated as ('true' == 'true' and '..\SynologyClient\SynologyClient.csproj' != '' and ('' == 'true' or 'true' != 'true') and '11.0' != '10.0' and '..\SynologyClient\SynologyClient.csproj' != '').
+       Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and ('$(BuildingInsideVisualStudio)' == 'true' or '$(BuildProjectReferences)' != 'true') and '$(VisualStudioVersion)' == '10.0' and '@(_MSBuildProjectReferenceExistent)' != '') was evaluated as ('true' == 'true' and '..\SynologyClient\SynologyClient.csproj' != '' and ('' == 'true' or 'true' != 'true') and '11.0' == '10.0' and '..\SynologyClient\SynologyClient.csproj' != '').
+       Task "MSBuild"
+         Global Properties:
+           Configuration=Release
+           Platform=AnyCPU
    3:3>RestorePackages:
          All packages listed in packages.config are already installed.
        Done executing task "Exec".
@@ -320,8 +359,6 @@ Build started 19/11/2014 00:10:44.
        Target "EntityDeploy" skipped, due to false condition; ('@(EntityDeploy)' != '') was evaluated as ('' != '').
    3:3>Target "BeforeBuild" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\SynologyClient.csproj" (target "Build" depends on it):
    3:3>Done building target "BeforeBuild" in project "SynologyClient.csproj".
-   2:2>RestorePackages:
-         All packages listed in packages.config are already installed.
    3:3>Target "BuildOnlySettings" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\SynologyClient.csproj" (target "CoreBuild" depends on it):
    3:3>Done building target "BuildOnlySettings" in project "SynologyClient.csproj".
    3:3>Target "GetFrameworkPaths" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.NETFramework.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient\SynologyClient.csproj" (target "PrepareForBuild" depends on it):
@@ -405,93 +442,35 @@ Build started 19/11/2014 00:10:44.
              .winmd
              .dll
              .exe
-   2:2>Done executing task "Exec".
-   2:2>Done building target "RestorePackages" in project "SynologyClient.Tests.csproj".
-   3:3>ResolveAssemblyReferences:
          AllowedRelatedFileExtensions:
-   2:2>Target "EntityDeploy" skipped, due to false condition; ('@(EntityDeploy)' != '') was evaluated as ('' != '').
-   2:2>Target "BeforeBuild" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "Build" depends on it):
-   2:2>Done building target "BeforeBuild" in project "SynologyClient.Tests.csproj".
-   2:2>Target "BuildOnlySettings" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "CoreBuild" depends on it):
-   2:2>Done building target "BuildOnlySettings" in project "SynologyClient.Tests.csproj".
-   3:3>ResolveAssemblyReferences:
              .pdb
              .xml
-   2:2>Target "GetFrameworkPaths" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.NETFramework.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "PrepareForBuild" depends on it):
-   2:2>Done building target "GetFrameworkPaths" in project "SynologyClient.Tests.csproj".
-   3:3>ResolveAssemblyReferences:
              .pri
-   2:2>Target "GetWinFXPath" skipped, due to false condition; (('@(Page)' != '' or '@(ApplicationDefinition)' != '' or '@(Resource)' != '') and ('$(GetWinFXNativePath)' != '' or '$(GetWinFXWoWPath)' != '' )) was evaluated as (('' != '' or '' != '' or '' != '') and ('' != '' or '' != '' )).
-   3:3>ResolveAssemblyReferences:
          AppConfigFile:
-   2:2>Target "GetReferenceAssemblyPaths" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "PrepareForBuild" depends on it):
-   2:2>Task "GetReferenceAssemblyPaths" skipped, due to false condition; ('$(TargetFrameworkMoniker)' != '' and ('$(_TargetFrameworkDirectories)' == '' or '$(_FullFrameworkReferenceAssemblyPaths)' == '')) was evaluated as ('.NETFramework,Version=v4.0' != '' and ('C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0' == '' or 'C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0' == '')).
-   3:3>ResolveAssemblyReferences:
              
-   2:2>Done building target "GetReferenceAssemblyPaths" in project "SynologyClient.Tests.csproj".
-   3:3>ResolveAssemblyReferences:
          AutoUnify:
-   2:2>Target "EnsureNuGetPackageBuildImports" in project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "PrepareForBuild" depends on it):
-   2:2>Task "Error" skipped, due to false condition; (!Exists('$(SolutionDir)\.nuget\NuGet.targets')) was evaluated as (!Exists('C:\Users\Allan\Documents\GitHub\Synology.NET\\.nuget\NuGet.targets')).
-   3:3>ResolveAssemblyReferences:
              True
-   2:2>Done building target "EnsureNuGetPackageBuildImports" in project "SynologyClient.Tests.csproj".
-   3:3>ResolveAssemblyReferences:
          CopyLocalDependenciesWhenParentReferenceInGac:
-   2:2>Target "PrepareForBuild" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "CoreBuild" depends on it):
-   2:2>Using "FindAppConfigFile" task from assembly "Microsoft.Build.Tasks.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
-   3:3>ResolveAssemblyReferences:
              True
-   2:2>Task "FindAppConfigFile"
-   3:3>ResolveAssemblyReferences:
          FindDependencies:
              True
          TargetProcessorArchitecture:
              msil
          StateFile:
-   2:2>PrepareForBuild:
-         Found "app.config".
-   3:3>ResolveAssemblyReferences:
              obj\Release\SynologyClient.csprojResolveAssemblyReference.cache
-   2:2>Done executing task "FindAppConfigFile".
-       Task "MakeDir"
-   3:3>ResolveAssemblyReferences:
          InstalledAssemblySubsetTables:
          IgnoreInstalledAssemblySubsetTable:
              False
          TargetFrameworkSubsets:
-   2:2>Done executing task "MakeDir".
-   2:2>Done building target "PrepareForBuild" in project "SynologyClient.Tests.csproj".
-   3:3>ResolveAssemblyReferences:
          FullTargetFrameworkSubsetNames:
-   2:2>Target "PreBuildEvent" skipped, due to false condition; ('$(PreBuildEvent)'!='') was evaluated as (''!='').
-   2:2>Target "BeforeResolveReferences" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "ResolveReferences" depends on it):
-   2:2>Done building target "BeforeResolveReferences" in project "SynologyClient.Tests.csproj".
-       Target "AssignProjectConfiguration" skipped. Previously built successfully.
-       Target "AssignProjectConfiguration" skipped. Previously built successfully.
-       Target "_SplitProjectReferencesByFileExistence" skipped. Previously built successfully.
-   3:3>ResolveAssemblyReferences:
              Full
          ProfileName:
              
-   2:2>Target "ResolveProjectReferences" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" from project "C:\Users\Allan\Documents\GitHub\Synology.NET\SynologyClient.ApiTests\SynologyClient.Tests.csproj" (target "ResolveReferences" depends on it):
-   2:2>Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and ('$(BuildingInsideVisualStudio)' == 'true' or '$(BuildProjectReferences)' != 'true') and '$(VisualStudioVersion)' != '10.0' and '@(_MSBuildProjectReferenceExistent)' != '') was evaluated as ('true' == 'true' and '..\SynologyClient\SynologyClient.csproj' != '' and ('' == 'true' or 'true' != 'true') and '11.0' != '10.0' and '..\SynologyClient\SynologyClient.csproj' != '').
-   3:3>ResolveAssemblyReferences:
          FullFrameworkFolders:
              C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0
-   2:2>ResolveProjectReferences:
-       Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and ('$(BuildingInsideVisualStudio)' == 'true' or '$(BuildProjectReferences)' != 'true') and '$(VisualStudioVersion)' == '10.0' and '@(_MSBuildProjectReferenceExistent)' != '') was evaluated as ('true' == 'true' and '..\SynologyClient\SynologyClient.csproj' != '' and ('' == 'true' or 'true' != 'true') and '11.0' == '10.0' and '..\SynologyClient\SynologyClient.csproj' != '').
-   3:3>ResolveAssemblyReferences:
          LatestTargetFrameworkDirectories:
          ProfileTablesLocation:
-   2:2>Task "MSBuild"
-   3:3>ResolveAssemblyReferences:
          Primary reference "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089".
-   2:2>ResolveProjectReferences:
-         Global Properties:
-           Configuration=Release
-           Platform=AnyCPU
-   3:3>ResolveAssemblyReferences:
              Resolved file path is "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\mscorlib.dll".
              Reference found at search path location "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\mscorlib.dll".
              This reference is not "CopyLocal" because it's a prerequisite file.
@@ -1301,4 +1280,4 @@ Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:00.99
+Time Elapsed 00:00:01.07

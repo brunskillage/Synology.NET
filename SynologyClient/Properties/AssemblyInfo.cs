@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Synology.NET")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("en-GB")]
-[assembly: ComVisible(true)]
+[assembly: AssemblyCulture("")]
+[assembly: ComVisible(false)]
 [assembly: Guid("4c86e672-c00d-4120-8466-4878b5f2dd8e")]
 
