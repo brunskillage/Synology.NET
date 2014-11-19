@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Synology.NET</id>
+    <version>1.0.0</version>
+    <title>Synology.NET</title>
+    <authors>Allan Brunskill</authors>
+    <owners>Allan Brunskill</owners>
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>https://github.com/brunskillage/Synology.NET</projectUrl>
+    <iconUrl></iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>A full C# implementation of the Synology Diskstation Web Api.</description>
+    <releaseNotes>Latest Release</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>.net c# synology client</tags>
+	<dependencies>
+      <dependency id="RestSharp" version="104.5.0"/>
+    </dependencies>
+  </metadata>
+</package>

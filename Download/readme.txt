@@ -10,7 +10,9 @@ The Synology.dll is the assembly required which depends on Restsharp.dll from ht
 To Use
 --------------------
 
-Copy dlls in Downloads folder to your app and add them as references.
+Package is available on NUGet
+
+https://www.nuget.org/packages/Synology.NET/
 
 Ensure your app.config or web.config has the following keys set to your relevant settings.
 
@@ -34,9 +36,13 @@ Then LogOut.
   // do something with resp
   
   session.LogOut();
+  
+Manual Usage
+
+Copy dlls in Downloads folder to your app and add them as references.
 
 To run the nunit integration tests 
---------------------
+----------------------------------
 Set the Syno.TestFolder in app.config value to a directory of your DiskStation and run.
 
   <appSettings>
