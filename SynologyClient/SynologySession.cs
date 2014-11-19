@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using RestSharp;
 
 namespace SynologyClient
@@ -12,6 +13,10 @@ namespace SynologyClient
         {
             _config = config;
             _authBaseUrl = string.Format("{0}/auth.cgi", _config.ApiBaseAddressAndPathNoTrailingSlash);
+
+
+            // ignore certificate errors
+            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
         }
 
         public DateTime loggedInTime { get; set; }

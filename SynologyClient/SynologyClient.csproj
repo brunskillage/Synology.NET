@@ -47,6 +47,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="ClearFinishedBackgroundTasksResponse.cs" />
     <Compile Include="GetBackgroundTasksResponse.cs" />
     <Compile Include="CopyMoveAsyncResponse.cs" />
