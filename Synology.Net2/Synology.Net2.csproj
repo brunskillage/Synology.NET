@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{26E913DE-84DA-40A2-ABB7-90FC88FA9C11}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Synology.Net2</RootNamespace>
+    <AssemblyName>Synology.Net2</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.1\lib\net20\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp.Net2">
+      <HintPath>..\packages\RestSharp.Net2.1.1.11\lib\net20\RestSharp.Net2.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Acl.cs" />
+    <Compile Include="AddFavoriteResponse.cs" />
+    <Compile Include="AddFolderResponse.cs" />
+    <Compile Include="AddShareResponse.cs" />
+    <Compile Include="Addtional.cs" />
+    <Compile Include="AdvancedRights.cs" />
+    <Compile Include="AppSettingsClientConfig.cs" />
+    <Compile Include="ArchiveItem.cs" />
+    <Compile Include="BackgroundTask.cs" />
+    <Compile Include="BackgroundTaskList.cs" />
+    <Compile Include="BaseSynologyResponse.cs" />
+    <Compile Include="CheckPermissionWrite.cs" />
+    <Compile Include="Children.cs" />
+    <Compile Include="ClearBrokenFavoritesResponse.cs" />
+    <Compile Include="ClearFinishedBackgroundTasksResponse.cs" />
+    <Compile Include="ClearInvalidSharesResponse.cs" />
+    <Compile Include="CompressAsyncResposne.cs" />
+    <Compile Include="CompressStatus.cs" />
+    <Compile Include="CompressStatusResponse.cs" />
+    <Compile Include="CompressStopResponse.cs" />
+    <Compile Include="CopyMoveAsyncResponse.cs" />
+    <Compile Include="CopyMoveStatus.cs" />
+    <Compile Include="CopyMoveStatusResponse.cs" />
+    <Compile Include="CopyMoveStopResponse.cs" />
+    <Compile Include="CreateFolder.cs" />
+    <Compile Include="DateTimeExtender.cs" />
+    <Compile Include="DeleteAsyncResponse.cs" />
+    <Compile Include="DeleteFavoriteResponse.cs" />
+    <Compile Include="DeleteResponse.cs" />
+    <Compile Include="DeleteShareResponse.cs" />
+    <Compile Include="DeleteStatus.cs" />
+    <Compile Include="DeleteStatusResponse.cs" />
+    <Compile Include="DeleteStopResponse.cs" />
+    <Compile Include="DirSizeStatus.cs" />
+    <Compile Include="DirSizeStatusResponse.cs" />
+    <Compile Include="DirSizeStopResponse.cs" />
+    <Compile Include="DownloadDownload.cs" />
+    <Compile Include="EditFavoriteResponse.cs" />
+    <Compile Include="EditShareResponse.cs" />
+    <Compile Include="Error.cs" />
+    <Compile Include="ExtractAsyncResponse.cs" />
+    <Compile Include="ExtractList.cs" />
+    <Compile Include="ExtractListResponse.cs" />
+    <Compile Include="ExtractStatus.cs" />
+    <Compile Include="ExtractStatusResponse.cs" />
+    <Compile Include="ExtractStopResponse.cs" />
+    <Compile Include="Favorite.cs" />
+    <Compile Include="FavoriteAdd.cs" />
+    <Compile Include="FavoriteAdditional.cs" />
+    <Compile Include="FavoriteClearBroken.cs" />
+    <Compile Include="FavoriteDelete.cs" />
+    <Compile Include="FavoriteEdit.cs" />
+    <Compile Include="FavoriteList.cs" />
+    <Compile Include="FavoriteListResponse.cs" />
+    <Compile Include="FavoriteReplaceAll.cs" />
+    <Compile Include="File.cs" />
+    <Compile Include="FileAddtional.cs" />
+    <Compile Include="FuncProcessor.cs" />
+    <Compile Include="GetBackgroundTasksResponse.cs" />
+    <Compile Include="GetDirectorySizeAsyncResponse.cs" />
+    <Compile Include="GetDiskstationInfoResponse.cs" />
+    <Compile Include="GetFileMd5AsyncResponse.cs" />
+    <Compile Include="GetFileMd5StatusResponse.cs" />
+    <Compile Include="GetFileMd5StopResponse.cs" />
+    <Compile Include="GetFileSystemEntriesResponse.cs" />
+    <Compile Include="GetFileSystemInfoResponse.cs" />
+    <Compile Include="GetSharesResponse.cs" />
+    <Compile Include="GetSharingInfoResponse.cs" />
+    <Compile Include="GetUserSharesResponse.cs" />
+    <Compile Include="GetVirtualFoldersResponse.cs" />
+    <Compile Include="InfoGetInfo.cs" />
+    <Compile Include="ISynologyApi.cs" />
+    <Compile Include="ISynologyClientConfig.cs" />
+    <Compile Include="ISynologyResponse.cs" />
+    <Compile Include="ISynologySession.cs" />
+    <Compile Include="ListGetInfo.cs" />
+    <Compile Include="ListList.cs" />
+    <Compile Include="ListListShare.cs" />
+    <Compile Include="Md5Status.cs" />
+    <Compile Include="MethodStart.cs" />
+    <Compile Include="MethodStatus.cs" />
+    <Compile Include="MethodStop.cs" />
+    <Compile Include="Owner.cs" />
+    <Compile Include="Params.cs" />
+    <Compile Include="Permission.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RawSynologyResponse.cs" />
+    <Compile Include="RenameRename.cs" />
+    <Compile Include="RenameResponse.cs" />
+    <Compile Include="ReplaceFavoriteResponse.cs" />
+    <Compile Include="SearchCleanResponse.cs" />
+    <Compile Include="SearchList.cs" />
+    <Compile Include="SearchStartResponse.cs" />
+    <Compile Include="SearchStatusResponse.cs" />
+    <Compile Include="SearchStopResponse.cs" />
+    <Compile Include="SharedFolder.cs" />
+    <Compile Include="SharedFolderPerm.cs" />
+    <Compile Include="SharedLink.cs" />
+    <Compile Include="SharingCreate.cs" />
+    <Compile Include="SharingInfo.cs" />
+    <Compile Include="SharingLink.cs" />
+    <Compile Include="SharingList.cs" />
+    <Compile Include="SynologyApi.cs" />
+    <Compile Include="SynologyClientException.cs" />
+    <Compile Include="SynologyErrorCodes.cs" />
+    <Compile Include="SynologyRestRequest.cs" />
+    <Compile Include="SynologySession.cs" />
+    <Compile Include="Time.cs" />
+    <Compile Include="VirtualFolder.cs" />
+    <Compile Include="VirtualFolderAddtional.cs" />
+    <Compile Include="VirtualFolderList.cs" />
+    <Compile Include="VolumeStatus.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

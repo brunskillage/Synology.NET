@@ -15,9 +15,9 @@ namespace SynologyClient
 
         public FuncProcessor(string scriptPath, string sid, object args, object optionalArgs = null)
         {
-            if (string.IsNullOrWhiteSpace(scriptPath))
+            if (string.IsNullOrEmpty(scriptPath))
                 throw new ArgumentNullException("scriptPath");
-            if (string.IsNullOrWhiteSpace(sid))
+            if (string.IsNullOrEmpty(sid))
                 throw new ArgumentNullException("sid");
             if (args == null)
                 throw new ArgumentNullException("args");
