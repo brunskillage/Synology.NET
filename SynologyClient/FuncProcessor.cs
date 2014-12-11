@@ -7,13 +7,13 @@ namespace SynologyClient
     public class FuncProcessor<TResponse> where TResponse : BaseSynologyResponse, new()
     {
         private static readonly AppSettingsClientConfig Config = new AppSettingsClientConfig();
-        private readonly object _args;
-        private readonly object _optionalArgs;
+        private readonly dynamic _args;
+        private readonly dynamic _optionalArgs;
         private readonly string _scriptPath;
         private readonly string _sid;
         public SynologyRestRequest RestRequest;
 
-        public FuncProcessor(string scriptPath, string sid, object args, object optionalArgs = null)
+        public FuncProcessor(string scriptPath, string sid, dynamic args, dynamic optionalArgs = null)
         {
             if (string.IsNullOrWhiteSpace(scriptPath))
                 throw new ArgumentNullException("scriptPath");
