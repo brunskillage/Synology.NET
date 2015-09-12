@@ -18,6 +18,10 @@ copy SynologyClient\bin\Release\RestSharp.dll Download\net4\
 copy SynologyClient\bin\Release\Synology.dll Download\net4\
 copy readme.txt Download\
 
+REM SET WORKSPACE=C:\Users\allan\Documents\GitHub
+REM cd %WORKSPACE%
+REM SET NUGET=%WORKSPACE%\Synology.NET\.nuget\NuGet.exe
+REM %NUGET% pack %WORKSPACE%\Synology.NET\SynologyClient\SynologyClient.csproj -IncludeReferencedProjects -Version 1.0.4 -Properties Configuration=Release
 REM rd NugetPackage /s /q  REM delete the old stuff
 REM if not exist NugetPackage mkdir NugetPackage\lib
 REM copy SynologyClient\bin\Release\Synology.dll NugetPackage\lib
@@ -25,15 +29,8 @@ REM cd NugetPackage
 REM ..\.NuGet\NuGet pack ..\SynologyClient\SynologyClient.nuspec -IncludeReferencedProjects -Prop REM Configuration=Release
 REM pause FINISHED
 :success
-
-REM use github status API to indicate commit compile success
-
 exit 0
 
 :failure
-
-REM use github status API to indicate commit compile success
-
 exit -1
 
-pause FINISHED

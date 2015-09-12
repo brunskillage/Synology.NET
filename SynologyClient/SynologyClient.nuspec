@@ -8,6 +8,7 @@
     <owners>Allan Brunskill</owners>
     <projectUrl>https://github.com/brunskillage/Synology.NET</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <description>A full C# implementation of the Synology Diskstation Web Api.</description>
     <releaseNotes>Latest Release</releaseNotes>
     <copyright>Copyright 2014</copyright>
