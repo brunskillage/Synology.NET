@@ -33,11 +33,11 @@ namespace SynologyClient.ApiTests
             }
         }
 
-        public ApiTests()
-        {
+        public ApiTests(){
             var executingAssembly = new FileInfo(Assembly.GetExecutingAssembly().FullName);
             _localTestFolderNoSlash = executingAssembly.DirectoryName + "\\TestFiles";
             _localTestImage = _localTestFolderNoSlash + "\\image\\synologybox.jpg";
+            _md5TestImage = _localTestFolderNoSlash + "\\image\\md5test.jpg";
             _synoTestFolderNoSlash = WebConfigurationManager.AppSettings.Get("Syno.TestFolder");
              if(string.IsNullOrWhiteSpace(_synoTestFolderNoSlash))
                   throw new ConfigurationErrorsException("No Syno.TestFolder in app config found or value is empty");
@@ -52,6 +52,7 @@ namespace SynologyClient.ApiTests
         private readonly string _synoTestFolderNoSlash;
         private static string _localTestFolderNoSlash;
         private readonly string _localTestImage;
+        private readonly string _md5TestImage;
 
         private SynologySession _session;
         private SynologyApi _api;
@@ -101,6 +102,33 @@ namespace SynologyClient.ApiTests
 
             BaseSynologyResponse stop = _api.CompressStop(start.Data.taskid);
             stop.success.Should().BeTrue();
+        }
+
+        [Test]
+        public void Md5()
+        {
+            RawSynologyResponse res = _api.Upload(new FileInfo(_md5TestImage), _synoTestFolderNoSlash, true, true);
+
+            GetFileMd5AsyncResponse md5 = _api.GetFileMd5Async(_synoTestFolderNoSlash + "/md5test.jpg");
+
+            md5.success.Should().BeTrue();
+
+            md5.Data.taskid.Should().NotBeNullOrEmpty();
+
+            GetFileMd5StatusResponse status = null;
+
+            for (int i = 0; i < 10; i++)
+            {
+                status = _api.GetFileMd5Status(md5.Data.taskid);
+                status.success.Should().BeTrue();
+                if (status.Data.finished)
+                    break;
+
+                Thread.Sleep(2000);
+            }
+
+            status.success.Should().BeTrue();
+            status.Data.finished.Should().BeTrue();
         }
 
         [Test]
@@ -288,30 +316,6 @@ namespace SynologyClient.ApiTests
         {
             GetDiskstationInfoResponse res = _api.GetDiskstationInfo();
             res.success.Should().BeTrue();
-        }
-
-        [Test]
-        public void Md5()
-        {
-            GetFileMd5AsyncResponse @async = _api.GetFileMd5Async(_synoTestFolderNoSlash + "/synologybox.jpg");
-
-            @async.success.Should().BeTrue();
-
-            @async.Data.taskid.Should().NotBeNullOrEmpty();
-
-            GetFileMd5StatusResponse status = null; 
-
-            for (int i = 0; i < 10; i++) {
-                status = _api.GetFileMd5Status(async.Data.taskid);
-                status.success.Should().BeTrue();
-                if (status.Data.finished)
-                    break;
-
-                Thread.Sleep(2000);
-            }
-
-            status.success.Should().BeTrue();
-            status.Data.finished.Should().BeTrue();
         }
 
         [Test]
