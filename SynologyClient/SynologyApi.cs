@@ -1,128 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RestSharp;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using RestSharp;
 
 namespace SynologyClient
 {
     public class SynologyApi : ISynologyApi
     {
-        // ReSharper disable InconsistentNaming
-        public enum BackgroundTaskSortBy
-        {
-            crtime,
-            finished
-        }
-
-        public enum CompressionFormat
-        {
-            formatZip,
-            format7z
-        }
-
-        public enum CompressionLevel
-        {
-            moderate,
-            fast,
-            best,
-            store
-        }
-
-        public enum CompressionMode
-        {
-            add,
-            update,
-            refreshen,
-            synchronize
-        }
-
-        public enum DownloadMode
-        {
-            open,
-            download
-        }
-
-        public enum ExtractSortBy
-        {
-            name,
-            size,
-            pack_size,
-            mtime
-        }
-
-        public enum FileSystemType
-        {
-            cifs,
-            iso
-        }
-
-        public enum FileTypeFilter
-        {
-            file,
-            dir,
-            all
-        }
-
-        public enum SharingSortBy
-        {
-            id,
-            isFolder,
-            path,
-            date_expired,
-            date_available,
-            status,
-            has_password,
-            url,
-            link_owner
-        }
-
-        public enum SortBy
-        {
-            name,
-            user,
-            group,
-            mtime,
-            atime,
-            ctime,
-            posix,
-            size
-        }
-
-        public enum SortDirection
-        {
-            asc,
-            desc
-        }
-
-        public enum StatusFilter
-        {
-            valid,
-            broken,
-            all
-        }
-
-        public enum ThumbnailRotateOptions
-        {
-            none,
-            rotate90,
-            rotate180,
-            rotate270,
-            rotate360
-        }
-
-        public enum ThumbnailSizeOption
-        {
-            small,
-            medium,
-            large,
-            original
-        }
-
-        // ReSharper restore InconsistentNaming
-
         private readonly ISynologySession _session;
 
         public SynologyApi(ISynologySession session)
@@ -197,7 +83,7 @@ namespace SynologyClient
 
         public SearchStartResponse SearchStartAsync(string folderPath, bool recursive = true,
             string[] globPatterns = null, string[] extentionPatterns = null,
-            FileTypeFilter fileType = FileTypeFilter.file, long minSizeBytes = 0, long maxSizeBytes = Int64.MaxValue,
+            FileTypeFilter fileType = FileTypeFilter.file, long minSizeBytes = 0, long maxSizeBytes = long.MaxValue,
             DateTime? modifiedTimeFrom = null, DateTime? modifiedTimeTo = null, DateTime? createdTimeFrom = null,
             DateTime? createdTimeTo = null, DateTime? accessedTimeTo = null, DateTime? accessedTimeFrom = null,
             string owner = null, string group = null)
@@ -428,7 +314,7 @@ namespace SynologyClient
             var config = new AppSettingsClientConfig();
             var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/api_upload.cgi");
 
-            IRestResponse<RawSynologyResponse> response = client.Execute<RawSynologyResponse>(request);
+            var response = client.Execute<RawSynologyResponse>(request);
             return response.Data;
         }
 
@@ -497,7 +383,7 @@ namespace SynologyClient
             request.AddParameter("_sid", _session.sid);
             var config = new AppSettingsClientConfig();
             var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/file_thumb.cgi");
-            IRestResponse response = client.Execute(request);
+            var response = client.Execute(request);
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new SynologyClientException("Errored with http status code " + response.StatusCode);
             return response.RawBytes;
@@ -621,7 +507,7 @@ namespace SynologyClient
             request.AddParameter("_sid", _session.sid);
             var config = new AppSettingsClientConfig();
             var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/file_download.cgi");
-            IRestResponse response = client.Execute(request);
+            var response = client.Execute(request);
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new SynologyClientException("Errored with http status code " + response.StatusCode);
             return response.RawBytes;
@@ -1035,7 +921,7 @@ namespace SynologyClient
             if (instance == null)
                 return null;
 
-            string[] selected =
+            var selected =
                 typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
                     .Where(p => (bool)p.GetValue(instance, null))
                     .Select(p => p.Name).ToArray();
@@ -1044,83 +930,168 @@ namespace SynologyClient
         }
 
         // ReSharper disable InconsistentNaming
+        public enum BackgroundTaskSortBy
+        {
+            crtime,
+            finished
+        }
+
+        public enum CompressionFormat
+        {
+            formatZip,
+            format7z
+        }
+
+        public enum CompressionLevel
+        {
+            moderate,
+            fast,
+            best,
+            store
+        }
+
+        public enum CompressionMode
+        {
+            add,
+            update,
+            refreshen,
+            synchronize
+        }
+
+        public enum DownloadMode
+        {
+            open,
+            download
+        }
+
+        public enum ExtractSortBy
+        {
+            name,
+            size,
+            pack_size,
+            mtime
+        }
+
+        public enum FileSystemType
+        {
+            cifs,
+            iso
+        }
+
+        public enum FileTypeFilter
+        {
+            file,
+            dir,
+            all
+        }
+
+        public enum SharingSortBy
+        {
+            id,
+            isFolder,
+            path,
+            date_expired,
+            date_available,
+            status,
+            has_password,
+            url,
+            link_owner
+        }
+
+        public enum SortBy
+        {
+            name,
+            user,
+            group,
+            mtime,
+            atime,
+            ctime,
+            posix,
+            size
+        }
+
+        public enum SortDirection
+        {
+            asc,
+            desc
+        }
+
+        public enum StatusFilter
+        {
+            valid,
+            broken,
+            all
+        }
+
+        public enum ThumbnailRotateOptions
+        {
+            none,
+            rotate90,
+            rotate180,
+            rotate270,
+            rotate360
+        }
+
+        public enum ThumbnailSizeOption
+        {
+            small,
+            medium,
+            large,
+            original
+        }
+
+        // ReSharper restore InconsistentNaming
+        // ReSharper disable InconsistentNaming
         // To directly map from synology specified Addtional parameters list paremeter naming conventions
         public class FileGetInfoAddtionalOptions
         {
             public bool real_path { get; set; }
-
             public bool size { get; set; }
-
             public bool owner { get; set; }
-
             public bool time { get; set; }
-
             public bool perm { get; set; }
-
             public bool mount_point_type { get; set; }
-
             public bool type { get; set; }
         }
 
         public class FileListAddtionalOptions
         {
             public bool real_path { get; set; }
-
             public bool size { get; set; }
-
             public bool owner { get; set; }
-
             public bool time { get; set; }
-
             public bool perm { get; set; }
-
             public bool mount_point_type { get; set; }
-
             public bool volume_status { get; set; }
         }
 
         public class FileSearchListAddtionalOptions
         {
             public bool real_path { get; set; }
-
             public bool size { get; set; }
-
             public bool owner { get; set; }
-
             public bool time { get; set; }
-
             public bool perm { get; set; }
-
             public bool type { get; set; }
         }
 
         public class FileStationFavoriteAddtionalOptions
         {
             public bool real_path { get; set; }
-
             public bool size { get; set; }
-
             public bool owner { get; set; }
-
             public bool time { get; set; }
-
             public bool perm { get; set; }
-
             public bool mount_point_type { get; set; }
         }
 
         public class VirtualFolderListAddtionalOptions
         {
             public bool real_path { get; set; }
-
             public bool size { get; set; }
-
             public bool owner { get; set; }
-
             public bool time { get; set; }
-
             public bool perm { get; set; }
-
             public bool volume_status { get; set; }
         }
 

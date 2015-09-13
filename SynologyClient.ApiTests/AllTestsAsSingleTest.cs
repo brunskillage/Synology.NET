@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Castle.Core.Internal;
+using NUnit.Framework;
 using System.Linq;
 using System.Reflection;
-using Castle.Core.Internal;
-using NUnit.Framework;
 
 namespace SynologyClient.ApiTests
 {
@@ -14,11 +13,11 @@ namespace SynologyClient.ApiTests
         public void RunallTests()
         {
             var apitests = new ApiTests();
-            IEnumerable<MethodInfo> methods =
-                typeof (ApiTests).GetMethods(BindingFlags.Instance | BindingFlags.Public)
+            var methods =
+                typeof(ApiTests).GetMethods(BindingFlags.Instance | BindingFlags.Public)
                     .Where(m => m.GetAttributes<TestAttribute>().Any());
 
-            foreach (MethodInfo methodInfo in methods)
+            foreach (var methodInfo in methods)
                 methodInfo.Invoke(apitests, null);
         }
     }

@@ -2,6 +2,5 @@
 {
     public class CheckPermissionWrite
     {
-        // no specific response
     }
 }

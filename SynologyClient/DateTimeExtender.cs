@@ -8,7 +8,7 @@ namespace SynologyClient
 
         public static long GetCurrentUnixTimestampMillis()
         {
-            return (long) (DateTime.UtcNow - UnixEpoch).TotalMilliseconds;
+            return (long)(DateTime.UtcNow - UnixEpoch).TotalMilliseconds;
         }
 
         public static DateTime DateTimeFromUnixTimestampMillis(long millis)
@@ -18,7 +18,7 @@ namespace SynologyClient
 
         public static long GetCurrentUnixTimestampSeconds()
         {
-            return (long) (DateTime.UtcNow - UnixEpoch).TotalSeconds;
+            return (long)(DateTime.UtcNow - UnixEpoch).TotalSeconds;
         }
 
         public static DateTime DateTimeFromUnixTimestampSeconds(long seconds)
@@ -28,7 +28,7 @@ namespace SynologyClient
 
         public static long GetUnixTimeFromDate(DateTime theTime)
         {
-            return (long) (theTime - UnixEpoch).TotalMilliseconds;
+            return (long)(theTime - UnixEpoch).TotalMilliseconds;
         }
     }
 }

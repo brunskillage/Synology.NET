@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Net;
-using RestSharp;
 
 namespace SynologyClient
 {
@@ -14,15 +14,13 @@ namespace SynologyClient
             _config = config;
             _authBaseUrl = string.Format("{0}/auth.cgi", _config.ApiBaseAddressAndPathNoTrailingSlash);
 
-
             // ignore certificate errors
-            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+            ServicePointManager.ServerCertificateValidationCallback +=
+                (sender, certificate, chain, sslPolicyErrors) => true;
         }
 
         public DateTime loggedInTime { get; set; }
-
         public string sid { get; set; }
-
         public string taskId { get; set; }
 
         public ISynologySession Login()
@@ -38,8 +36,9 @@ namespace SynologyClient
             request.AddParameter("session", "FileStation");
             request.AddParameter("format", "cookie");
 
-            IRestResponse<RawSynologyResponse> response = client.Execute<RawSynologyResponse>(request);
-            if (response.Data.success) {
+            var response = client.Execute<RawSynologyResponse>(request);
+            if (response.Data.success)
+            {
                 sid = response.Data.data["sid"];
                 loggedInTime = DateTime.UtcNow;
                 return this;

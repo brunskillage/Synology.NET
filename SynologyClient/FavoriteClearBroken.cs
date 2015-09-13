@@ -2,6 +2,5 @@
 {
     public class FavoriteClearBroken
     {
-        // no response in spec
     }
 }

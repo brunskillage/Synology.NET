@@ -2,6 +2,5 @@
 {
     public class DownloadDownload
     {
-        // binary no response
     }
 }

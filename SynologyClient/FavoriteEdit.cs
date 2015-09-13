@@ -2,6 +2,5 @@
 {
     public class FavoriteEdit
     {
-        // no response in spec
     }
 }

@@ -1,13 +1,12 @@
-﻿using System;
+﻿using FluentAssertions;
+using NUnit.Framework;
+using System;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Web.Configuration;
-using FluentAssertions;
-using NUnit.Framework;
 
 namespace SynologyClient.ApiTests
 {
@@ -17,7 +16,8 @@ namespace SynologyClient.ApiTests
         [SetUp]
         public void Setup()
         {
-            if (_session == null) {
+            if (_session == null)
+            {
                 _session = new SynologySession(new AppSettingsClientConfig());
                 _session.Login();
                 _api = new SynologyApi(_session);
@@ -27,33 +27,36 @@ namespace SynologyClient.ApiTests
         [TearDown]
         public void TearDown()
         {
-            if (_session.loggedInTime < DateTime.UtcNow.AddMinutes(-5)) {
+            if (_session.loggedInTime < DateTime.UtcNow.AddMinutes(-5))
+            {
                 _session.LogOut();
                 _session = null;
             }
         }
 
-        public ApiTests(){
+        public ApiTests()
+        {
             var executingAssembly = new FileInfo(Assembly.GetExecutingAssembly().FullName);
             _localTestFolderNoSlash = executingAssembly.DirectoryName + "\\TestFiles";
             _localTestImage = _localTestFolderNoSlash + "\\image\\synologybox.jpg";
             _md5TestImage = _localTestFolderNoSlash + "\\image\\md5test.jpg";
             _synoTestFolderNoSlash = WebConfigurationManager.AppSettings.Get("Syno.TestFolder");
-             if(string.IsNullOrWhiteSpace(_synoTestFolderNoSlash))
-                  throw new ConfigurationErrorsException("No Syno.TestFolder in app config found or value is empty");
-            
+            if (string.IsNullOrWhiteSpace(_synoTestFolderNoSlash))
+                throw new ConfigurationErrorsException("No Syno.TestFolder in app config found or value is empty");
+
             _session = new SynologySession(new AppSettingsClientConfig());
             _session.Login();
             _api = new SynologyApi(_session);
         }
 
-        public ApiTests(SynologySession session) {}
+        public ApiTests(SynologySession session)
+        {
+        }
 
         private readonly string _synoTestFolderNoSlash;
         private static string _localTestFolderNoSlash;
         private readonly string _localTestImage;
         private readonly string _md5TestImage;
-
         private SynologySession _session;
         private SynologyApi _api;
 
@@ -65,7 +68,7 @@ namespace SynologyClient.ApiTests
         [Test]
         public void BackgroundTask()
         {
-            GetBackgroundTasksResponse list = _api.GetBackgroundTasks(0, 0, SynologyApi.BackgroundTaskSortBy.finished,
+            var list = _api.GetBackgroundTasks(0, 0, SynologyApi.BackgroundTaskSortBy.finished,
                 SynologyApi.SortDirection.asc);
             list.success.Should().BeTrue();
         }
@@ -73,7 +76,7 @@ namespace SynologyClient.ApiTests
         [Test]
         public void CheckPermission()
         {
-            RawSynologyResponse check = _api.CheckWritePermission("/Data");
+            var check = _api.CheckWritePermission("/Data");
             Assert.Pass();
         }
 
@@ -82,7 +85,7 @@ namespace SynologyClient.ApiTests
         {
             _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_compress");
 
-            CompressAsyncResposne start = _api.CompressAsync(_synoTestFolderNoSlash + "/test_compress",
+            var start = _api.CompressAsync(_synoTestFolderNoSlash + "/test_compress",
                 _synoTestFolderNoSlash + "/test_compress.zip", SynologyApi.CompressionLevel.moderate,
                 SynologyApi.CompressionMode.add, SynologyApi.CompressionFormat.formatZip);
 
@@ -90,8 +93,9 @@ namespace SynologyClient.ApiTests
 
             start.Data.taskid.Should().NotBeNullOrEmpty();
 
-            for (int i = 0; i < 10; i++) {
-                CompressStatusResponse status = _api.CompressStatus(start.Data.taskid);
+            for (var i = 0; i < 10; i++)
+            {
+                var status = _api.CompressStatus(start.Data.taskid);
                 status.success.Should().BeTrue();
 
                 if (status.Data.finished)
@@ -105,46 +109,20 @@ namespace SynologyClient.ApiTests
         }
 
         [Test]
-        public void Md5()
-        {
-            RawSynologyResponse res = _api.Upload(new FileInfo(_md5TestImage), _synoTestFolderNoSlash, true, true);
-
-            GetFileMd5AsyncResponse md5 = _api.GetFileMd5Async(_synoTestFolderNoSlash + "/md5test.jpg");
-
-            md5.success.Should().BeTrue();
-
-            md5.Data.taskid.Should().NotBeNullOrEmpty();
-
-            GetFileMd5StatusResponse status = null;
-
-            for (int i = 0; i < 10; i++)
-            {
-                status = _api.GetFileMd5Status(md5.Data.taskid);
-                status.success.Should().BeTrue();
-                if (status.Data.finished)
-                    break;
-
-                Thread.Sleep(2000);
-            }
-
-            status.success.Should().BeTrue();
-            status.Data.finished.Should().BeTrue();
-        }
-
-        [Test]
         public void CopyMove()
         {
             _api.Delete(_synoTestFolderNoSlash + "/synologybox.jpg", false);
             _api.AddFolder(_synoTestFolderNoSlash, "test");
-            CopyMoveAsyncResponse @async = _api.CopyMoveAsync(_synoTestFolderNoSlash + "/synologybox.jpg",
+            var @async = _api.CopyMoveAsync(_synoTestFolderNoSlash + "/synologybox.jpg",
                 _synoTestFolderNoSlash + "/test");
             async.success.Should().BeTrue();
 
             async.Data.taskid.Should().NotBeNullOrEmpty();
 
-            for (int i = 0; i < 10; i++) {
+            for (var i = 0; i < 10; i++)
+            {
                 Thread.Sleep(2000);
-                CopyMoveStatusResponse status = _api.CopyMoveStatus(async.Data.taskid);
+                var status = _api.CopyMoveStatus(async.Data.taskid);
                 status.success.Should().BeTrue();
                 if (status.Data.finished)
                     break;
@@ -165,13 +143,14 @@ namespace SynologyClient.ApiTests
         public void Delete()
         {
             _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_upload");
-            DeleteAsyncResponse @async = _api.DeleteAsync(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
+            var @async = _api.DeleteAsync(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
             async.success.Should().BeTrue();
 
             async.Data.taskid.Should().NotBeNullOrEmpty();
 
-            for (int i = 0; i < 10; i++) {
-                DeleteStatusResponse status = _api.DeleteStatus(async.Data.taskid);
+            for (var i = 0; i < 10; i++)
+            {
+                var status = _api.DeleteStatus(async.Data.taskid);
                 status.success.Should().BeTrue();
                 if (status.Data.finished)
                     break;
@@ -179,24 +158,25 @@ namespace SynologyClient.ApiTests
                 Thread.Sleep(2000);
             }
 
-            DeleteStopResponse stop = _api.DeleteStop(async.Data.taskid);
+            var stop = _api.DeleteStop(async.Data.taskid);
             stop.success.Should().BeTrue();
 
             _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_upload");
-            DeleteResponse delete = _api.Delete(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
+            var delete = _api.Delete(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
             delete.success.Should().BeTrue();
         }
 
         [Test]
         public void DirSize()
         {
-            GetDirectorySizeAsyncResponse @async = _api.GetDirectorySizeAsync(_synoTestFolderNoSlash);
+            var @async = _api.GetDirectorySizeAsync(_synoTestFolderNoSlash);
 
             async.success.Should().BeTrue();
             async.Data.taskid.Should().NotBeNullOrEmpty();
 
             DirSizeStatusResponse status = null;
-            for (int i = 0; i < 10; i++) {
+            for (var i = 0; i < 10; i++)
+            {
                 status = _api.GetDirectorySizeStatus(async.Data.taskid);
                 status.success.Should().BeTrue();
                 if (status.Data.finished)
@@ -212,14 +192,15 @@ namespace SynologyClient.ApiTests
         [Test]
         public void Extract()
         {
-            ExtractAsyncResponse @async = _api.ExtractAsync(_synoTestFolderNoSlash + "/test_compress.zip",
+            var @async = _api.ExtractAsync(_synoTestFolderNoSlash + "/test_compress.zip",
                 _synoTestFolderNoSlash + "/test_extract");
             async.success.Should().BeTrue();
 
             async.Data.taskid.Should().NotBeNullOrEmpty();
 
-            for (int i = 0; i < 10; i++) {
-                ExtractStatusResponse status = _api.ExtractStatus(async.Data.taskid);
+            for (var i = 0; i < 10; i++)
+            {
+                var status = _api.ExtractStatus(async.Data.taskid);
                 status.success.Should().BeTrue();
                 if (status.Data.finished)
                     break;
@@ -227,18 +208,19 @@ namespace SynologyClient.ApiTests
                 Thread.Sleep(2000);
             }
 
-            ExtractStopResponse stop = _api.ExtractStop(async.Data.taskid);
+            var stop = _api.ExtractStop(async.Data.taskid);
             stop.success.Should().BeTrue();
 
-            ExtractListResponse list = _api.ExtractListFiles(_synoTestFolderNoSlash + "/test_compress.zip");
+            var list = _api.ExtractListFiles(_synoTestFolderNoSlash + "/test_compress.zip");
             list.success.Should().BeTrue();
         }
 
         [Test]
         public void Favorite()
         {
-            FavoriteListResponse list = _api.FavoriteList(0, 0, SynologyApi.StatusFilter.all,
-                new SynologyApi.FileStationFavoriteAddtionalOptions {
+            var list = _api.FavoriteList(0, 0, SynologyApi.StatusFilter.all,
+                new SynologyApi.FileStationFavoriteAddtionalOptions
+                {
                     mount_point_type = true,
                     owner = true,
                     perm = true,
@@ -249,30 +231,31 @@ namespace SynologyClient.ApiTests
 
             list.success.Should().BeTrue();
 
-            string testFavoritesDest = _synoTestFolderNoSlash + "/fav_test";
-            string testFavoritesName = _synoTestFolderNoSlash + "/fav_test";
+            var testFavoritesDest = _synoTestFolderNoSlash + "/fav_test";
+            var testFavoritesName = _synoTestFolderNoSlash + "/fav_test";
 
-            AddFavoriteResponse add = _api.AddFavorite(testFavoritesDest, testFavoritesName);
+            var add = _api.AddFavorite(testFavoritesDest, testFavoritesName);
             add.success.Should().BeTrue();
 
-            DeleteFavoriteResponse delete = _api.DeleteFavorite(testFavoritesDest);
+            var delete = _api.DeleteFavorite(testFavoritesDest);
             delete.success.Should().BeTrue();
 
-            EditFavoriteResponse edit = _api.EditFavorite(testFavoritesDest, testFavoritesName);
+            var edit = _api.EditFavorite(testFavoritesDest, testFavoritesName);
             edit.success.Should().BeTrue();
 
-            ReplaceFavoriteResponse replace = _api.ReplaceFavorite(testFavoritesDest, testFavoritesName);
+            var replace = _api.ReplaceFavorite(testFavoritesDest, testFavoritesName);
             replace.success.Should().BeTrue();
 
-            ClearBrokenFavoritesResponse clear = _api.ClearBrokenFavorites(testFavoritesDest, testFavoritesName);
+            var clear = _api.ClearBrokenFavorites(testFavoritesDest, testFavoritesName);
             clear.success.Should().BeTrue();
         }
 
         [Test]
         public void FileSystemInfo()
         {
-            GetFileSystemInfoResponse getinfo = _api.GetFileSystemInfo(new[] { _synoTestFolderNoSlash },
-                new SynologyApi.FileGetInfoAddtionalOptions {
+            var getinfo = _api.GetFileSystemInfo(new[] { _synoTestFolderNoSlash },
+                new SynologyApi.FileGetInfoAddtionalOptions
+                {
                     real_path = true,
                     size = true,
                     owner = true,
@@ -283,9 +266,10 @@ namespace SynologyClient.ApiTests
                 });
             getinfo.success.Should().BeTrue();
 
-            GetFileSystemEntriesResponse getFileSystemEntries = _api.GetFileSystemEntries(_synoTestFolderNoSlash, 0, 10,
+            var getFileSystemEntries = _api.GetFileSystemEntries(_synoTestFolderNoSlash, 0, 10,
                 SynologyApi.SortBy.name, SynologyApi.SortDirection.asc, "*", SynologyApi.FileTypeFilter.all, null,
-                new SynologyApi.FileListAddtionalOptions {
+                new SynologyApi.FileListAddtionalOptions
+                {
                     real_path = true,
                     time = true,
                     mount_point_type = true,
@@ -297,8 +281,9 @@ namespace SynologyClient.ApiTests
 
             getFileSystemEntries.success.Should().BeTrue();
 
-            GetSharesResponse listShare = _api.GetShares(0, 0, SynologyApi.SortBy.name, SynologyApi.SortDirection.asc,
-                false, new SynologyApi.FileListAddtionalOptions {
+            var listShare = _api.GetShares(0, 0, SynologyApi.SortBy.name, SynologyApi.SortDirection.asc,
+                false, new SynologyApi.FileListAddtionalOptions
+                {
                     size = true,
                     time = true,
                     real_path = true,
@@ -314,35 +299,64 @@ namespace SynologyClient.ApiTests
         [Test]
         public void GetDiskstationInfo()
         {
-            GetDiskstationInfoResponse res = _api.GetDiskstationInfo();
+            var res = _api.GetDiskstationInfo();
             res.success.Should().BeTrue();
+        }
+
+        [Test]
+        public void Md5()
+        {
+            _api.Upload(new FileInfo(_md5TestImage), _synoTestFolderNoSlash, true, true);
+
+            var md5 = _api.GetFileMd5Async(_synoTestFolderNoSlash + "/md5test.jpg");
+
+            md5.success.Should().BeTrue();
+
+            md5.Data.taskid.Should().NotBeNullOrEmpty();
+
+            GetFileMd5StatusResponse status = null;
+
+            for (var i = 0; i < 10; i++)
+            {
+                status = _api.GetFileMd5Status(md5.Data.taskid);
+                status.success.Should().BeTrue();
+                if (status.Data.finished)
+                    break;
+
+                Thread.Sleep(2000);
+            }
+
+            status.success.Should().BeTrue();
+            status.Data.finished.Should().BeTrue();
         }
 
         [Test]
         public void Rename()
         {
-            DeleteResponse delete = _api.Delete(_synoTestFolderNoSlash + "/newfolder_renamed");
-            DeleteResponse delete2 = _api.Delete(_synoTestFolderNoSlash + "/newfolder");
+            var delete = _api.Delete(_synoTestFolderNoSlash + "/newfolder_renamed");
+            var delete2 = _api.Delete(_synoTestFolderNoSlash + "/newfolder");
             _api.AddFolder(_synoTestFolderNoSlash, "newfolder");
 
-            RenameResponse renamed = _api.FileSystemRename(_synoTestFolderNoSlash + "/newfolder", "newfolder_renamed");
+            var renamed = _api.FileSystemRename(_synoTestFolderNoSlash + "/newfolder", "newfolder_renamed");
             renamed.success.Should().BeTrue();
         }
 
         [Test]
         public void Search()
         {
-            SearchStartResponse start = _api.SearchStartAsync(_synoTestFolderNoSlash);
+            var start = _api.SearchStartAsync(_synoTestFolderNoSlash);
 
             start.success.Should().BeTrue();
 
-            string taskid = start.Data.taskid;
+            var taskid = start.Data.taskid;
             taskid.Should().NotBeNullOrEmpty();
 
-            for (int i = 0; i < 10; i++) {
-                SearchStatusResponse list = _api.SearchStatus(taskid, 0, 100, SynologyApi.SortBy.name,
+            for (var i = 0; i < 10; i++)
+            {
+                var list = _api.SearchStatus(taskid, 0, 100, SynologyApi.SortBy.name,
                     SynologyApi.SortDirection.asc, new[] { "*" }, SynologyApi.FileTypeFilter.all,
-                    new SynologyApi.FileSearchListAddtionalOptions {
+                    new SynologyApi.FileSearchListAddtionalOptions
+                    {
                         owner = true,
                         perm = true,
                         real_path = true,
@@ -365,13 +379,13 @@ namespace SynologyClient.ApiTests
         [Test]
         public void Sharing()
         {
-            AddShareResponse create = _api.AddShare(_synoTestFolderNoSlash);
+            var create = _api.AddShare(_synoTestFolderNoSlash);
             create.success.Should().BeTrue();
 
-            GetSharingInfoResponse info = _api.GetSharingInfo(create.Data.links.First().id);
+            var info = _api.GetSharingInfo(create.Data.links.First().id);
             info.success.Should().BeTrue();
 
-            EditShareResponse editShare = _api.EditShare(create.Data.links.First().id);
+            var editShare = _api.EditShare(create.Data.links.First().id);
             editShare.success.Should().BeTrue();
 
             _api.DeleteShare(create.Data.links.First().id);
@@ -383,29 +397,30 @@ namespace SynologyClient.ApiTests
         public void Upload_GetThumb_Download()
         {
             var local = new FileInfo(_localTestImage);
-            string downloadedName = _localTestFolderNoSlash + "\\dload_" + local.Name;
+            var downloadedName = _localTestFolderNoSlash + "\\dload_" + local.Name;
 
             if (System.IO.File.Exists(downloadedName))
                 System.IO.File.Delete(downloadedName);
 
-            RawSynologyResponse res = _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash, true, true);
+            var res = _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash, true, true);
             res.success.Should().BeTrue();
 
-            byte[] thumb = _api.GetThumb(_synoTestFolderNoSlash + "/" + local.Name);
+            var thumb = _api.GetThumb(_synoTestFolderNoSlash + "/" + local.Name);
             thumb.Length.Should().BeGreaterThan(1);
 
             Thread.Sleep(3000);
 
-            byte[] file = _api.Download(_synoTestFolderNoSlash + "/" + local.Name);
-            file.Length.Should().Be((int) local.Length);
+            var file = _api.Download(_synoTestFolderNoSlash + "/" + local.Name);
+            file.Length.Should().Be((int)local.Length);
         }
 
         [Test]
         public void VirtualFolder()
         {
-            GetVirtualFoldersResponse list = _api.GetVirtualFolders(SynologyApi.FileSystemType.cifs, 0, 0,
+            var list = _api.GetVirtualFolders(SynologyApi.FileSystemType.cifs, 0, 0,
                 SynologyApi.SortBy.name, SynologyApi.SortDirection.asc,
-                new SynologyApi.VirtualFolderListAddtionalOptions {
+                new SynologyApi.VirtualFolderListAddtionalOptions
+                {
                     owner = true,
                     perm = true,
                     real_path = true,

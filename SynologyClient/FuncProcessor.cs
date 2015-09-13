@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Reflection;
-using RestSharp;
 
 namespace SynologyClient
 {
@@ -30,7 +30,8 @@ namespace SynologyClient
 
         public TResponse Run()
         {
-            try {
+            try
+            {
                 RestRequest = new SynologyRestRequest();
 
                 AddParametersFromObjectProperties(_args, RestRequest);
@@ -42,19 +43,20 @@ namespace SynologyClient
 
                 IRestClient client = new RestClient(Config.ApiBaseAddressAndPathNoTrailingSlash + _scriptPath);
 
-                IRestResponse<TResponse> response = client.Execute<TResponse>(RestRequest);
+                var response = client.Execute<TResponse>(RestRequest);
 
                 return response.Data;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 throw new SynologyClientException(e.Message, e);
             }
         }
 
         private void AddParametersFromObjectProperties(object src, IRestRequest req)
         {
-            PropertyInfo[] props = src.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
-            foreach (PropertyInfo prop in props)
+            var props = src.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            foreach (var prop in props)
                 req.AddParameter(prop.Name, prop.GetValue(src, null));
         }
     }

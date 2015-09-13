@@ -13,12 +13,23 @@ namespace SynologyClient
         //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dncscol/html/csharp07192001.asp
         //
 
-        public SynologyClientException() {}
+        public SynologyClientException()
+        {
+        }
 
-        public SynologyClientException(string message) : base(message) {}
+        public SynologyClientException(string message)
+            : base(message)
+        {
+        }
 
-        public SynologyClientException(string message, Exception inner) : base(message, inner) {}
+        public SynologyClientException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
 
-        protected SynologyClientException(SerializationInfo info, StreamingContext context) : base(info, context) {}
+        protected SynologyClientException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
     }
 }
