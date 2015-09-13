@@ -106,6 +106,7 @@ namespace SynologyClient.ApiTests
         [Test]
         public void CopyMove()
         {
+            _api.Delete(_synoTestFolderNoSlash + "/synologybox.jpg", false);
             _api.AddFolder(_synoTestFolderNoSlash, "test");
             CopyMoveAsyncResponse @async = _api.CopyMoveAsync(_synoTestFolderNoSlash + "/synologybox.jpg",
                 _synoTestFolderNoSlash + "/test");
@@ -166,8 +167,9 @@ namespace SynologyClient.ApiTests
             async.success.Should().BeTrue();
             async.Data.taskid.Should().NotBeNullOrEmpty();
 
+            DirSizeStatusResponse status = null;
             for (int i = 0; i < 10; i++) {
-                DirSizeStatusResponse status = _api.GetDirectorySizeStatus(async.Data.taskid);
+                status = _api.GetDirectorySizeStatus(async.Data.taskid);
                 status.success.Should().BeTrue();
                 if (status.Data.finished)
                     break;
@@ -175,7 +177,8 @@ namespace SynologyClient.ApiTests
                 Thread.Sleep(2000);
             }
 
-            _api.GetDirectorySizeStatus(async.Data.taskid).success.Should().BeTrue();
+            status.success.Should().BeTrue();
+            status.Data.finished.Should().BeTrue();
         }
 
         [Test]
@@ -221,11 +224,11 @@ namespace SynologyClient.ApiTests
             string testFavoritesDest = _synoTestFolderNoSlash + "/fav_test";
             string testFavoritesName = _synoTestFolderNoSlash + "/fav_test";
 
-            DeleteFavoriteResponse delete = _api.DeleteFavorite(testFavoritesDest);
-            delete.success.Should().BeTrue();
-
             AddFavoriteResponse add = _api.AddFavorite(testFavoritesDest, testFavoritesName);
             add.success.Should().BeTrue();
+
+            DeleteFavoriteResponse delete = _api.DeleteFavorite(testFavoritesDest);
+            delete.success.Should().BeTrue();
 
             EditFavoriteResponse edit = _api.EditFavorite(testFavoritesDest, testFavoritesName);
             edit.success.Should().BeTrue();
@@ -290,14 +293,16 @@ namespace SynologyClient.ApiTests
         [Test]
         public void Md5()
         {
-            GetFileMd5AsyncResponse @async = _api.GetFileMd5Async("/homes/allanb/20130524059.jpg");
+            GetFileMd5AsyncResponse @async = _api.GetFileMd5Async(_synoTestFolderNoSlash + "/synologybox.jpg");
 
-            async.success.Should().BeTrue();
+            @async.success.Should().BeTrue();
 
-            async.Data.taskid.Should().NotBeNullOrEmpty();
+            @async.Data.taskid.Should().NotBeNullOrEmpty();
+
+            GetFileMd5StatusResponse status = null; 
 
             for (int i = 0; i < 10; i++) {
-                GetFileMd5StatusResponse status = _api.GetFileMd5Status(async.Data.taskid);
+                status = _api.GetFileMd5Status(async.Data.taskid);
                 status.success.Should().BeTrue();
                 if (status.Data.finished)
                     break;
@@ -305,13 +310,16 @@ namespace SynologyClient.ApiTests
                 Thread.Sleep(2000);
             }
 
-            _api.GetDirectorySizeStop(async.Data.taskid).success.Should().BeTrue();
+            status.success.Should().BeTrue();
+            status.Data.finished.Should().BeTrue();
         }
 
         [Test]
         public void Rename()
         {
             DeleteResponse delete = _api.Delete(_synoTestFolderNoSlash + "/newfolder_renamed");
+            DeleteResponse delete2 = _api.Delete(_synoTestFolderNoSlash + "/newfolder");
+            _api.AddFolder(_synoTestFolderNoSlash, "newfolder");
 
             RenameResponse renamed = _api.FileSystemRename(_synoTestFolderNoSlash + "/newfolder", "newfolder_renamed");
             renamed.success.Should().BeTrue();
