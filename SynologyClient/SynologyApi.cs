@@ -23,11 +23,11 @@ namespace SynologyClient
 
         public GetDiskstationInfoResponse GetDiskstationInfo()
         {
-            var proc = new FuncProcessor<GetDiskstationInfoResponse>("/FileStation/info.cgi", _session.sid, new
+            var proc = new FuncProcessor<GetDiskstationInfoResponse>("/entry.cgi", _session.sid, new
             {
                 api = "SYNO.FileStation.Info",
-                version = 1,
-                method = "getinfo"
+                version = 2,
+                method = "get"
             });
 
             return proc.Run();
@@ -53,7 +53,7 @@ namespace SynologyClient
                 goto_path = gotoPath
             };
 
-            var proc = new FuncProcessor<GetFileSystemEntriesResponse>("/FileStation/file_share.cgi", _session.sid,
+            var proc = new FuncProcessor<GetFileSystemEntriesResponse>("/entry.cgi", _session.sid,
                 requiredParams, new
                 {
                     additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
@@ -72,7 +72,7 @@ namespace SynologyClient
                 path = string.Join(",", paths)
             };
 
-            var proc = new FuncProcessor<GetFileSystemInfoResponse>("/FileStation/file_share.cgi", _session.sid,
+            var proc = new FuncProcessor<GetFileSystemInfoResponse>("/entry.cgi", _session.sid,
                 requiredParams, new
                 {
                     additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
@@ -110,7 +110,7 @@ namespace SynologyClient
                 group
             };
 
-            var proc = new FuncProcessor<SearchStartResponse>("/FileStation/file_find.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<SearchStartResponse>("/entry.cgi", _session.sid, requiredParams);
             return proc.Run();
         }
 
@@ -132,7 +132,7 @@ namespace SynologyClient
                 filetype = fileType
             };
 
-            var proc = new FuncProcessor<SearchStatusResponse>("/FileStation/file_find.cgi", _session.sid,
+            var proc = new FuncProcessor<SearchStatusResponse>("/entry.cgi", _session.sid,
                 requiredParams, new
                 {
                     additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
@@ -151,7 +151,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<SearchStopResponse>("/FileStation/file_find.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<SearchStopResponse>("/entry.cgi", _session.sid, requiredParams);
             return proc.Run();
         }
 
@@ -165,7 +165,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<SearchCleanResponse>("/FileStation/file_find.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<SearchCleanResponse>("/entry.cgi", _session.sid, requiredParams);
             return proc.Run();
         }
 
@@ -185,7 +185,7 @@ namespace SynologyClient
                 sort_direction = sortDirection
             };
 
-            var proc = new FuncProcessor<GetVirtualFoldersResponse>("/FileStation/file_virtual.cgi", _session.sid,
+            var proc = new FuncProcessor<GetVirtualFoldersResponse>("/entry.cgi", _session.sid,
                 requiredParams, new
                 {
                     additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
@@ -206,7 +206,7 @@ namespace SynologyClient
                 status_filter = statusFilter
             };
 
-            var proc = new FuncProcessor<FavoriteListResponse>("/FileStation/file_favorite.cgi", _session.sid,
+            var proc = new FuncProcessor<FavoriteListResponse>("/entry.cgi", _session.sid,
                 requiredParams, new
                 {
                     additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
@@ -225,7 +225,7 @@ namespace SynologyClient
                 name
             };
 
-            var proc = new FuncProcessor<AddFavoriteResponse>("/FileStation/file_favorite.cgi", _session.sid,
+            var proc = new FuncProcessor<AddFavoriteResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -240,7 +240,7 @@ namespace SynologyClient
                 path
             };
 
-            var proc = new FuncProcessor<DeleteFavoriteResponse>("/FileStation/file_favorite.cgi", _session.sid,
+            var proc = new FuncProcessor<DeleteFavoriteResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -256,7 +256,7 @@ namespace SynologyClient
                 name
             };
 
-            var proc = new FuncProcessor<ClearBrokenFavoritesResponse>("/FileStation/file_favorite.cgi", _session.sid,
+            var proc = new FuncProcessor<ClearBrokenFavoritesResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -272,7 +272,7 @@ namespace SynologyClient
                 name
             };
 
-            var proc = new FuncProcessor<EditFavoriteResponse>("/FileStation/file_favorite.cgi", _session.sid,
+            var proc = new FuncProcessor<EditFavoriteResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -288,7 +288,7 @@ namespace SynologyClient
                 name
             };
 
-            var proc = new FuncProcessor<ReplaceFavoriteResponse>("/FileStation/file_favorite.cgi", _session.sid,
+            var proc = new FuncProcessor<ReplaceFavoriteResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -312,7 +312,7 @@ namespace SynologyClient
             request.AddFile(fileName.Name, fileName.FullName);
 
             var config = new AppSettingsClientConfig();
-            var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/api_upload.cgi");
+            var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/entry.cgi");
 
             var response = client.Execute<RawSynologyResponse>(request);
             return response.Data;
@@ -335,7 +335,7 @@ namespace SynologyClient
                 password
             };
 
-            var proc = new FuncProcessor<CompressAsyncResposne>("/FileStation/file_compress.cgi", _session.sid,
+            var proc = new FuncProcessor<CompressAsyncResposne>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -350,7 +350,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<CompressStatusResponse>("/FileStation/file_compress.cgi", _session.sid,
+            var proc = new FuncProcessor<CompressStatusResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -365,7 +365,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<CompressStopResponse>("/FileStation/file_compress.cgi", _session.sid,
+            var proc = new FuncProcessor<CompressStopResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -382,7 +382,7 @@ namespace SynologyClient
             request.AddParameter("rotate", rotate);
             request.AddParameter("_sid", _session.sid);
             var config = new AppSettingsClientConfig();
-            var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/file_thumb.cgi");
+            var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "entry.cgi");
             var response = client.Execute(request);
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new SynologyClientException("Errored with http status code " + response.StatusCode);
@@ -399,7 +399,7 @@ namespace SynologyClient
                 path
             };
 
-            var proc = new FuncProcessor<GetDirectorySizeAsyncResponse>("/FileStation/file_dirSize.cgi", _session.sid,
+            var proc = new FuncProcessor<GetDirectorySizeAsyncResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -414,7 +414,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<DirSizeStatusResponse>("/FileStation/file_dirSize.cgi", _session.sid,
+            var proc = new FuncProcessor<DirSizeStatusResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -429,7 +429,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<DirSizeStopResponse>("/FileStation/file_dirSize.cgi", _session.sid,
+            var proc = new FuncProcessor<DirSizeStopResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -444,7 +444,7 @@ namespace SynologyClient
                 file_path = filePath
             };
 
-            var proc = new FuncProcessor<GetFileMd5AsyncResponse>("/FileStation/file_md5.cgi", _session.sid,
+            var proc = new FuncProcessor<GetFileMd5AsyncResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -459,7 +459,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<GetFileMd5StatusResponse>("/FileStation/file_md5.cgi", _session.sid,
+            var proc = new FuncProcessor<GetFileMd5StatusResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -474,7 +474,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<GetFileMd5StopResponse>("/FileStation/file_md5.cgi", _session.sid,
+            var proc = new FuncProcessor<GetFileMd5StopResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -490,7 +490,7 @@ namespace SynologyClient
                 create_only = createOnly
             };
 
-            var proc = new FuncProcessor<RawSynologyResponse>("/FileStation/file_permission.cgi", _session.sid,
+            var proc = new FuncProcessor<RawSynologyResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -506,7 +506,7 @@ namespace SynologyClient
             request.AddParameter("mode", mode);
             request.AddParameter("_sid", _session.sid);
             var config = new AppSettingsClientConfig();
-            var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/FileStation/file_download.cgi");
+            var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/entry.cgi");
             var response = client.Execute(request);
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new SynologyClientException("Errored with http status code " + response.StatusCode);
@@ -523,7 +523,7 @@ namespace SynologyClient
                 id
             };
 
-            var proc = new FuncProcessor<GetSharingInfoResponse>("/FileStation/file_sharing.cgi", _session.sid,
+            var proc = new FuncProcessor<GetSharingInfoResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -544,7 +544,7 @@ namespace SynologyClient
                 onlywritable
             };
 
-            var proc = new FuncProcessor<GetSharesResponse>("/FileStation/file_share.cgi", _session.sid, requiredParams,
+            var proc = new FuncProcessor<GetSharesResponse>("/entry.cgi", _session.sid, requiredParams,
                 new
                 {
                     additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
@@ -568,7 +568,7 @@ namespace SynologyClient
                 force_clean = forceClean
             };
 
-            var proc = new FuncProcessor<GetUserSharesResponse>("/FileStation/file_sharing.cgi", _session.sid,
+            var proc = new FuncProcessor<GetUserSharesResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -587,7 +587,7 @@ namespace SynologyClient
                 date_available = dateAvailable.HasValue ? dateAvailable.Value.ToString("yyyy-MM-dd") : "0"
             };
 
-            var proc = new FuncProcessor<AddShareResponse>("/FileStation/file_sharing.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<AddShareResponse>("/entry.cgi", _session.sid, requiredParams);
             return proc.Run();
         }
 
@@ -601,7 +601,7 @@ namespace SynologyClient
                 id
             };
 
-            var proc = new FuncProcessor<DeleteShareResponse>("/FileStation/file_sharing.cgi", _session.sid,
+            var proc = new FuncProcessor<DeleteShareResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -616,7 +616,7 @@ namespace SynologyClient
                 id
             };
 
-            var proc = new FuncProcessor<ClearInvalidSharesResponse>("/FileStation/file_sharing.cgi", _session.sid,
+            var proc = new FuncProcessor<ClearInvalidSharesResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -635,7 +635,7 @@ namespace SynologyClient
                 date_available = dateAvailable.HasValue ? dateAvailable.Value.ToString("yyyy-MM-dd") : "0"
             };
 
-            var proc = new FuncProcessor<EditShareResponse>("/FileStation/file_sharing.cgi", _session.sid,
+            var proc = new FuncProcessor<EditShareResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -653,7 +653,7 @@ namespace SynologyClient
                 force_parent = forceParent
             };
 
-            var proc = new FuncProcessor<AddFolderResponse>("/FileStation/file_crtfdr.cgi", _session.sid, requiredParams,
+            var proc = new FuncProcessor<AddFolderResponse>("/entry.cgi", _session.sid, requiredParams,
                 new
                 {
                     additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
@@ -676,7 +676,7 @@ namespace SynologyClient
                 search_taskid = searchTaskId
             };
 
-            var proc = new FuncProcessor<RenameResponse>("/FileStation/file_rename.cgi", _session.sid, requiredParams,
+            var proc = new FuncProcessor<RenameResponse>("/entry.cgi", _session.sid, requiredParams,
                 new
                 {
                     additional = TrueBooleanValuesFromObjectToCommaSeparatedList(additional)
@@ -700,7 +700,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<CopyMoveAsyncResponse>("/FileStation/file_MVCP.cgi", _session.sid,
+            var proc = new FuncProcessor<CopyMoveAsyncResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -715,7 +715,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<CopyMoveStatusResponse>("/FileStation/file_MVCP.cgi", _session.sid,
+            var proc = new FuncProcessor<CopyMoveStatusResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -730,7 +730,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<CopyMoveStopResponse>("/FileStation/file_MVCP.cgi", _session.sid,
+            var proc = new FuncProcessor<CopyMoveStopResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -749,7 +749,7 @@ namespace SynologyClient
                 search_taskid = searchTaskId
             };
 
-            var proc = new FuncProcessor<DeleteAsyncResponse>("/FileStation/file_delete.cgi", _session.sid,
+            var proc = new FuncProcessor<DeleteAsyncResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -764,7 +764,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<DeleteStatusResponse>("/FileStation/file_delete.cgi", _session.sid,
+            var proc = new FuncProcessor<DeleteStatusResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -779,7 +779,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<DeleteStopResponse>("/FileStation/file_delete.cgi", _session.sid,
+            var proc = new FuncProcessor<DeleteStopResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -796,7 +796,7 @@ namespace SynologyClient
                 search_taskid = searchTaskId
             };
 
-            var proc = new FuncProcessor<DeleteResponse>("/FileStation/file_delete.cgi", _session.sid, requiredParams);
+            var proc = new FuncProcessor<DeleteResponse>("/entry.cgi", _session.sid, requiredParams);
             return proc.Run();
         }
 
@@ -819,7 +819,7 @@ namespace SynologyClient
                 item_id = itemId
             };
 
-            var proc = new FuncProcessor<ExtractAsyncResponse>("/FileStation/file_extract.cgi", _session.sid,
+            var proc = new FuncProcessor<ExtractAsyncResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -834,7 +834,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<ExtractStatusResponse>("/FileStation/file_extract.cgi", _session.sid,
+            var proc = new FuncProcessor<ExtractStatusResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -849,7 +849,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<ExtractStopResponse>("/FileStation/file_extract.cgi", _session.sid,
+            var proc = new FuncProcessor<ExtractStopResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -873,7 +873,7 @@ namespace SynologyClient
                 itemId
             };
 
-            var proc = new FuncProcessor<ExtractListResponse>("/FileStation/file_extract.cgi", _session.sid,
+            var proc = new FuncProcessor<ExtractListResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -894,7 +894,7 @@ namespace SynologyClient
                 api_filter = apiFilterNamespace
             };
 
-            var proc = new FuncProcessor<GetBackgroundTasksResponse>("/FileStation/background_task.cgi", _session.sid,
+            var proc = new FuncProcessor<GetBackgroundTasksResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
@@ -909,7 +909,7 @@ namespace SynologyClient
                 taskid = taskId
             };
 
-            var proc = new FuncProcessor<ClearFinishedBackgroundTasksResponse>("/FileStation/background_task.cgi",
+            var proc = new FuncProcessor<ClearFinishedBackgroundTasksResponse>("/entry.cgi",
                 _session.sid, requiredParams);
             return proc.Run();
         }
