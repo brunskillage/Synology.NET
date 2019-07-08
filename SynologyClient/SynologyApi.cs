@@ -294,15 +294,15 @@ namespace SynologyClient
         }
 
         public RawSynologyResponse Upload(FileInfo fileName, string destinationFilePath, bool createParents = true,
-            bool? overwrite = false)
+            bool? overwrite = true)
         {
             var request = new SynologyRestRequest(Method.POST);
 
             request.AddParameter("_sid", _session.sid);
             request.AddParameter("api", "SYNO.FileStation.Upload");
-            request.AddParameter("version", "1");
+            request.AddParameter("version", "2");
             request.AddParameter("method", "upload");
-            request.AddParameter("dest_folder_path", destinationFilePath);
+            request.AddParameter("path", destinationFilePath);
             request.AddParameter("create_parents", createParents);
             request.AddParameter("mtime", DateTimeExtender.GetUnixTimeFromDate(fileName.LastWriteTimeUtc).ToString());
             request.AddParameter("crtime", DateTimeExtender.GetUnixTimeFromDate(fileName.CreationTimeUtc).ToString());
@@ -635,21 +635,21 @@ namespace SynologyClient
                 date_available = dateAvailable.HasValue ? dateAvailable.Value.ToString("yyyy-MM-dd") : "0"
             };
 
-            var proc = new FuncProcessor<EditShareResponse>("/entry.cgi", _session.sid,
+            var proc = new FuncProcessor<EditShareResponse>("entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
 
-        public AddFolderResponse AddFolder(string folderPath, string name, bool? forceParent = true,
+        public AddFolderResponse AddFolder(string folderPath, string name, bool? forceParent = false,
             FileSearchListAddtionalOptions additional = null)
         {
             dynamic requiredParams = new
             {
                 api = "SYNO.FileStation.CreateFolder",
-                version = 1,
+                version = 2,
                 method = "create",
-                folder_path = folderPath,
-                name,
+                folder_path = "\"" + folderPath + "\"",
+                name = "\"" + name + "\"",
                 force_parent = forceParent
             };
 

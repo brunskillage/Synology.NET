@@ -142,6 +142,7 @@ namespace SynologyClient.ApiTests
         [Test]
         public void Delete()
         {
+            _api.AddFolder(_synoTestFolderNoSlash, "test_upload");
             _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_upload");
             var @async = _api.DeleteAsync(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
             async.success.Should().BeTrue();
