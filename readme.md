@@ -4,6 +4,8 @@ Contact : abrunskill[at]yahoo.co.uk
 
 >This is a complete C# .net 4.0 client implementation of the Synology DiskStation API found at https://www.google.co.uk/?q=synology%20api based on Synology_File_Station_API_Guide.pdf.
 
+Note: Synology has changed this api despite version reminaing the same! So I am in the process of updating.
+
 A nuget package is available at https://www.nuget.org/packages/Synology.NET which you can add by running the following command in the NuGet package console.
 ```
 Install-Package Synology.NET
