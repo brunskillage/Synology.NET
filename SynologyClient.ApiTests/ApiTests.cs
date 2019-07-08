@@ -167,6 +167,30 @@ namespace SynologyClient.ApiTests
             delete.success.Should().BeTrue();
         }
 
+        [Ignore("401 error unknown file error?")]
+        public void DeleteAsync()
+        {
+            _api.AddFolder(_synoTestFolderNoSlash, "test_upload");
+            _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_upload");
+            var @async = _api.DeleteAsync(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
+            async.success.Should().BeTrue();
+
+            async.Data.taskid.Should().NotBeNullOrEmpty();
+
+            for (var i = 0; i < 10; i++)
+            {
+                var status = _api.DeleteStatus(async.Data.taskid);
+                status.success.Should().BeTrue();
+                if (status.Data.finished)
+                    break;
+
+                Thread.Sleep(2000);
+            }
+
+            var stop = _api.DeleteStop(async.Data.taskid);
+            stop.success.Should().BeTrue();
+        }
+
         [Test]
         public void DirSize()
         {

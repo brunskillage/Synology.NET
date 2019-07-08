@@ -298,10 +298,10 @@ namespace SynologyClient
         {
             var request = new SynologyRestRequest(Method.POST);
 
-            request.AddParameter("_sid", _session.sid);
-            request.AddParameter("api", "SYNO.FileStation.Upload");
-            request.AddParameter("version", "2");
-            request.AddParameter("method", "upload");
+            request.AddParameter("_sid", _session.sid, ParameterType.QueryString);
+            request.AddParameter("api", "SYNO.FileStation.Upload", ParameterType.QueryString);
+            request.AddParameter("version", "2", ParameterType.QueryString);
+            request.AddParameter("method", "upload", ParameterType.QueryString);
             request.AddParameter("path", destinationFilePath);
             request.AddParameter("create_parents", createParents);
             request.AddParameter("mtime", DateTimeExtender.GetUnixTimeFromDate(fileName.LastWriteTimeUtc).ToString());
@@ -313,7 +313,7 @@ namespace SynologyClient
 
             var config = new AppSettingsClientConfig();
             var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/entry.cgi");
-
+            
             var response = client.Execute<RawSynologyResponse>(request);
             return response.Data;
         }
@@ -741,7 +741,7 @@ namespace SynologyClient
             dynamic requiredParams = new
             {
                 api = "SYNO.FileStation.Delete",
-                version = 1,
+                version = 2,
                 method = "start",
                 path,
                 accurate_progress = accurateProgress,
@@ -759,7 +759,7 @@ namespace SynologyClient
             dynamic requiredParams = new
             {
                 api = "SYNO.FileStation.Delete",
-                version = 1,
+                version = 2,
                 method = "status",
                 taskid = taskId
             };
@@ -774,7 +774,7 @@ namespace SynologyClient
             dynamic requiredParams = new
             {
                 api = "SYNO.FileStation.Delete",
-                version = 1,
+                version = 2,
                 method = "stop",
                 taskid = taskId
             };
@@ -784,14 +784,14 @@ namespace SynologyClient
             return proc.Run();
         }
 
-        public DeleteResponse Delete(string path, bool? recursive = true, string searchTaskId = null)
+        public DeleteResponse Delete(string path, bool? recursive = false, string searchTaskId = null)
         {
             dynamic requiredParams = new
             {
                 api = "SYNO.FileStation.Delete",
-                version = 1,
+                version = 2,
                 method = "delete",
-                path,
+                path = "\"" + path + "\"",
                 recursive,
                 search_taskid = searchTaskId
             };
