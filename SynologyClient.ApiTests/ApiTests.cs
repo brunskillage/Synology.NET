@@ -143,11 +143,6 @@ namespace SynologyClient.ApiTests
         public void Delete()
         {
             _api.AddFolder(_synoTestFolderNoSlash, "test_upload");
-
-            // async
-
-            // this is failing perhaps the test is too quick...
-
             _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_upload");
             var @async = _api.DeleteAsync(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
             async.success.Should().BeTrue();
@@ -165,9 +160,7 @@ namespace SynologyClient.ApiTests
             }
 
             var stop = _api.DeleteStop(async.Data.taskid);
-            stop.success.Should().BeFalse(); // already running
-
-            // sync
+            stop.success.Should().BeTrue();
 
             _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_upload");
             var delete = _api.Delete(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
@@ -224,24 +217,24 @@ namespace SynologyClient.ApiTests
         [Test]
         public void Extract()
         {
-            //var @async = _api.ExtractAsync(_synoTestFolderNoSlash + "/test_compress.zip",
-            //    _synoTestFolderNoSlash + "/test_extract");
-            //async.success.Should().BeTrue();
+            var @async = _api.ExtractAsync(_synoTestFolderNoSlash + "/test_compress.zip",
+                _synoTestFolderNoSlash + "/test_extract");
+            async.success.Should().BeTrue();
 
-            //async.Data.taskid.Should().NotBeNullOrEmpty();
+            async.Data.taskid.Should().NotBeNullOrEmpty();
 
-            //for (var i = 0; i < 10; i++)
-            //{
-            //    var status = _api.ExtractStatus(async.Data.taskid);
-            //    status.success.Should().BeTrue();
-            //    if (status.Data.finished)
-            //        break;
+            for (var i = 0; i < 10; i++)
+            {
+                var status = _api.ExtractStatus(async.Data.taskid);
+                status.success.Should().BeTrue();
+                if (status.Data.finished)
+                    break;
 
-            //    Thread.Sleep(2000);
-            //}
+                Thread.Sleep(2000);
+            }
 
-            //var stop = _api.ExtractStop(async.Data.taskid);
-            //stop.success.Should().BeFalse(); // already finished...
+            var stop = _api.ExtractStop(async.Data.taskid);
+            stop.success.Should().BeTrue();
 
             var list = _api.ExtractListFiles(_synoTestFolderNoSlash + "/test_compress.zip");
             list.success.Should().BeTrue();
