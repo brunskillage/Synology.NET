@@ -313,7 +313,7 @@ namespace SynologyClient
 
             var config = new AppSettingsClientConfig();
             var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/entry.cgi");
-            
+
             var response = client.Execute<RawSynologyResponse>(request);
             return response.Data;
         }
@@ -375,14 +375,14 @@ namespace SynologyClient
         {
             var request = new SynologyRestRequest();
             request.AddParameter("api", "SYNO.FileStation.Thumb");
-            request.AddParameter("version", "1");
+            request.AddParameter("version", "2");
             request.AddParameter("method", "get");
-            request.AddParameter("path", path);
+            request.AddParameter("path", "%22" + path + "%22");
             request.AddParameter("size", size);
             request.AddParameter("rotate", rotate);
             request.AddParameter("_sid", _session.sid);
             var config = new AppSettingsClientConfig();
-            var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "entry.cgi");
+            var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/entry.cgi");
             var response = client.Execute(request);
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new SynologyClientException("Errored with http status code " + response.StatusCode);
@@ -518,7 +518,7 @@ namespace SynologyClient
             dynamic requiredParams = new
             {
                 api = "SYNO.FileStation.Sharing",
-                version = 1,
+                version = 3,
                 method = "getinfo",
                 id
             };
@@ -579,7 +579,7 @@ namespace SynologyClient
             dynamic requiredParams = new
             {
                 api = "SYNO.FileStation.Sharing",
-                version = 1,
+                version = 3,
                 method = "create",
                 path,
                 password,
@@ -627,7 +627,7 @@ namespace SynologyClient
             dynamic requiredParams = new
             {
                 api = "SYNO.FileStation.Sharing",
-                version = 1,
+                version = 3,
                 method = "edit",
                 id,
                 password,
@@ -635,7 +635,7 @@ namespace SynologyClient
                 date_available = dateAvailable.HasValue ? dateAvailable.Value.ToString("yyyy-MM-dd") : "0"
             };
 
-            var proc = new FuncProcessor<EditShareResponse>("entry.cgi", _session.sid,
+            var proc = new FuncProcessor<EditShareResponse>("/entry.cgi", _session.sid,
                 requiredParams);
             return proc.Run();
         }
