@@ -1,12 +1,12 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Web.Configuration;
+using FluentAssertions;
+using NUnit.Framework;
 
 namespace SynologyClient.ApiTests
 {
@@ -65,11 +65,34 @@ namespace SynologyClient.ApiTests
             _synoTestFolderNoSlash = synoTestFolderNoSlash;
         }
 
+        [Ignore("401 error unknown file error?")]
+        public void DeleteAsync()
+        {
+            _api.AddFolder(_synoTestFolderNoSlash, "test_upload");
+            _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_upload");
+            var async = _api.DeleteAsync(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
+            async.success.Should().BeTrue();
+
+            async.Data.taskid.Should().NotBeNullOrEmpty();
+
+            for (var i = 0; i < 10; i++)
+            {
+                var status = _api.DeleteStatus(async.Data.taskid);
+                status.success.Should().BeTrue();
+                if (status.Data.finished)
+                    break;
+
+                Thread.Sleep(2000);
+            }
+
+            var stop = _api.DeleteStop(async.Data.taskid);
+            stop.success.Should().BeTrue();
+        }
+
         [Test]
         public void BackgroundTask()
         {
-            var list = _api.GetBackgroundTasks(0, 0, SynologyApi.BackgroundTaskSortBy.finished,
-                SynologyApi.SortDirection.asc);
+            var list = _api.GetBackgroundTasks(0, 0, SynologyApi.BackgroundTaskSortBy.finished);
             list.success.Should().BeTrue();
         }
 
@@ -86,8 +109,7 @@ namespace SynologyClient.ApiTests
             _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_compress");
 
             var start = _api.CompressAsync(_synoTestFolderNoSlash + "/test_compress",
-                _synoTestFolderNoSlash + "/test_compress.zip", SynologyApi.CompressionLevel.moderate,
-                SynologyApi.CompressionMode.add, SynologyApi.CompressionFormat.formatZip);
+                _synoTestFolderNoSlash + "/test_compress.zip");
 
             start.success.Should().BeTrue();
 
@@ -111,9 +133,9 @@ namespace SynologyClient.ApiTests
         [Test]
         public void CopyMove()
         {
-            _api.Delete(_synoTestFolderNoSlash + "/synologybox.jpg", false);
+            _api.Delete(_synoTestFolderNoSlash + "/synologybox.jpg");
             _api.AddFolder(_synoTestFolderNoSlash, "test");
-            var @async = _api.CopyMoveAsync(_synoTestFolderNoSlash + "/synologybox.jpg",
+            var async = _api.CopyMoveAsync(_synoTestFolderNoSlash + "/synologybox.jpg",
                 _synoTestFolderNoSlash + "/test");
             async.success.Should().BeTrue();
 
@@ -149,7 +171,7 @@ namespace SynologyClient.ApiTests
             // this is failing perhaps the test is too quick...
 
             _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_upload");
-            var @async = _api.DeleteAsync(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
+            var async = _api.DeleteAsync(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
             async.success.Should().BeTrue();
 
             async.Data.taskid.Should().NotBeNullOrEmpty();
@@ -174,34 +196,10 @@ namespace SynologyClient.ApiTests
             delete.success.Should().BeTrue();
         }
 
-        [Ignore("401 error unknown file error?")]
-        public void DeleteAsync()
-        {
-            _api.AddFolder(_synoTestFolderNoSlash, "test_upload");
-            _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash + "/test_upload");
-            var @async = _api.DeleteAsync(_synoTestFolderNoSlash + "/test_upload/synologybox.jpg");
-            async.success.Should().BeTrue();
-
-            async.Data.taskid.Should().NotBeNullOrEmpty();
-
-            for (var i = 0; i < 10; i++)
-            {
-                var status = _api.DeleteStatus(async.Data.taskid);
-                status.success.Should().BeTrue();
-                if (status.Data.finished)
-                    break;
-
-                Thread.Sleep(2000);
-            }
-
-            var stop = _api.DeleteStop(async.Data.taskid);
-            stop.success.Should().BeTrue();
-        }
-
         [Test]
         public void DirSize()
         {
-            var @async = _api.GetDirectorySizeAsync(_synoTestFolderNoSlash);
+            var async = _api.GetDirectorySizeAsync(_synoTestFolderNoSlash);
 
             async.success.Should().BeTrue();
             async.Data.taskid.Should().NotBeNullOrEmpty();
@@ -285,7 +283,7 @@ namespace SynologyClient.ApiTests
         [Test]
         public void FileSystemInfo()
         {
-            var getinfo = _api.GetFileSystemInfo(new[] { _synoTestFolderNoSlash },
+            var getinfo = _api.GetFileSystemInfo(new[] {_synoTestFolderNoSlash},
                 new SynologyApi.FileGetInfoAddtionalOptions
                 {
                     real_path = true,
@@ -338,7 +336,7 @@ namespace SynologyClient.ApiTests
         [Test]
         public void Md5()
         {
-            _api.Upload(new FileInfo(_md5TestImage), _synoTestFolderNoSlash, true, true);
+            _api.Upload(new FileInfo(_md5TestImage), _synoTestFolderNoSlash);
 
             var md5 = _api.GetFileMd5Async(_synoTestFolderNoSlash + "/md5test.jpg");
 
@@ -386,7 +384,7 @@ namespace SynologyClient.ApiTests
             for (var i = 0; i < 10; i++)
             {
                 var list = _api.SearchStatus(taskid, 0, 100, SynologyApi.SortBy.name,
-                    SynologyApi.SortDirection.asc, new[] { "*" }, SynologyApi.FileTypeFilter.all,
+                    SynologyApi.SortDirection.asc, new[] {"*"}, SynologyApi.FileTypeFilter.all,
                     new SynologyApi.FileSearchListAddtionalOptions
                     {
                         owner = true,
@@ -434,7 +432,7 @@ namespace SynologyClient.ApiTests
             if (System.IO.File.Exists(downloadedName))
                 System.IO.File.Delete(downloadedName);
 
-            var res = _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash, true, true);
+            var res = _api.Upload(new FileInfo(_localTestImage), _synoTestFolderNoSlash);
             res.success.Should().BeTrue();
 
             var thumb = _api.GetThumb(_synoTestFolderNoSlash + "/" + local.Name);
@@ -443,7 +441,7 @@ namespace SynologyClient.ApiTests
             Thread.Sleep(3000);
 
             var file = _api.Download(_synoTestFolderNoSlash + "/" + local.Name);
-            file.Length.Should().Be((int)local.Length);
+            file.Length.Should().Be((int) local.Length);
         }
 
         [Test]

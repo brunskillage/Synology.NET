@@ -370,6 +370,15 @@ namespace SynologyClient
             return proc.Run();
         }
 
+
+        // This was tricky had to copy link from synology
+        // webapi/entry.cgi?api=SYNO.FileStation.Thumb&amp;
+        //  method=get&amp;version=2&amp;
+        // SynoToken=itXJMhBSq7YL6&amp;
+        // path=%22%2Fphoto%2F2017%2FIMG_0285.JPG%22&amp;
+        // mt=1499625080
+
+
         public byte[] GetThumb(string path, ThumbnailSizeOption size = ThumbnailSizeOption.small,
             ThumbnailRotateOptions rotate = ThumbnailRotateOptions.none)
         {
@@ -377,15 +386,18 @@ namespace SynologyClient
             request.AddParameter("api", "SYNO.FileStation.Thumb");
             request.AddParameter("version", "2");
             request.AddParameter("method", "get");
-            request.AddParameter("path", "%22" + path + "%22");
-            request.AddParameter("size", size);
-            request.AddParameter("rotate", rotate);
+
+            
+
+            request.AddParameter("path", "\"" + path + "\"");
+            request.AddParameter("size", size.ToString());
+            request.AddParameter("rotate", (int)rotate);
             request.AddParameter("_sid", _session.sid);
             var config = new AppSettingsClientConfig();
             var client = new RestClient(config.ApiBaseAddressAndPathNoTrailingSlash + "/entry.cgi");
             var response = client.Execute(request);
             if (response.StatusCode != HttpStatusCode.OK)
-                throw new SynologyClientException("Errored with http status code " + response.StatusCode);
+                throw new SynologyClientException("The request failed with " + response.StatusCode);
             return response.RawBytes;
         }
 
